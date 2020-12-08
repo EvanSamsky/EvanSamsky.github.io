@@ -23,7 +23,7 @@ fit
 
 ```
 
-![](/2015-07-23-r-rmarkdown/index_files/Untitled-design-1.jpg)
+![](website/static/img/Untitled-design-1.jpg)
 
 # Including Plots
 
