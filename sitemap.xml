@@ -47,10 +47,6 @@
   </url>
   
   <url>
-    <loc>/project/bahrain/</loc>
-  </url>
-  
-  <url>
     <loc>/project/project1/</loc>
   </url>
   
@@ -68,6 +64,18 @@
   
   <url>
     <loc>/resume/</loc>
+  </url>
+  
+  <url>
+    <loc>/project/bahrain/</loc>
+  </url>
+  
+  <url>
+    <loc>/arab_russia_relations/</loc>
+  </url>
+  
+  <url>
+    <loc>/project/arab_russia_relations/</loc>
   </url>
   
 </urlset>

@@ -10,6 +10,8 @@ hidediscus: true
 
 <i class="fa fa-file"></i> &nbsp; [The Food System of Bahrian: Analyzing Risks and Possibilities](/project/bahrain/)
 
+<i class="fa fa-file"></i> &nbsp; [علاقات بين روسيا والشرق الأوسط](/project/arab_russia_relations/)
+
 <b><center>Coding and Data Science Projects</center></b>
 
 <i class="fa fa-signal"></i> &nbsp; [Wrangling & Exploratory Data Analysis](/project/project1/)

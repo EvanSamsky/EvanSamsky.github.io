@@ -7,15 +7,6 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language><atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Bahrain</title>
-      <link>/project/bahrain/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/bahrain/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Project 1: Exploratory Data Analysis</title>
       <link>/project/project1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -33,6 +24,24 @@ The text of the document should provide a narrative structure around your code/o
       
       <guid>/project/project2/</guid>
       <description>ModelingInstructionsA knitted R Markdown document (preferably HTML) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on the due date. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document). Knit an html copy too, for later! In the .Rmd file for Project 2, you can copy the first code-chunk into your project .</description>
+    </item>
+    
+    <item>
+      <title>The Food System of Bahrain</title>
+      <link>/project/bahrain/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/bahrain/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>علاقات بين روسيا والشرق الأوسط</title>
+      <link>/project/arab_russia_relations/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/arab_russia_relations/</guid>
+      <description></description>
     </item>
     
   </channel>

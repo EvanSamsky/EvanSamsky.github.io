@@ -1,0 +1,9 @@
+---
+title: "علاقات بين روسيا والشرق الأوسط"
+output: html_document
+hidedate: true
+hiderelated: true
+hidediscus: true
+---
+
+<iframe src="/arab_russia_relations.pdf" width="100%" height="800" border="0"></iframe>

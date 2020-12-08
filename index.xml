@@ -28,15 +28,6 @@ summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
     </item>
     
     <item>
-      <title>Bahrain</title>
-      <link>/project/bahrain/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/bahrain/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Project 1: Exploratory Data Analysis</title>
       <link>/project/project1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -64,6 +55,7 @@ The text of the document should provide a narrative structure around your code/o
       <guid>/projects/</guid>
       <description>Written Reports
  The Food System of Bahrian: Analyzing Risks and Possibilities
+ علاقات بين روسيا والشرق الأوسط
 Coding and Data Science Projects
  Wrangling &amp;amp; Exploratory Data Analysis
  Modeling, Inference, Prediction
@@ -76,6 +68,33 @@ The text of the document should provide a narrative structure around your code/o
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/resume/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The Food System of Bahrain</title>
+      <link>/project/bahrain/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/bahrain/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>علاقات بين روسيا والشرق الأوسط</title>
+      <link>/arab_russia_relations/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/arab_russia_relations/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>علاقات بين روسيا والشرق الأوسط</title>
+      <link>/project/arab_russia_relations/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/arab_russia_relations/</guid>
       <description></description>
     </item>
     

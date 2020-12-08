@@ -1,5 +1,5 @@
 ---
-title: "Bahrain"
+title: "The Food System of Bahrain"
 output: html_document
 hidedate: true
 hiderelated: true
