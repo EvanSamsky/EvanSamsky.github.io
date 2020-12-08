@@ -14,11 +14,8 @@ Check out some of my coding projects below:
 
 <i class="fa fa-line-chart"></i> &nbsp; [Modeling, Inference, Prediction](/project/project2/)
 
-<center>
-<object data="/bahrain.pdf" type="application/pdf" >
-<embed src="/bahrain.pdf" type="application/pdf" style="min-height:100vh;width:100%" />
-</object>
-</center>
+<iframe src="/bahrain.pdf" width="100%" height="800" border="0"></iframe>
+
 
 
 <!--
