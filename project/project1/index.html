@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Evan Samsky" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <title>Project 1: Exploratory Data Analysis</title>
+    <meta name="generator" content="Hugo 0.79.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', '255287319', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/post/">BLOG</a></li>
+        
+        <li><a href="/projects/">PROJECTS</a></li>
+        
+        <li><a href="/resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="/project/project1/">Project 1: Exploratory Data Analysis</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         January 1, 0001 
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<div id="data-wrangling-and-data-exploration" class="section level2">
+<h2>Data Wrangling and Data Exploration</h2>
+<p>##Evan Samsky ems3938</p>
+<div id="instructions" class="section level3">
+<h3>Instructions</h3>
+<p>A knitted R Markdown document (ideally HTML) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on 10/16/2020. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document).</p>
+<p>The text of the document should provide a narrative structure around your code/output. All results presented must have corresponding code. Any answers/results/plots etc. given without the corresponding R code that generated the result will not be considered. Furthermore, all code contained in your final project document must work correctly (knit early, knit often)! Please do not include any extraneous code or code which produces error messages. (Code that produces warnings is acceptable, as long as you understand what the warnings mean!)</p>
+</div>
+<div id="find-data" class="section level3">
+<h3>Find data:</h3>
+<p>Find two (!) datasets with one variable in common (e.g., dates, times, states, counties, countries, sports players), both with at least 50 observations (i.e., rows) in each. Please think very carefully about whether it makes sense to combine your datasets! If you find one dataset with 50 patients and it has their age, and you find another dataset with 50 <em>different</em> patients that has their ages, it makes no sense to join them based on age (you would just be pairing up random people of the same age).</p>
+<p>When combined, the resulting/final dataset must have <strong>at least 4 different variables (at least 3 numeric) in addition to the common variable</strong> (i.e., five variables total).</p>
+<p>You can have as many variables as you would like! If you found two datasets that you like but they don’t have enough variables, find a third dataset with the same common variable and join all three.</p>
+<pre class="r"><code>library(tidyverse)
+library(tidyr)
+library(dplyr)
+library(cluster)
+library(ggplot2)
+
+CropsTexas &lt;- read_csv(&quot;https://drive.google.com/uc?export=download&amp;id=1x1T686CwhUOaYW_AfO-bJjVqd_EUBzf-&quot;)
+CountyInfo &lt;- read_csv(&quot;https://drive.google.com/uc?export=download&amp;id=1vorvZtlZKH2U2dPXJn1Z6ApSkbEiurJE&quot;)</code></pre>
+</div>
+</div>
+<div id="guidelines" class="section level2">
+<h2>Guidelines</h2>
+<ol style="list-style-type: decimal">
+<li><p>If the datasets are not tidy, you will need to reshape them so that every observation has its own row and every variable its own column. If the datasets are both already tidy, you will make them untidy with <code>pivot_wider()/spread()</code> and then tidy them again with <code>pivot_longer/gather()</code> to demonstrate your use of the functions. It’s fine to wait until you have your descriptives to use these functions (e.g., you might want to pivot_wider() to rearrange the data to make your descriptive statistics easier to look at); it’s fine long as you use them at least once!</p>
+<ul>
+<li><p>Depending on your datasets, it might be a good idea to do this before joining. For example, if you have a dataset you like with multiple measurements per year, but you want to join by year, you could average over your numeric variables to get means/year, do counts for your categoricals to get a counts/year, etc.</p></li>
+<li><p>If your data sets are already tidy, demonstrate the use of <code>pivot_longer()/gather()</code> and <code>pivot_wider()/spread()</code> on all or part of your data at some point in this document (e.g., after you have generated summary statistics in part 3, make a table of them wide instead of long).</p></li>
+</ul></li>
+</ol>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p><em>I chose to work with two datasets I sourced from online. One was from the USDA website and features information about agriculture in Texas. I chose information about corn and sorghum, two large volume crops, but evidently there wasn’t as much information about corn and there was about sorghum. My data is a bit biased in that way. Additionally, I only downloaded data for 2012 and 2017 because I was afraid about my computer working with larger datasets, downloading them, and the USDA website has some restrictions about that as well. I chose to join the USDA data with data about the size, population density, etc. of each Texas county.</em></p>
+<p><em>This interests me in general beause I study plant biology, and agriculture is the greatest monetary use of plants. I’m not really sure what to expect, but I hope it’s something interesting. I’ve never worked with this type of data before so it’s a bit of an explorational thing for me.</em></p>
+</div>
+<div id="tidying-the-data" class="section level3">
+<h3>Tidying the Data</h3>
+<pre class="r"><code>#CropsTexas actually needed to be much wider to make things tidy.
+
+CropsTexas&lt;- select(CropsTexas, -c(&quot;Program&quot;, &quot;Period&quot;, &quot;Week Ending&quot;,&quot;Geo Level&quot;,&quot;State&quot;,&quot;State ANSI&quot;,&quot;Zip Code&quot;,&quot;Region&quot;,&quot;watershed_code&quot;,&quot;Watershed&quot;, &quot;Commodity&quot;, &quot;CV (%)&quot;))
+                        
+CropsTexas&lt;- CropsTexas %&gt;% unite(&quot;identifier&quot;, `Data Item`, `Domain`, `Size_acres`, sep=&quot;:&quot;) %&gt;% pivot_wider(names_from=&quot;identifier&quot;, values_from=&quot;Value&quot;) %&gt;% group_by(County)
+
+CropsTexas&lt;- CropsTexas %&gt;% mutate_at(c(&quot;Year&quot;, &quot;Ag District Code&quot;,&quot;County ANSI&quot;), as.character)
+
+#playing with CountyInfo because it was already fairly tidy.
+
+CountyInfo&lt;- CountyInfo %&gt;% unite(&quot;comp_value&quot;, `Land_Area`,`Population_Density`,`Total_area`, sep=&quot;_&quot;) %&gt;% pivot_wider(names_from=&quot;Name&quot;, values_from=&quot;comp_value&quot;)
+
+CountyInfo&lt;- CountyInfo %&gt;% pivot_longer(2:255, names_to=&quot;County&quot;, values_to=&quot;value&quot;) %&gt;% na.omit(value)%&gt;% separate(value, into=c(&quot;land_area&quot;,&quot;pop_density&quot;, &quot;total_area&quot;), sep=&quot;_&quot;)
+
+CountyInfo&lt;- CountyInfo %&gt;% mutate_at(3:5, as.numeric)
+
+CountyInfo&lt;- CountyInfo %&gt;% mutate_at(&quot;Rank&quot;, as.character())</code></pre>
+<p><em>My CountyInfo data set was fairly tidy, so I did a few maneuvers here to show my understanding. CropsTexas was not tidy, but oddly benefitted most from being made wider to become tidy.</em></p>
+</div>
+<div id="joining-the-data" class="section level3">
+<h3>Joining the Data</h3>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Join your 2+ separate data sources into a single dataset based on a common ID variable! If you can’t find a good pair datasets to join, you may split one main dataset into two different datasets with a common ID variable in each, and then join them back together based on that common ID, but this is obviously less than ideal.</p>
+<ul>
+<li>You will document the type of join that you do (left/right/inner/full), including a discussion of how many observations were in each dataset, which observations in each dataset were dropped (if any) and why you chose this particular join.</li>
+</ul></li>
+</ol>
+<pre class="r"><code>#While CountyInfo includes all 254 counties in Texas, CropDataTexas doesn&#39;t for some reason. I&#39;m including data from CountyInfo into CropDataTexas so there&#39;s less NAs
+
+CountyInfo&lt;- CountyInfo %&gt;% mutate_if(is.character, str_to_upper)
+
+joineddata&lt;- CropsTexas %&gt;% left_join(CountyInfo, by=&quot;County&quot;)</code></pre>
+<p><em>I ended up using a left_join() because I’m really only looking to add information about the counties themselves to my agricultural data. This will possibly lend some insight into how population and land area affects agricultural output, etc. Some counties were dropped, as not all Texas counties were represented in the USDA dataset I downloaded. I’m not sure why this is, but because my goal is to look at agricultural information in context, I don’t want to keep around counties I have no information for. </em></p>
+</div>
+<div id="create-summary-statistics" class="section level3">
+<h3>Create summary statistics</h3>
+<pre><code>- Use *all six* core `dplyr` functions (`filter, select, arrange, group_by, mutate, summarize`) to manipulate and explore your dataset. For mutate, create a  new variable that is a function of at least one other variable, preferably using a dplyr vector function (see dplyr cheatsheet). It&#39;s totally fine to use the `_if`, `_at`, `_all` versions of mutate/summarize instead (indeed, it is encouraged if you have lots of variables)
+
+- Create summary statistics (`mean, sd, var, n, quantile, min, max, n_distinct, cor`, etc) for each of your numeric variables both overall and after grouping by one of your categorical variables (either together or one-at-a-time; if you have two categorical variables, try to include at least one statistic based on a grouping of two categorical variables simultaneously). If you do not have any categorical variables, create one using mutate (e.g., with `case_when` or `ifelse`) to satisfy the `group_by` requirements above. Ideally, you will find a way to show these summary statistics in an easy-to-read table (e.g., by reshaping). (You might explore the kable package for making pretty tables!) If you have lots of numeric variables (e.g., 10+), or your categorical variables have too many categories, just pick a few (either numeric variables or categories of a categorical variable) and summarize based on those. It would be a good idea to show a correlation matrix for your numeric variables (you will need it to make one of your plots).</code></pre>
+<pre class="r"><code>joineddata &lt;- joineddata %&gt;% mutate(&quot;total_area_acres&quot;=total_area*640)
+
+fivenum(joineddata$land_area)</code></pre>
+<pre><code>## [1]  127.0  846.6  908.4 1016.9 6183.7</code></pre>
+<pre class="r"><code>joineddata &lt;- joineddata %&gt;% mutate(land_area_cat=cut(land_area, breaks=c(126, 846.6, 908.4, 1016.9, 6184), labels=c(&quot;Q1&quot;, &quot;Q2&quot;,&quot;Q3&quot;,&quot;Q4&quot;)))
+
+joineddata&lt;- joineddata %&gt;% mutate(&quot;prop_sorghum_land&quot;=`SORGHUM.ACRES.HARVEST:T:NS`/total_area_acres)
+
+fivenum(joineddata$prop_sorghum_land)</code></pre>
+<pre><code>## [1] 8.326228e-05 2.562122e-03 8.824681e-03 2.102870e-02 2.496195e-01</code></pre>
+<pre class="r"><code>joineddata &lt;- joineddata %&gt;% mutate(prop_sorghum_land_cat=cut(prop_sorghum_land, breaks=c(8.326228e-05, 2.562122e-03, 8.824681e-03, 2.102870e-02, 2.496195e-01), labels=c(&quot;Q1&quot;, &quot;Q2&quot;,&quot;Q3&quot;,&quot;Q4&quot;)))
+
+#STATS FOR NUMERIC UNGROUPED
+
+#`CORN.SALES.USD:T:NS`--- Corn sales for the year in USD
+joineddata %&gt;% select(County, Year, `CORN.SALES.USD:T:NS`) %&gt;% filter(!is.na(`CORN.SALES.USD:T:NS`))%&gt;%  summarize(mean=mean(`CORN.SALES.USD:T:NS`, na.rm=T),sd=sd(`CORN.SALES.USD:T:NS`, na.rm=T), n=n(), quantile=quantile(`CORN.SALES.USD:T:NS`, na.rm=T), min=min(`CORN.SALES.USD:T:NS`, na.rm=T), max=max(`CORN.SALES.USD:T:NS`, na.rm=T), n_distinct=n_distinct(`CORN.SALES.USD:T:NS`, na.rm=T)) %&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 700 x 8
+## # Groups:   County [140]
+##    County       mean      sd     n quantile     min     max n_distinct
+##    &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON   784500 559321.     2   389000  389000 1180000          2
+##  2 ANDERSON   784500 559321.     2   586750  389000 1180000          2
+##  3 ANDERSON   784500 559321.     2   784500  389000 1180000          2
+##  4 ANDERSON   784500 559321.     2   982250  389000 1180000          2
+##  5 ANDERSON   784500 559321.     2  1180000  389000 1180000          2
+##  6 ARMSTRONG 1653000     NA      1  1653000 1653000 1653000          1
+##  7 ARMSTRONG 1653000     NA      1  1653000 1653000 1653000          1
+##  8 ARMSTRONG 1653000     NA      1  1653000 1653000 1653000          1
+##  9 ARMSTRONG 1653000     NA      1  1653000 1653000 1653000          1
+## 10 ARMSTRONG 1653000     NA      1  1653000 1653000 1653000          1
+## # ... with 690 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.SALES.USD:T:NS`---sorghum sales for the year in USD
+
+joineddata %&gt;% select(County, Year, `SORGHUM.SALES.USD:T:NS`) %&gt;% filter(!is.na(`SORGHUM.SALES.USD:T:NS`))%&gt;%  summarize(mean=mean(`SORGHUM.SALES.USD:T:NS`, na.rm=T),sd=sd(`SORGHUM.SALES.USD:T:NS`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.SALES.USD:T:NS`, na.rm=T), min=min(`SORGHUM.SALES.USD:T:NS`, na.rm=T), max=max(`SORGHUM.SALES.USD:T:NS`, na.rm=T), n_distinct=n_distinct(`SORGHUM.SALES.USD:T:NS`, na.rm=T)) %&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 700 x 8
+## # Groups:   County [140]
+##    County      mean    sd     n quantile     min     max n_distinct
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON   62000    NA     1    62000   62000   62000          1
+##  2 ANDERSON   62000    NA     1    62000   62000   62000          1
+##  3 ANDERSON   62000    NA     1    62000   62000   62000          1
+##  4 ANDERSON   62000    NA     1    62000   62000   62000          1
+##  5 ANDERSON   62000    NA     1    62000   62000   62000          1
+##  6 ANDREWS  1149000    NA     1  1149000 1149000 1149000          1
+##  7 ANDREWS  1149000    NA     1  1149000 1149000 1149000          1
+##  8 ANDREWS  1149000    NA     1  1149000 1149000 1149000          1
+##  9 ANDREWS  1149000    NA     1  1149000 1149000 1149000          1
+## 10 ANDREWS  1149000    NA     1  1149000 1149000 1149000          1
+## # ... with 690 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.ACRES.HARVEST:T:NS`---acres of sorghum harvested for the year
+
+joineddata %&gt;% select(County, Year, `SORGHUM.ACRES.HARVEST:T:NS`) %&gt;% filter(!is.na(`SORGHUM.ACRES.HARVEST:T:NS`))%&gt;%  summarize(mean=mean(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T),sd=sd(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), min=min(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), max=max(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), n_distinct=n_distinct(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 745 x 8
+## # Groups:   County [149]
+##    County   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDREWS  3856    NA     1     3856  3856  3856          1
+##  2 ANDREWS  3856    NA     1     3856  3856  3856          1
+##  3 ANDREWS  3856    NA     1     3856  3856  3856          1
+##  4 ANDREWS  3856    NA     1     3856  3856  3856          1
+##  5 ANDREWS  3856    NA     1     3856  3856  3856          1
+##  6 ARCHER    524    NA     1      524   524   524          1
+##  7 ARCHER    524    NA     1      524   524   524          1
+##  8 ARCHER    524    NA     1      524   524   524          1
+##  9 ARCHER    524    NA     1      524   524   524          1
+## 10 ARCHER    524    NA     1      524   524   524          1
+## # ... with 735 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`---number of operations in the county that grow sorghum on land between 1 and 24.9 acres in size
+
+joineddata %&gt;% select(County, Year, `SORGHUM.OPERATIONS.WAREA:AH:(1-24)`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 530 x 8
+## # Groups:   County [106]
+##    County     mean     sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON    1   NA         1     1        1     1          1
+##  2 ANDERSON    1   NA         1     1        1     1          1
+##  3 ANDERSON    1   NA         1     1        1     1          1
+##  4 ANDERSON    1   NA         1     1        1     1          1
+##  5 ANDERSON    1   NA         1     1        1     1          1
+##  6 ARMSTRONG   2.5  0.707     2     2        2     3          2
+##  7 ARMSTRONG   2.5  0.707     2     2.25     2     3          2
+##  8 ARMSTRONG   2.5  0.707     2     2.5      2     3          2
+##  9 ARMSTRONG   2.5  0.707     2     2.75     2     3          2
+## 10 ARMSTRONG   2.5  0.707     2     3        2     3          2
+## # ... with 520 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`---number of operations in the county that grow sorghum on land between 25 and 99.9 acres in size
+
+joineddata %&gt;% select(County, Year, `SORGHUM.OPERATIONS.WAREA:AH:(25-99)`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 755 x 8
+## # Groups:   County [151]
+##    County    mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON     1    NA     1        1     1     1          1
+##  2 ANDERSON     1    NA     1        1     1     1          1
+##  3 ANDERSON     1    NA     1        1     1     1          1
+##  4 ANDERSON     1    NA     1        1     1     1          1
+##  5 ANDERSON     1    NA     1        1     1     1          1
+##  6 ARCHER       4    NA     1        4     4     4          1
+##  7 ARCHER       4    NA     1        4     4     4          1
+##  8 ARCHER       4    NA     1        4     4     4          1
+##  9 ARCHER       4    NA     1        4     4     4          1
+## 10 ARCHER       4    NA     1        4     4     4          1
+## # ... with 745 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`---number of operations in the county that grow sorghum on land between 100 and 249 acres in size
+
+joineddata %&gt;% select(County, Year, `SORGHUM.OPERATIONS.WAREA:AH:(100-249)`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 750 x 8
+## # Groups:   County [150]
+##    County     mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ARCHER      2    0        2     2        2     2          1
+##  2 ARCHER      2    0        2     2        2     2          1
+##  3 ARCHER      2    0        2     2        2     2          1
+##  4 ARCHER      2    0        2     2        2     2          1
+##  5 ARCHER      2    0        2     2        2     2          1
+##  6 ARMSTRONG   4.5  2.12     2     3        3     6          2
+##  7 ARMSTRONG   4.5  2.12     2     3.75     3     6          2
+##  8 ARMSTRONG   4.5  2.12     2     4.5      3     6          2
+##  9 ARMSTRONG   4.5  2.12     2     5.25     3     6          2
+## 10 ARMSTRONG   4.5  2.12     2     6        3     6          2
+## # ... with 740 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`---number of operations in the county that grow sorghum on land between 250 and 499 acres in size
+
+joineddata %&gt;% select(County, Year, `SORGHUM.OPERATIONS.WAREA:AH:(250-499)`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 680 x 8
+## # Groups:   County [136]
+##    County     mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDREWS       1 NA        1        1     1     1          1
+##  2 ANDREWS       1 NA        1        1     1     1          1
+##  3 ANDREWS       1 NA        1        1     1     1          1
+##  4 ANDREWS       1 NA        1        1     1     1          1
+##  5 ANDREWS       1 NA        1        1     1     1          1
+##  6 ARMSTRONG     7  2.83     2        5     5     9          2
+##  7 ARMSTRONG     7  2.83     2        6     5     9          2
+##  8 ARMSTRONG     7  2.83     2        7     5     9          2
+##  9 ARMSTRONG     7  2.83     2        8     5     9          2
+## 10 ARMSTRONG     7  2.83     2        9     5     9          2
+## # ... with 670 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`---number of operations in the county that grow sorghum on land between 500 and 999 acres in size
+
+joineddata %&gt;% select(County, Year, `SORGHUM.OPERATIONS.WAREA:AH:(500-999)`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 605 x 8
+## # Groups:   County [121]
+##    County     mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ARMSTRONG   4.5 0.707     2     4        4     5          2
+##  2 ARMSTRONG   4.5 0.707     2     4.25     4     5          2
+##  3 ARMSTRONG   4.5 0.707     2     4.5      4     5          2
+##  4 ARMSTRONG   4.5 0.707     2     4.75     4     5          2
+##  5 ARMSTRONG   4.5 0.707     2     5        4     5          2
+##  6 ATASCOSA    1.5 0.707     2     1        1     2          2
+##  7 ATASCOSA    1.5 0.707     2     1.25     1     2          2
+##  8 ATASCOSA    1.5 0.707     2     1.5      1     2          2
+##  9 ATASCOSA    1.5 0.707     2     1.75     1     2          2
+## 10 ATASCOSA    1.5 0.707     2     2        1     2          2
+## # ... with 595 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`---number of operations in the county that grow sorghum on land greater than or equal to 1000 acres in size
+
+joineddata %&gt;% select(County, Year, `SORGHUM.OPERATIONS.WAREA:AH:(1000+)`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 455 x 8
+## # Groups:   County [91]
+##    County     mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDREWS       3 NA        1        3     3     3          1
+##  2 ANDREWS       3 NA        1        3     3     3          1
+##  3 ANDREWS       3 NA        1        3     3     3          1
+##  4 ANDREWS       3 NA        1        3     3     3          1
+##  5 ANDREWS       3 NA        1        3     3     3          1
+##  6 ARMSTRONG     3  2.83     2        1     1     5          2
+##  7 ARMSTRONG     3  2.83     2        2     1     5          2
+##  8 ARMSTRONG     3  2.83     2        3     1     5          2
+##  9 ARMSTRONG     3  2.83     2        4     1     5          2
+## 10 ARMSTRONG     3  2.83     2        5     1     5          2
+## # ... with 445 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:T:NS`---total number of operations in the county growing sorghum
+
+joineddata %&gt;% select(County, Year, `SORGHUM.OPERATIONS.WAREA:T:NS`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:T:NS`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 960 x 8
+## # Groups:   County [192]
+##    County    mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON     2 NA        1      2       2     2          1
+##  2 ANDERSON     2 NA        1      2       2     2          1
+##  3 ANDERSON     2 NA        1      2       2     2          1
+##  4 ANDERSON     2 NA        1      2       2     2          1
+##  5 ANDERSON     2 NA        1      2       2     2          1
+##  6 ANDREWS      2  1.41     2      1       1     3          2
+##  7 ANDREWS      2  1.41     2      1.5     1     3          2
+##  8 ANDREWS      2  1.41     2      2       1     3          2
+##  9 ANDREWS      2  1.41     2      2.5     1     3          2
+## 10 ANDREWS      2  1.41     2      3       1     3          2
+## # ... with 950 more rows</code></pre>
+<pre class="r"><code>#land_area--- land area in the county exlcuding water area
+
+joineddata %&gt;% select(County, Year, land_area) %&gt;% filter(!is.na(land_area))%&gt;%  summarize(mean=mean(land_area, na.rm=T),sd=sd(land_area, na.rm=T), n=n(), quantile=quantile(land_area, na.rm=T), min=min(land_area, na.rm=T), max=max(land_area, na.rm=T), n_distinct=n_distinct(land_area, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 1,150 x 8
+## # Groups:   County [230]
+##    County    mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON 1063.     0     2    1063. 1063. 1063.          1
+##  2 ANDERSON 1063.     0     2    1063. 1063. 1063.          1
+##  3 ANDERSON 1063.     0     2    1063. 1063. 1063.          1
+##  4 ANDERSON 1063.     0     2    1063. 1063. 1063.          1
+##  5 ANDERSON 1063.     0     2    1063. 1063. 1063.          1
+##  6 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+##  7 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+##  8 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+##  9 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+## 10 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+## # ... with 1,140 more rows</code></pre>
+<pre class="r"><code>#pop_density --- population density of the county
+
+joineddata %&gt;% select(County, Year, pop_density) %&gt;% filter(!is.na(pop_density))%&gt;%  summarize(mean=mean(pop_density, na.rm=T),sd=sd(pop_density, na.rm=T), n=n(), quantile=quantile(pop_density, na.rm=T), min=min(pop_density, na.rm=T), max=max(pop_density, na.rm=T), n_distinct=n_distinct(pop_density, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 1,150 x 8
+## # Groups:   County [230]
+##    County    mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON  55       0     2     55    55    55            1
+##  2 ANDERSON  55       0     2     55    55    55            1
+##  3 ANDERSON  55       0     2     55    55    55            1
+##  4 ANDERSON  55       0     2     55    55    55            1
+##  5 ANDERSON  55       0     2     55    55    55            1
+##  6 ANDREWS    9.9     0     2      9.9   9.9   9.9          1
+##  7 ANDREWS    9.9     0     2      9.9   9.9   9.9          1
+##  8 ANDREWS    9.9     0     2      9.9   9.9   9.9          1
+##  9 ANDREWS    9.9     0     2      9.9   9.9   9.9          1
+## 10 ANDREWS    9.9     0     2      9.9   9.9   9.9          1
+## # ... with 1,140 more rows</code></pre>
+<pre class="r"><code>#total_area --- total area of the county including water area
+
+joineddata %&gt;% select(County, Year, total_area) %&gt;% filter(!is.na(total_area))%&gt;%  summarize(mean=mean(total_area, na.rm=T),sd=sd(total_area, na.rm=T), n=n(), quantile=quantile(total_area, na.rm=T), min=min(total_area, na.rm=T), max=max(total_area, na.rm=T), n_distinct=n_distinct(total_area, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 1,150 x 8
+## # Groups:   County [230]
+##    County    mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON 1078      0     2    1078  1078  1078           1
+##  2 ANDERSON 1078      0     2    1078  1078  1078           1
+##  3 ANDERSON 1078      0     2    1078  1078  1078           1
+##  4 ANDERSON 1078      0     2    1078  1078  1078           1
+##  5 ANDERSON 1078      0     2    1078  1078  1078           1
+##  6 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+##  7 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+##  8 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+##  9 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+## 10 ANDREWS  1501.     0     2    1501. 1501. 1501.          1
+## # ... with 1,140 more rows</code></pre>
+<pre class="r"><code>#total_area_acres --- total area converted to acres to aid comparison with agricultural data
+
+joineddata %&gt;% select(County, Year, total_area_acres) %&gt;% filter(!is.na(total_area_acres))%&gt;%  summarize(mean=mean(total_area_acres, na.rm=T),sd=sd(total_area_acres, na.rm=T), n=n(), quantile=quantile(total_area_acres, na.rm=T), min=min(total_area_acres, na.rm=T), max=max(total_area_acres, na.rm=T), n_distinct=n_distinct(total_area_acres, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 1,150 x 8
+## # Groups:   County [230]
+##    County     mean    sd     n quantile    min    max n_distinct
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDERSON 689920     0     2   689920 689920 689920          1
+##  2 ANDERSON 689920     0     2   689920 689920 689920          1
+##  3 ANDERSON 689920     0     2   689920 689920 689920          1
+##  4 ANDERSON 689920     0     2   689920 689920 689920          1
+##  5 ANDERSON 689920     0     2   689920 689920 689920          1
+##  6 ANDREWS  960704     0     2   960704 960704 960704          1
+##  7 ANDREWS  960704     0     2   960704 960704 960704          1
+##  8 ANDREWS  960704     0     2   960704 960704 960704          1
+##  9 ANDREWS  960704     0     2   960704 960704 960704          1
+## 10 ANDREWS  960704     0     2   960704 960704 960704          1
+## # ... with 1,140 more rows</code></pre>
+<pre class="r"><code>#prop_sorghum_land --- proportion of land in the county used for sorghum production
+
+joineddata %&gt;% select(County, Year, prop_sorghum_land) %&gt;% filter(!is.na(prop_sorghum_land))%&gt;%  summarize(mean=mean(prop_sorghum_land, na.rm=T),sd=sd(prop_sorghum_land, na.rm=T), n=n(), quantile=quantile(prop_sorghum_land, na.rm=T), min=min(prop_sorghum_land, na.rm=T), max=max(prop_sorghum_land, na.rm=T), n_distinct=n_distinct(prop_sorghum_land, na.rm=T))%&gt;% arrange(County)</code></pre>
+<pre><code>## # A tibble: 745 x 8
+## # Groups:   County [149]
+##    County      mean    sd     n quantile      min      max n_distinct
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;      &lt;int&gt;
+##  1 ANDREWS 0.00401     NA     1 0.00401  0.00401  0.00401           1
+##  2 ANDREWS 0.00401     NA     1 0.00401  0.00401  0.00401           1
+##  3 ANDREWS 0.00401     NA     1 0.00401  0.00401  0.00401           1
+##  4 ANDREWS 0.00401     NA     1 0.00401  0.00401  0.00401           1
+##  5 ANDREWS 0.00401     NA     1 0.00401  0.00401  0.00401           1
+##  6 ARCHER  0.000885    NA     1 0.000885 0.000885 0.000885          1
+##  7 ARCHER  0.000885    NA     1 0.000885 0.000885 0.000885          1
+##  8 ARCHER  0.000885    NA     1 0.000885 0.000885 0.000885          1
+##  9 ARCHER  0.000885    NA     1 0.000885 0.000885 0.000885          1
+## 10 ARCHER  0.000885    NA     1 0.000885 0.000885 0.000885          1
+## # ... with 735 more rows</code></pre>
+<pre class="r"><code>#summary stats when grouped by `Year`
+
+#`CORN.SALES.USD:T:NS`--- Corn sales for the year in USD
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(`CORN.SALES.USD:T:NS`))%&gt;%  summarize(mean=mean(`CORN.SALES.USD:T:NS`, na.rm=T),sd=sd(`CORN.SALES.USD:T:NS`, na.rm=T), n=n(), quantile=quantile(`CORN.SALES.USD:T:NS`, na.rm=T), min=min(`CORN.SALES.USD:T:NS`, na.rm=T), max=max(`CORN.SALES.USD:T:NS`, na.rm=T), n_distinct=n_distinct(`CORN.SALES.USD:T:NS`, na.rm=T))</code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year       mean        sd     n  quantile   min       max n_distinct
+##    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  12987613. 23587238.   111      2000  2000 125609000        110
+##  2 2012  12987613. 23587238.   111   1010000  2000 125609000        110
+##  3 2012  12987613. 23587238.   111   3112000  2000 125609000        110
+##  4 2012  12987613. 23587238.   111  13525500  2000 125609000        110
+##  5 2012  12987613. 23587238.   111 125609000  2000 125609000        110
+##  6 2017   9953748. 15579479.   115      1000  1000  99057000        111
+##  7 2017   9953748. 15579479.   115   1064500  1000  99057000        111
+##  8 2017   9953748. 15579479.   115   4061000  1000  99057000        111
+##  9 2017   9953748. 15579479.   115  10182500  1000  99057000        111
+## 10 2017   9953748. 15579479.   115  99057000  1000  99057000        111</code></pre>
+<pre class="r"><code>#`SORGHUM.SALES.USD:T:NS`---sorghum sales for the year in USD
+
+joineddata%&gt;% group_by(`Year`) %&gt;% filter(!is.na(`SORGHUM.SALES.USD:T:NS`))%&gt;%  summarize(mean=mean(`SORGHUM.SALES.USD:T:NS`, na.rm=T),sd=sd(`SORGHUM.SALES.USD:T:NS`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.SALES.USD:T:NS`, na.rm=T), min=min(`SORGHUM.SALES.USD:T:NS`, na.rm=T), max=max(`SORGHUM.SALES.USD:T:NS`, na.rm=T), n_distinct=n_distinct(`SORGHUM.SALES.USD:T:NS`, na.rm=T))</code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year      mean       sd     n quantile   min      max n_distinct
+##    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  5997487. 9993398.   117     6000  6000 63576000        117
+##  2 2012  5997487. 9993398.   117   638000  6000 63576000        117
+##  3 2012  5997487. 9993398.   117  2230000  6000 63576000        117
+##  4 2012  5997487. 9993398.   117  6276000  6000 63576000        117
+##  5 2012  5997487. 9993398.   117 63576000  6000 63576000        117
+##  6 2017  4385085. 6983134.   106    62000 62000 47850000        105
+##  7 2017  4385085. 6983134.   106   705000 62000 47850000        105
+##  8 2017  4385085. 6983134.   106  2058500 62000 47850000        105
+##  9 2017  4385085. 6983134.   106  4432500 62000 47850000        105
+## 10 2017  4385085. 6983134.   106 47850000 62000 47850000        105</code></pre>
+<pre class="r"><code>#`SORGHUM.ACRES.HARVEST:T:NS`---acres of sorghum harvested for the year
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(`SORGHUM.ACRES.HARVEST:T:NS`))%&gt;%  summarize(mean=mean(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T),sd=sd(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), min=min(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), max=max(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), n_distinct=n_distinct(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year    mean     sd     n quantile   min    max n_distinct
+##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  13477. 25047.   140      50     50 170770        137
+##  2 2012  13477. 25047.   140    1281     50 170770        137
+##  3 2012  13477. 25047.   140    5210     50 170770        137
+##  4 2012  13477. 25047.   140   15650     50 170770        137
+##  5 2012  13477. 25047.   140  170770     50 170770        137
+##  6 2017  12517. 20673.   118     227    227 142457        118
+##  7 2017  12517. 20673.   118    1758.   227 142457        118
+##  8 2017  12517. 20673.   118    5790    227 142457        118
+##  9 2017  12517. 20673.   118   13562.   227 142457        118
+## 10 2017  12517. 20673.   118  142457    227 142457        118</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`---number of operations in the county that grow sorghum on land between 1 and 24.9 acres in size
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012   3.56  3.63    84        1     1    24         14
+##  2 2012   3.56  3.63    84        1     1    24         14
+##  3 2012   3.56  3.63    84        2     1    24         14
+##  4 2012   3.56  3.63    84        4     1    24         14
+##  5 2012   3.56  3.63    84       24     1    24         14
+##  6 2017   2.78  2.40    60        1     1    10          9
+##  7 2017   2.78  2.40    60        1     1    10          9
+##  8 2017   2.78  2.40    60        2     1    10          9
+##  9 2017   2.78  2.40    60        3     1    10          9
+## 10 2017   2.78  2.40    60       10     1    10          9</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`---number of operations in the county that grow sorghum on land between 25 and 99.9 acres in size
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012   7.86  9.75   139      1       1    60         31
+##  2 2012   7.86  9.75   139      2       1    60         31
+##  3 2012   7.86  9.75   139      4       1    60         31
+##  4 2012   7.86  9.75   139     11       1    60         31
+##  5 2012   7.86  9.75   139     60       1    60         31
+##  6 2017   5.85  5.83   114      1       1    27         22
+##  7 2017   5.85  5.83   114      2       1    27         22
+##  8 2017   5.85  5.83   114      3.5     1    27         22
+##  9 2017   5.85  5.83   114      8       1    27         22
+## 10 2017   5.85  5.83   114     27       1    27         22</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`---number of operations in the county that grow sorghum on land between 100 and 249 acres in size
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  10.0  11.2    129        1     1    55         32
+##  2 2012  10.0  11.2    129        2     1    55         32
+##  3 2012  10.0  11.2    129        5     1    55         32
+##  4 2012  10.0  11.2    129       16     1    55         32
+##  5 2012  10.0  11.2    129       55     1    55         32
+##  6 2017   6.73  6.91   121        1     1    32         25
+##  7 2017   6.73  6.91   121        2     1    32         25
+##  8 2017   6.73  6.91   121        4     1    32         25
+##  9 2017   6.73  6.91   121        9     1    32         25
+## 10 2017   6.73  6.91   121       32     1    32         25</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`---number of operations in the county that grow sorghum on land between 250 and 499 acres in size
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012   7.11  7.24   110        1     1    38         21
+##  2 2012   7.11  7.24   110        2     1    38         21
+##  3 2012   7.11  7.24   110        5     1    38         21
+##  4 2012   7.11  7.24   110        9     1    38         21
+##  5 2012   7.11  7.24   110       38     1    38         21
+##  6 2017   5.70  5.78   112        1     1    29         18
+##  7 2017   5.70  5.78   112        2     1    29         18
+##  8 2017   5.70  5.78   112        4     1    29         18
+##  9 2017   5.70  5.78   112        7     1    29         18
+## 10 2017   5.70  5.78   112       29     1    29         18</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`---number of operations in the county that grow sorghum on land between 500 and 999 acres in size
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012   5.87  7.57   101        1     1    41         22
+##  2 2012   5.87  7.57   101        1     1    41         22
+##  3 2012   5.87  7.57   101        3     1    41         22
+##  4 2012   5.87  7.57   101        7     1    41         22
+##  5 2012   5.87  7.57   101       41     1    41         22
+##  6 2017   4.70  4.82    93        1     1    25         17
+##  7 2017   4.70  4.82    93        1     1    25         17
+##  8 2017   4.70  4.82    93        3     1    25         17
+##  9 2017   4.70  4.82    93        6     1    25         17
+## 10 2017   4.70  4.82    93       25     1    25         17</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`---number of operations in the county that grow sorghum on land greater than or equal to 1000 acres in size
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012   6.17  9.61    75     1        1    50         17
+##  2 2012   6.17  9.61    75     1        1    50         17
+##  3 2012   6.17  9.61    75     3        1    50         17
+##  4 2012   6.17  9.61    75     5        1    50         17
+##  5 2012   6.17  9.61    75    50        1    50         17
+##  6 2017   5.70  8.96    76     1        1    52         19
+##  7 2017   5.70  8.96    76     1        1    52         19
+##  8 2017   5.70  8.96    76     2        1    52         19
+##  9 2017   5.70  8.96    76     5.25     1    52         19
+## 10 2017   5.70  8.96    76    52        1    52         19</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:T:NS1`---total number of operations in the county growing sorghum
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na( `SORGHUM.OPERATIONS.WAREA:T:NS`))%&gt;%  summarize(mean=mean( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T),sd=sd( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), n=n(), quantile=quantile( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), min=min( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), max=max( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), n_distinct=n_distinct( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012   25.5  36.0   177        1     1   196         64
+##  2 2012   25.5  36.0   177        3     1   196         64
+##  3 2012   25.5  36.0   177        9     1   196         64
+##  4 2012   25.5  36.0   177       35     1   196         64
+##  5 2012   25.5  36.0   177      196     1   196         64
+##  6 2017   18.7  23.9   169        1     1   117         53
+##  7 2017   18.7  23.9   169        2     1   117         53
+##  8 2017   18.7  23.9   169        8     1   117         53
+##  9 2017   18.7  23.9   169       27     1   117         53
+## 10 2017   18.7  23.9   169      117     1   117         53</code></pre>
+<pre class="r"><code>#land_area--- land area in the county excluding water area
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(land_area))%&gt;%  summarize(mean=mean(land_area, na.rm=T),sd=sd(land_area, na.rm=T), n=n(), quantile=quantile(land_area, na.rm=T), min=min(land_area, na.rm=T), max=max(land_area, na.rm=T), n_distinct=n_distinct(land_area, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  1002.  609.   207     127    127 6184.        199
+##  2 2012  1002.  609.   207     842.   127 6184.        199
+##  3 2012  1002.  609.   207     908.   127 6184.        199
+##  4 2012  1002.  609.   207    1027.   127 6184.        199
+##  5 2012  1002.  609.   207    6184.   127 6184.        199
+##  6 2017   976.  459.   209     127    127 4764.        202
+##  7 2017   976.  459.   209     852    127 4764.        202
+##  8 2017   976.  459.   209     908.   127 4764.        202
+##  9 2017   976.  459.   209    1016.   127 4764.        202
+## 10 2017   976.  459.   209    4764.   127 4764.        202</code></pre>
+<pre class="r"><code>#pop_density --- population density of the county
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(pop_density))%&gt;%  summarize(mean=mean(pop_density, na.rm=T),sd=sd(pop_density, na.rm=T), n=n(), quantile=quantile(pop_density, na.rm=T), min=min(pop_density, na.rm=T), max=max(pop_density, na.rm=T), n_distinct=n_distinct(pop_density, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012   122.  336.   207     0.7    0.7  2718        182
+##  2 2012   122.  336.   207     8.75   0.7  2718        182
+##  3 2012   122.  336.   207    24.3    0.7  2718        182
+##  4 2012   122.  336.   207    66.4    0.7  2718        182
+##  5 2012   122.  336.   207  2718      0.7  2718        182
+##  6 2017   116.  331.   209     0.6    0.6  2718        180
+##  7 2017   116.  331.   209     8.5    0.6  2718        180
+##  8 2017   116.  331.   209    22.6    0.6  2718        180
+##  9 2017   116.  331.   209    65      0.6  2718        180
+## 10 2017   116.  331.   209  2718      0.6  2718        180</code></pre>
+<pre class="r"><code>#total_area --- total area of the county including water area
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(total_area))%&gt;%  summarize(mean=mean(total_area, na.rm=T),sd=sd(total_area, na.rm=T), n=n(), quantile=quantile(total_area, na.rm=T), min=min(total_area, na.rm=T), max=max(total_area, na.rm=T), n_distinct=n_distinct(total_area, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year   mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  1030.  607.   207     149.  149. 6192.        198
+##  2 2012  1030.  607.   207     872.  149. 6192.        198
+##  3 2012  1030.  607.   207     922.  149. 6192.        198
+##  4 2012  1030.  607.   207    1062.  149. 6192.        198
+##  5 2012  1030.  607.   207    6192.  149. 6192.        198
+##  6 2017  1003.  458.   209     149.  149. 4765.        200
+##  7 2017  1003.  458.   209     882   149. 4765.        200
+##  8 2017  1003.  458.   209     920.  149. 4765.        200
+##  9 2017  1003.  458.   209    1058   149. 4765.        200
+## 10 2017  1003.  458.   209    4765.  149. 4765.        200</code></pre>
+<pre class="r"><code>#total_area_acres --- total area converted to acres to aid comparison with agricultural data
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(total_area_acres))%&gt;%  summarize(mean=mean(total_area_acres, na.rm=T),sd=sd(total_area_acres, na.rm=T), n=n(), quantile=quantile(total_area_acres, na.rm=T), min=min(total_area_acres, na.rm=T), max=max(total_area_acres, na.rm=T), n_distinct=n_distinct(total_area_acres, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year     mean      sd     n quantile   min     max n_distinct
+##    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  659268. 388231.   207    95168 95168 3963072        198
+##  2 2012  659268. 388231.   207   558400 95168 3963072        198
+##  3 2012  659268. 388231.   207   590336 95168 3963072        198
+##  4 2012  659268. 388231.   207   679648 95168 3963072        198
+##  5 2012  659268. 388231.   207  3963072 95168 3963072        198
+##  6 2017  642169. 293065.   209    95168 95168 3049472        200
+##  7 2017  642169. 293065.   209   564480 95168 3049472        200
+##  8 2017  642169. 293065.   209   588928 95168 3049472        200
+##  9 2017  642169. 293065.   209   677120 95168 3049472        200
+## 10 2017  642169. 293065.   209  3049472 95168 3049472        200</code></pre>
+<pre class="r"><code>#prop_sorghum_land --- proportion of land in the county used for sorghum production
+
+joineddata %&gt;% group_by(`Year`) %&gt;% filter(!is.na(prop_sorghum_land))%&gt;%  summarize(mean=mean(prop_sorghum_land, na.rm=T),sd=sd(prop_sorghum_land, na.rm=T), n=n(), quantile=quantile(prop_sorghum_land, na.rm=T), min=min(prop_sorghum_land, na.rm=T), max=max(prop_sorghum_land, na.rm=T), n_distinct=n_distinct(prop_sorghum_land, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 10 x 8
+## # Groups:   Year [2]
+##    Year    mean     sd     n  quantile       min   max n_distinct
+##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  0.0209 0.0378   140 0.0000833 0.0000833 0.250        140
+##  2 2012  0.0209 0.0378   140 0.00219   0.0000833 0.250        140
+##  3 2012  0.0209 0.0378   140 0.00866   0.0000833 0.250        140
+##  4 2012  0.0209 0.0378   140 0.0224    0.0000833 0.250        140
+##  5 2012  0.0209 0.0378   140 0.250     0.0000833 0.250        140
+##  6 2017  0.0205 0.0335   118 0.000332  0.000332  0.191        118
+##  7 2017  0.0205 0.0335   118 0.00322   0.000332  0.191        118
+##  8 2017  0.0205 0.0335   118 0.00882   0.000332  0.191        118
+##  9 2017  0.0205 0.0335   118 0.0192    0.000332  0.191        118
+## 10 2017  0.0205 0.0335   118 0.191     0.000332  0.191        118</code></pre>
+<pre class="r"><code>#summary stats when grouped by `Year`and `prop_sorghum_land_cat`, the dichotomized form of `prop_sorghum-land`
+
+#`CORN.SALES.USD:T:NS`--- Corn sales for the year in USD
+joineddata %&gt;% group_by(`Year`,`prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`)) %&gt;% filter(!is.na(`CORN.SALES.USD:T:NS`))%&gt;%  summarize(mean=mean(`CORN.SALES.USD:T:NS`, na.rm=T),sd=sd(`CORN.SALES.USD:T:NS`, na.rm=T), n=n(), quantile=quantile(`CORN.SALES.USD:T:NS`, na.rm=T), min=min(`CORN.SALES.USD:T:NS`, na.rm=T), max=max(`CORN.SALES.USD:T:NS`, na.rm=T), n_distinct=n_distinct(`CORN.SALES.USD:T:NS`, na.rm=T))</code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_lan~   mean     sd     n quantile    min    max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                1.69e6 1.84e6    18    22000  22000 7.44e6         18
+##  2 2012  Q1                1.69e6 1.84e6    18   401500  22000 7.44e6         18
+##  3 2012  Q1                1.69e6 1.84e6    18  1333000  22000 7.44e6         18
+##  4 2012  Q1                1.69e6 1.84e6    18  2319500  22000 7.44e6         18
+##  5 2012  Q1                1.69e6 1.84e6    18  7444000  22000 7.44e6         18
+##  6 2012  Q2                3.85e6 4.39e6    20   129000 129000 1.51e7         20
+##  7 2012  Q2                3.85e6 4.39e6    20   945250 129000 1.51e7         20
+##  8 2012  Q2                3.85e6 4.39e6    20  2502500 129000 1.51e7         20
+##  9 2012  Q2                3.85e6 4.39e6    20  3706000 129000 1.51e7         20
+## 10 2012  Q2                3.85e6 4.39e6    20 15076000 129000 1.51e7         20
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.SALES.USD:T:NS`---sorghum sales for the year in USD
+
+joineddata%&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(`SORGHUM.SALES.USD:T:NS`))%&gt;%  summarize(mean=mean(`SORGHUM.SALES.USD:T:NS`, na.rm=T),sd=sd(`SORGHUM.SALES.USD:T:NS`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.SALES.USD:T:NS`, na.rm=T), min=min(`SORGHUM.SALES.USD:T:NS`, na.rm=T), max=max(`SORGHUM.SALES.USD:T:NS`, na.rm=T), n_distinct=n_distinct(`SORGHUM.SALES.USD:T:NS`, na.rm=T))</code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_lan~   mean     sd     n quantile    min    max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                3.14e5 3.04e5    24    36000  36000 1.40e6         24
+##  2 2012  Q1                3.14e5 3.04e5    24   123500  36000 1.40e6         24
+##  3 2012  Q1                3.14e5 3.04e5    24   226500  36000 1.40e6         24
+##  4 2012  Q1                3.14e5 3.04e5    24   316000  36000 1.40e6         24
+##  5 2012  Q1                3.14e5 3.04e5    24  1399000  36000 1.40e6         24
+##  6 2012  Q2                1.23e6 5.64e5    26   343000 343000 2.52e6         26
+##  7 2012  Q2                1.23e6 5.64e5    26   805000 343000 2.52e6         26
+##  8 2012  Q2                1.23e6 5.64e5    26  1208000 343000 2.52e6         26
+##  9 2012  Q2                1.23e6 5.64e5    26  1525500 343000 2.52e6         26
+## 10 2012  Q2                1.23e6 5.64e5    26  2522000 343000 2.52e6         26
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.ACRES.HARVEST:T:NS`---acres of sorghum harvested for the year
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(`SORGHUM.ACRES.HARVEST:T:NS`))%&gt;%  summarize(mean=mean(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T),sd=sd(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), min=min(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), max=max(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T), n_distinct=n_distinct(`SORGHUM.ACRES.HARVEST:T:NS`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     673   431.    39      50     50  1613         38
+##  2 2012  Q1                     673   431.    39     316.    50  1613         38
+##  3 2012  Q1                     673   431.    39     568     50  1613         38
+##  4 2012  Q1                     673   431.    39     936.    50  1613         38
+##  5 2012  Q1                     673   431.    39    1613     50  1613         38
+##  6 2012  Q2                    3313. 1473.    31    1085   1085  6200         30
+##  7 2012  Q2                    3313. 1473.    31    1810   1085  6200         30
+##  8 2012  Q2                    3313. 1473.    31    3372   1085  6200         30
+##  9 2012  Q2                    3313. 1473.    31    4489   1085  6200         30
+## 10 2012  Q2                    3313. 1473.    31    6200   1085  6200         30
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`---number of operations in the county that grow sorghum on land between 1 and 24.9 acres in size
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(1-24)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     2.73  1.35    11      1       1     4          4
+##  2 2012  Q1                     2.73  1.35    11      1.5     1     4          4
+##  3 2012  Q1                     2.73  1.35    11      3       1     4          4
+##  4 2012  Q1                     2.73  1.35    11      4       1     4          4
+##  5 2012  Q1                     2.73  1.35    11      4       1     4          4
+##  6 2012  Q2                     1.93  1.07    14      1       1     4          4
+##  7 2012  Q2                     1.93  1.07    14      1       1     4          4
+##  8 2012  Q2                     1.93  1.07    14      2       1     4          4
+##  9 2012  Q2                     1.93  1.07    14      2       1     4          4
+## 10 2012  Q2                     1.93  1.07    14      4       1     4          4
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`---number of operations in the county that grow sorghum on land between 25 and 99.9 acres in size
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(25-99)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     2.51  1.12    35      1       1     5          5
+##  2 2012  Q1                     2.51  1.12    35      2       1     5          5
+##  3 2012  Q1                     2.51  1.12    35      2       1     5          5
+##  4 2012  Q1                     2.51  1.12    35      3.5     1     5          5
+##  5 2012  Q1                     2.51  1.12    35      5       1     5          5
+##  6 2012  Q2                     4.33  2.71    21      1       1    11          9
+##  7 2012  Q2                     4.33  2.71    21      3       1    11          9
+##  8 2012  Q2                     4.33  2.71    21      4       1    11          9
+##  9 2012  Q2                     4.33  2.71    21      6       1    11          9
+## 10 2012  Q2                     4.33  2.71    21     11       1    11          9
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`---number of operations in the county that grow sorghum on land between 100 and 249 acres in size
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(100-249)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     2     1.22    24     1        1     5          5
+##  2 2012  Q1                     2     1.22    24     1        1     5          5
+##  3 2012  Q1                     2     1.22    24     1.5      1     5          5
+##  4 2012  Q1                     2     1.22    24     3        1     5          5
+##  5 2012  Q1                     2     1.22    24     5        1     5          5
+##  6 2012  Q2                     4.73  3.04    26     1        1    14         10
+##  7 2012  Q2                     4.73  3.04    26     3        1    14         10
+##  8 2012  Q2                     4.73  3.04    26     4        1    14         10
+##  9 2012  Q2                     4.73  3.04    26     5.75     1    14         10
+## 10 2012  Q2                     4.73  3.04    26    14        1    14         10
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`---number of operations in the county that grow sorghum on land between 250 and 499 acres in size
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(250-499)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     1.33 0.594    18     1        1     3          3
+##  2 2012  Q1                     1.33 0.594    18     1        1     3          3
+##  3 2012  Q1                     1.33 0.594    18     1        1     3          3
+##  4 2012  Q1                     1.33 0.594    18     1.75     1     3          3
+##  5 2012  Q1                     1.33 0.594    18     3        1     3          3
+##  6 2012  Q2                     3.63 2.11     19     1        1     7          6
+##  7 2012  Q2                     3.63 2.11     19     2        1     7          6
+##  8 2012  Q2                     3.63 2.11     19     3        1     7          6
+##  9 2012  Q2                     3.63 2.11     19     5        1     7          6
+## 10 2012  Q2                     3.63 2.11     19     7        1     7          6
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`---number of operations in the county that grow sorghum on land between 500 and 999 acres in size
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(500-999)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     1    0         6        1     1     1          1
+##  2 2012  Q1                     1    0         6        1     1     1          1
+##  3 2012  Q1                     1    0         6        1     1     1          1
+##  4 2012  Q1                     1    0         6        1     1     1          1
+##  5 2012  Q1                     1    0         6        1     1     1          1
+##  6 2012  Q2                     1.64 0.952    25        1     1     5          4
+##  7 2012  Q2                     1.64 0.952    25        1     1     5          4
+##  8 2012  Q2                     1.64 0.952    25        1     1     5          4
+##  9 2012  Q2                     1.64 0.952    25        2     1     5          4
+## 10 2012  Q2                     1.64 0.952    25        5     1     5          4
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`---number of operations in the county that grow sorghum on land greater than or equal to 1000 acres in size
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`))%&gt;%  summarize(mean=mean(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T),sd=sd(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), n=n(), quantile=quantile(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), min=min(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), max=max(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T), n_distinct=n_distinct(`SORGHUM.OPERATIONS.WAREA:AH:(1000+)`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 35 x 9
+## # Groups:   Year, prop_sorghum_land_cat [7]
+##    Year  prop_sorghum_land_c~  mean     sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     1   NA         1        1     1     1          1
+##  2 2012  Q1                     1   NA         1        1     1     1          1
+##  3 2012  Q1                     1   NA         1        1     1     1          1
+##  4 2012  Q1                     1   NA         1        1     1     1          1
+##  5 2012  Q1                     1   NA         1        1     1     1          1
+##  6 2012  Q2                     1.5  0.798    12        1     1     3          3
+##  7 2012  Q2                     1.5  0.798    12        1     1     3          3
+##  8 2012  Q2                     1.5  0.798    12        1     1     3          3
+##  9 2012  Q2                     1.5  0.798    12        2     1     3          3
+## 10 2012  Q2                     1.5  0.798    12        3     1     3          3
+## # ... with 25 more rows</code></pre>
+<pre class="r"><code>#`SORGHUM.OPERATIONS.WAREA:T:NS1`---total number of operations in the county growing sorghum
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na( `SORGHUM.OPERATIONS.WAREA:T:NS`))%&gt;%  summarize(mean=mean( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T),sd=sd( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), n=n(), quantile=quantile( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), min=min( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), max=max( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T), n_distinct=n_distinct( `SORGHUM.OPERATIONS.WAREA:T:NS`, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     5.05  2.20    39      3       3    13          8
+##  2 2012  Q1                     5.05  2.20    39      3       3    13          8
+##  3 2012  Q1                     5.05  2.20    39      5       3    13          8
+##  4 2012  Q1                     5.05  2.20    39      6       3    13          8
+##  5 2012  Q1                     5.05  2.20    39     13       3    13          8
+##  6 2012  Q2                    11.9   7.12    31      3       3    30         18
+##  7 2012  Q2                    11.9   7.12    31      5.5     3    30         18
+##  8 2012  Q2                    11.9   7.12    31     11       3    30         18
+##  9 2012  Q2                    11.9   7.12    31     16.5     3    30         18
+## 10 2012  Q2                    11.9   7.12    31     30       3    30         18
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#land_area--- land area in the county excluding water area
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(land_area))%&gt;%  summarize(mean=mean(land_area, na.rm=T),sd=sd(land_area, na.rm=T), n=n(), quantile=quantile(land_area, na.rm=T), min=min(land_area, na.rm=T), max=max(land_area, na.rm=T), n_distinct=n_distinct(land_area, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     930.  221.    39     421.  421. 1704.         39
+##  2 2012  Q1                     930.  221.    39     859.  421. 1704.         39
+##  3 2012  Q1                     930.  221.    39     909   421. 1704.         39
+##  4 2012  Q1                     930.  221.    39     970.  421. 1704.         39
+##  5 2012  Q1                     930.  221.    39    1704.  421. 1704.         39
+##  6 2012  Q2                     979.  263.    31     513.  513. 1501.         31
+##  7 2012  Q2                     979.  263.    31     844.  513. 1501.         31
+##  8 2012  Q2                     979.  263.    31     926   513. 1501.         31
+##  9 2012  Q2                     979.  263.    31    1146.  513. 1501.         31
+## 10 2012  Q2                     979.  263.    31    1501.  513. 1501.         31
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#pop_density --- population density of the county
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(pop_density))%&gt;%  summarize(mean=mean(pop_density, na.rm=T),sd=sd(pop_density, na.rm=T), n=n(), quantile=quantile(pop_density, na.rm=T), min=min(pop_density, na.rm=T), max=max(pop_density, na.rm=T), n_distinct=n_distinct(pop_density, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     102.  382.    39     1      1   2402.         38
+##  2 2012  Q1                     102.  382.    39     8.75   1   2402.         38
+##  3 2012  Q1                     102.  382.    39    19.9    1   2402.         38
+##  4 2012  Q1                     102.  382.    39    40.4    1   2402.         38
+##  5 2012  Q1                     102.  382.    39  2402.     1   2402.         38
+##  6 2012  Q2                     149.  439.    31     1.4    1.4 2095.         30
+##  7 2012  Q2                     149.  439.    31     9.45   1.4 2095.         30
+##  8 2012  Q2                     149.  439.    31    21.8    1.4 2095.         30
+##  9 2012  Q2                     149.  439.    31    62.0    1.4 2095.         30
+## 10 2012  Q2                     149.  439.    31  2095.     1.4 2095.         30
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#total_area --- total area of the county including water area
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(total_area))%&gt;%  summarize(mean=mean(total_area, na.rm=T),sd=sd(total_area, na.rm=T), n=n(), quantile=quantile(total_area, na.rm=T), min=min(total_area, na.rm=T), max=max(total_area, na.rm=T), n_distinct=n_distinct(total_area, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_land_cat  mean    sd     n quantile   min   max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                     942.  226.    39     437.  437. 1778.         39
+##  2 2012  Q1                     942.  226.    39     876.  437. 1778.         39
+##  3 2012  Q1                     942.  226.    39     922   437. 1778.         39
+##  4 2012  Q1                     942.  226.    39     976.  437. 1778.         39
+##  5 2012  Q1                     942.  226.    39    1778.  437. 1778.         39
+##  6 2012  Q2                     998.  253.    31     518.  518. 1501.         31
+##  7 2012  Q2                     998.  253.    31     865.  518. 1501.         31
+##  8 2012  Q2                     998.  253.    31     932.  518. 1501.         31
+##  9 2012  Q2                     998.  253.    31    1155.  518. 1501.         31
+## 10 2012  Q2                     998.  253.    31    1501.  518. 1501.         31
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#total_area_acres --- total area converted to acres to aid comparison with agricultural data
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(total_area_acres))%&gt;%  summarize(mean=mean(total_area_acres, na.rm=T),sd=sd(total_area_acres, na.rm=T), n=n(), quantile=quantile(total_area_acres, na.rm=T), min=min(total_area_acres, na.rm=T), max=max(total_area_acres, na.rm=T), n_distinct=n_distinct(total_area_acres, na.rm=T)) </code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_lan~   mean     sd     n quantile    min    max n_distinct
+##    &lt;chr&gt; &lt;fct&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;
+##  1 2012  Q1                6.03e5 1.44e5    39   279552 279552 1.14e6         39
+##  2 2012  Q1                6.03e5 1.44e5    39   560320 279552 1.14e6         39
+##  3 2012  Q1                6.03e5 1.44e5    39   590080 279552 1.14e6         39
+##  4 2012  Q1                6.03e5 1.44e5    39   624512 279552 1.14e6         39
+##  5 2012  Q1                6.03e5 1.44e5    39  1137600 279552 1.14e6         39
+##  6 2012  Q2                6.39e5 1.62e5    31   331392 331392 9.61e5         31
+##  7 2012  Q2                6.39e5 1.62e5    31   553792 331392 9.61e5         31
+##  8 2012  Q2                6.39e5 1.62e5    31   596672 331392 9.61e5         31
+##  9 2012  Q2                6.39e5 1.62e5    31   739392 331392 9.61e5         31
+## 10 2012  Q2                6.39e5 1.62e5    31   960896 331392 9.61e5         31
+## # ... with 30 more rows</code></pre>
+<pre class="r"><code>#prop_sorghum_land --- proportion of land in the county used for sorghum production
+
+joineddata %&gt;% group_by(`Year`, `prop_sorghum_land_cat`) %&gt;% filter(!is.na(`prop_sorghum_land_cat`))  %&gt;% filter(!is.na(prop_sorghum_land))%&gt;%  summarize(mean=mean(prop_sorghum_land, na.rm=T),sd=sd(prop_sorghum_land, na.rm=T), n=n(), quantile=quantile(prop_sorghum_land, na.rm=T), min=min(prop_sorghum_land, na.rm=T), max=max(prop_sorghum_land, na.rm=T), n_distinct=n_distinct(prop_sorghum_land, na.rm=T))</code></pre>
+<pre><code>## # A tibble: 40 x 9
+## # Groups:   Year, prop_sorghum_land_cat [8]
+##    Year  prop_sorghum_la~    mean      sd     n quantile     min     max
+##    &lt;chr&gt; &lt;fct&gt;              &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 2012  Q1               0.00113 7.16e-4    39  8.33e-5 8.33e-5 0.00256
+##  2 2012  Q1               0.00113 7.16e-4    39  5.00e-4 8.33e-5 0.00256
+##  3 2012  Q1               0.00113 7.16e-4    39  1.12e-3 8.33e-5 0.00256
+##  4 2012  Q1               0.00113 7.16e-4    39  1.70e-3 8.33e-5 0.00256
+##  5 2012  Q1               0.00113 7.16e-4    39  2.56e-3 8.33e-5 0.00256
+##  6 2012  Q2               0.00513 1.79e-3    31  2.61e-3 2.61e-3 0.00801
+##  7 2012  Q2               0.00513 1.79e-3    31  3.28e-3 2.61e-3 0.00801
+##  8 2012  Q2               0.00513 1.79e-3    31  5.20e-3 2.61e-3 0.00801
+##  9 2012  Q2               0.00513 1.79e-3    31  6.52e-3 2.61e-3 0.00801
+## 10 2012  Q2               0.00513 1.79e-3    31  8.01e-3 2.61e-3 0.00801
+## # ... with 30 more rows, and 1 more variable: n_distinct &lt;int&gt;</code></pre>
+<p><em>So my dataset is quite rich in hard to interpret numbers, especially in respect to this section. It would be really beneficial to include a correlation table, and that’s in the next section. Essentially, not much can be found here that tells a great story about the data. This is good practice in working with large datasets in a repetive way though.</em></p>
+</div>
+<div id="make-visualizations-three-plots" class="section level3">
+<h3>Make visualizations (three plots)</h3>
+<pre><code>-  Make a correlation heatmap of your numeric variables
+-  Create at least two additional plots of your choice with ggplot that highlight some of the more interesting features of your data.
+- Each plot (besides the heatmap) should have at least three variables mapped to separate aesthetics
+- Each should use different geoms (don&#39;t do two geom_bars)
+- At least one plot should include `stat=&quot;summary&quot;`
+- Each plot should include a supporting paragraph describing the relationships that are being visualized and any trends that are apparent
+    - It is fine to include more, but limit yourself to 4. Plots should avoid being redundant! Four bad plots will get a lower grade than two good plots, all else being equal.
+- Make them pretty! Use correct labels, etc.</code></pre>
+<pre class="r"><code>#correlation heatmap
+
+#making sure everything&#39;s numeric
+only_numeric &lt;- select(joineddata, -c(County, `Year`, `Ag District`, `Ag District Code`, `County ANSI`,`land_area_cat`, `prop_sorghum_land_cat`))
+
+#I had some trouble with the County name being not numeric so I made it numeric. May affect clustering unfortunately
+only_numeric$County = as.numeric(as.factor(only_numeric$County))
+
+#I had to omit NAs. My dataset turned out to be not very robust in the end. If I could do it again with a better dataset I would
+only_numeric&lt;- only_numeric %&gt;% na.omit
+
+#initial correlation values
+cormat &lt;- only_numeric %&gt;% cor(use=&quot;pair&quot;)
+
+#tidying the initial correlation values
+tidycor &lt;- cormat %&gt;% as.data.frame %&gt;% rownames_to_column(&quot;var1&quot;) %&gt;%
+pivot_longer(-1,names_to=&quot;var2&quot;,values_to=&quot;correlation&quot;)
+tidycor</code></pre>
+<pre><code>## # A tibble: 289 x 3
+##    var1   var2                                  correlation
+##    &lt;chr&gt;  &lt;chr&gt;                                       &lt;dbl&gt;
+##  1 County County                                    1      
+##  2 County CORN.SALES.USD:T:NS                      -0.00391
+##  3 County SORGHUM.SALES.USD:T:NS                    0.113  
+##  4 County SORGHUM.ACRES.HARVEST:T:NS                0.104  
+##  5 County SORGHUM.OPERATIONS.WAREA:AH:(1-24)       -0.137  
+##  6 County SORGHUM.OPERATIONS.WAREA:AH:(100-249)     0.0378 
+##  7 County SORGHUM.OPERATIONS.WAREA:AH:(25-99)      -0.0404 
+##  8 County SORGHUM.OPERATIONS.WAREA:AH:(250-499)     0.00554
+##  9 County SORGHUM.OPERATIONS.WAREA:AH:(500-999)    -0.0285 
+## 10 County SORGHUM.OPERATIONS.WAREA:T:NS             0.0110 
+## # ... with 279 more rows</code></pre>
+<pre class="r"><code>#correlation heatmap in ggplot2
+tidycor%&gt;%ggplot(aes(var1,var2,fill=correlation))+
+geom_tile()+
+scale_fill_gradient2(low=&quot;red&quot;,mid=&quot;white&quot;,high=&quot;blue&quot;)+ #makes colors!
+geom_text(aes(label=round(correlation,2)),color = &quot;black&quot;, size = 4)+ #overlay values
+theme(axis.text.x = element_text(angle = 90, hjust=1))+ #flips x-axis labels
+coord_fixed() </code></pre>
+<p><img src="/project/Project1_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#plot 1
+
+ggplot(data= joineddata, aes(x= `CORN.SALES.USD:T:NS`,y= `prop_sorghum_land`, color=`Ag District`))+
+  geom_point(size=1.2)+
+  theme(panel.background = element_rect(fill=&quot;lightyellow&quot;))+
+  ggtitle(&quot;Proportion of Sorghum Farming Land vs. Total Corn Sales&quot;)+
+  ylab(&quot;Proportion of Land Used for Sorghum Farming&quot;)+
+  xlab(&quot;Total Corn Sales (USD&quot;)+
+  theme(legend.position = &quot;left&quot;)+
+  scale_color_discrete(&quot;Agricultural District&quot;)+
+  scale_x_continuous(breaks= scales::pretty_breaks(n=10))+
+  theme(axis.text.x = element_text(angle=45))</code></pre>
+<p><img src="/project/Project1_files/figure-html/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#plot 2
+
+ggplot(joineddata, aes(x = `Year`, y = `SORGHUM.OPERATIONS.WAREA:T:NS`, fill=`land_area_cat`))+
+  geom_bar(stat=&quot;summary&quot;,fun=mean)+
+  theme_dark()+
+  theme(legend.background = element_rect(fill=&quot;pink&quot;))+
+  ggtitle(&quot;Change in Number of Sorghum Farming Operations from 2012-2017&quot;)+
+  xlab(&quot;Year&quot;)+
+  ylab(&quot;Number of Sorghum Farming Operations&quot;)+
+  labs(fill=&quot;County Land Area Quartile&quot;)</code></pre>
+<p><img src="/project/Project1_files/figure-html/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" />
+<em>for the correlation heatmap, it’s evident that I have a lot of redundant variables, which is fair because I created a lot of them by modifying others. I hope you’re able to see the plot in the knitted document well. Otherwise, I can say that it’s interesting that the correlation between sorghum sales and the number of sorghum farming operations of “x” size increased as the “x” size increased, but this is understandable. It’s also interesting that corn sales correlated most strongly with counties that had more sorghum growing operaitons of 250-499 acres of sorghum. Perhaps this shows loosely that counties with mid-sized sorghum operations tend to also have a lot of corn operations, and it’s possible that this points to an incentive among farmers to diversify crops but only under certain acerage-related conditions.</em></p>
+<p><em>For plot 1: The plot here gives us a better idea about the lack of overlap between corn and sorghum farming. essentially, it’s uncommon for a county to have a large proportion of land allocated to growing sorghum while also making a lot of money in corn sales. It would have been nice to have more corn variables in my dataset, but I obviously still need some practice in retrieving data from the USDA website. Anyways, I think this plot is particularly cool</em></p>
+<p><em>For plot 2: This plot shows us simply the change in the number of sorghum farming operations from 2012 to 2017. It’s intersting that a decrease took place. If I have time in the future, it would be interesting to include data from other years as well. Since this was my first project I wasn’t sure if I would be able to work with multiple years and still include information from each county. Based on subsequent results in the next section, though, it’s somewhat clear that focusing on the agricultural heart of Texas, the valley, would yeild the most telling and interesting results.</em></p>
+</div>
+<div id="perform-k-meanspam-clustering-or-pca-on-at-least-your-numeric-variables." class="section level3">
+<h3>Perform k-means/PAM clustering or PCA on (at least) your numeric variables.</h3>
+<pre><code>- Include all steps as we discuss in class, including a visualization.
+
+- If you don&#39;t have at least 3 numeric variables, or you want to cluster based on categorical variables too, convert them to factors in R, generate Gower&#39;s dissimilarity matrix on the data, and do PAM clustering on the dissimilarities.
+
+- Show how you chose the final number of clusters/principal components 
+
+- Interpret the final clusters/principal components 
+
+- For every step, document what your code does (in words) and what you see in the data! </code></pre>
+<pre class="r"><code>#making sure everything&#39;s numeric
+only_numeric &lt;- select(joineddata, -c(County, `Year`, `Ag District`, `Ag District Code`, `County ANSI`,`land_area_cat`, `prop_sorghum_land_cat`))
+
+#I had some trouble with the County name being not numeric so I made it numeric. May affect clustering unfortunately
+only_numeric$County = as.numeric(as.factor(only_numeric$County))
+
+#I had to omit NAs. My dataset turned out to be not very robust in the end. If I could do it again with a better dataset I would
+only_numeric&lt;- only_numeric %&gt;% na.omit
+
+#determining the ideal number of clusters
+sil_width&lt;-vector()
+for(i in 2:10){
+  pam_fit &lt;- pam(only_numeric, k = i)
+  sil_width[i] &lt;- pam_fit$silinfo$avg.width
+}
+ggplot()+geom_line(aes(x=1:10,y=sil_width))+scale_x_continuous(name=&quot;k&quot;,breaks=1:10)</code></pre>
+<p><img src="/project/Project1_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#based on this graph, I would choose 3 clusters
+
+#running PAM
+pam10&lt;- only_numeric %&gt;% pam(k=3)
+
+#my computer had a seizure trying to use dplyr to mutate another column, so I used base R. 
+only_numeric$cluster&lt;- as.character(pam10$clustering)
+
+#a cool chart to get a better look into how the clusters look
+only_numeric %&gt;% ggplot(aes(pop_density,`CORN.SALES.USD:T:NS`,color=cluster)) + geom_point()</code></pre>
+<p><img src="/project/Project1_files/figure-html/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#averages from all the clusters. It looks like the Counties are categorized based on number of sorghum operations. Cluster 3 are counties with a large bias towards sorghum. The &quot;Sorghum Basket&quot; of Texas, if you will. 
+only_numeric %&gt;% group_by(cluster) %&gt;% summarize_if(is.numeric,mean,na.rm=T)</code></pre>
+<pre><code>## # A tibble: 3 x 18
+##   cluster County `CORN.SALES.USD~ `SORGHUM.SALES.~ `SORGHUM.ACRES.~
+##   &lt;chr&gt;    &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1 1         117.         7756121.         6351879.           18616.
+## 2 2         133.        52562778.        11512056.           23525.
+## 3 3         153.         9001333.        39838222.          114288.
+## # ... with 13 more variables: `SORGHUM.OPERATIONS.WAREA:AH:(1-24)` &lt;dbl&gt;,
+## #   `SORGHUM.OPERATIONS.WAREA:AH:(100-249)` &lt;dbl&gt;,
+## #   `SORGHUM.OPERATIONS.WAREA:AH:(25-99)` &lt;dbl&gt;,
+## #   `SORGHUM.OPERATIONS.WAREA:AH:(250-499)` &lt;dbl&gt;,
+## #   `SORGHUM.OPERATIONS.WAREA:AH:(500-999)` &lt;dbl&gt;,
+## #   `SORGHUM.OPERATIONS.WAREA:T:NS` &lt;dbl&gt;,
+## #   `SORGHUM.OPERATIONS.WAREA:AH:(1000+)` &lt;dbl&gt;, Rank &lt;dbl&gt;, land_area &lt;dbl&gt;,
+## #   pop_density &lt;dbl&gt;, total_area &lt;dbl&gt;, total_area_acres &lt;dbl&gt;,
+## #   prop_sorghum_land &lt;dbl&gt;</code></pre>
+<pre class="r"><code>#Another view of how the clusters are. Unfortunately somewhat confusing given my column names :/
+library(GGally)
+ggpairs(only_numeric, columns=1:4, aes(color=cluster))</code></pre>
+<p><img src="/project/Project1_files/figure-html/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#because I messed up my County names, this is me rejoining them to show which counties are in which cluster:
+cat_and_names &lt;- joineddata %&gt;% left_join(only_numeric, by=c(&quot;Rank&quot;))
+
+cat_and_names %&gt;% select(County.x, `Ag District`, cluster) %&gt;% arrange(desc(cluster))</code></pre>
+<pre><code>## # A tibble: 456 x 3
+##    County.x    `Ag District` cluster
+##    &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt;  
+##  1 NUECES      COASTAL BEND  3      
+##  2 NUECES      COASTAL BEND  3      
+##  3 SANPATRICIO COASTAL BEND  3      
+##  4 SANPATRICIO COASTAL BEND  3      
+##  5 CAMERON     LOWER VALLEY  3      
+##  6 HIDALGO     LOWER VALLEY  3      
+##  7 HIDALGO     LOWER VALLEY  3      
+##  8 WILLACY     LOWER VALLEY  3      
+##  9 WILLACY     LOWER VALLEY  3      
+## 10 NUECES      COASTAL BEND  3      
+## # ... with 446 more rows</code></pre>
+<p><em>Results: Based on my datasets that I chose, my dimmensionality reduction analysis was not incredibly insightful. Many of my numeric variables were repetitive or “told the same story,” so I don’t find my results incredibly interesting. It was interesting, however, to identify categorically the counties where Sorghum is a prominent crop, although other less involved analyses could be used to do the same. In the end, the counties that were identified to be prominent in sorghum production were: Nueces, San Patricio, Cameron, Hidalgo, and Willacy. They’re all in either the Coastal Bend or Lower Valley, both in South Texas</em></p>
+<P style="page-break-before: always">
+<div style="page-break-after: always;"></div>
+</div>
+<div id="rubric" class="section level3">
+<h3>Rubric</h3>
+<p>Prerequisite: Finding appropriate data from at least two sources per the instructions above: Failure to do this will result in a 0! You will submit a .Rmd file and a knitted document (pdf).</p>
+<div id="introduction-4-pts" class="section level4">
+<h4>0. Introduction (4 pts)</h4>
+<ul>
+<li>Write a narrative introductory paragraph or two describing the datasets you have chosen, the variables they contain, how they were acquired, and why they are interesting to you. Expand on potential associations you may expect, if any.</li>
+</ul>
+</div>
+<div id="tidying-rearranging-widelong-8-pts" class="section level4">
+<h4>1. Tidying: Rearranging Wide/Long (8 pts)</h4>
+<ul>
+<li>Tidy the datasets (using the <code>tidyr</code> functions <code>pivot_longer</code>/<code>gather</code> and/or <code>pivot_wider</code>/<code>spread</code>)</li>
+<li>If you data sets are already tidy, be sure to use those functions somewhere else in your project</li>
+<li>Document the process (describe in words what was done per the instructions)</li>
+</ul>
+</div>
+<div id="joiningmerging-8-pts" class="section level4">
+<h4>2. Joining/Merging (8 pts)</h4>
+<ul>
+<li>Join your datasets into one using a <code>dplyr</code> join function</li>
+<li>If you have multiple observations on the joining variable in either dataset, fix this by collapsing via summarize</li>
+<li>Discuss the process in words, including why you chose the join you did</li>
+<li>Discuss which cases were dropped, if any, and potential problems with this</li>
+</ul>
+</div>
+<div id="wrangling-40-pts" class="section level4">
+<h4>3. Wrangling (40 pts)</h4>
+<ul>
+<li>Use all six core <code>dplyr</code> functions in the service of generating summary statistics (18 pts)
+<ul>
+<li>Use mutate at least once to generate a variable that is a function of at least one other variable</li>
+</ul></li>
+<li>Compute at least 10 summary statistics for using summarize and summarize with group_by (18 pts)
+<ul>
+<li>Use at least 5 unique functions inside of summarize (e.g., mean, sd)</li>
+<li>At least 2 of these should group by a categorical variable. Create one by dichotomizing a numeric if necessary</li>
+<li>If applicable, at least 1 of these should group by two categorical variables</li>
+<li>Strongly encouraged to create a correlation matrix with <code>cor()</code> on your numeric variables</li>
+</ul></li>
+<li>Summarize/discuss all results in no more than two paragraphs (4 pts)</li>
+</ul>
+</div>
+<div id="visualizing-30-pts" class="section level4">
+<h4>4. Visualizing (30 pts)</h4>
+<ul>
+<li><p>Create a correlation heatmap of your numeric variables</p></li>
+<li><p>Create two effective, polished plots with ggplot</p>
+<ul>
+<li>Each plot should map 3+ variables to aesthetics</li>
+<li>Each plot should have a title and clean labeling for all mappings</li>
+<li>Change at least one default theme element and color for at least one mapping per plot</li>
+<li>For at least one plot, add more tick marks (x, y, or both) than are given by default</li>
+<li>For at least one plot, use the stat=“summary” function</li>
+<li>Supporting paragraph or two (for each plot) describing the relationships/trends that are apparent</li>
+</ul></li>
+</ul>
+</div>
+<div id="dimensionality-reduction-20-pts" class="section level4">
+<h4>5. Dimensionality Reduction (20 pts)</h4>
+<ul>
+<li><p>Either k-means/PAM clustering or PCA (inclusive “or”) should be performed on at least three numeric variables in your dataset</p>
+<ul>
+<li>All relevant steps discussed in class</li>
+<li>A visualization of the clusters or the first few principal components (using ggplot2)</li>
+<li>Supporting paragraph or two describing results found</li>
+</ul></li>
+</ul>
+</div>
+<div id="neatness" class="section level4">
+<h4>6. Neatness!</h4>
+<ul>
+<li>Your project should not knit to more than 30 or so pages (probably closer to 10)! You will lose points if you print out your entire dataset(s), have terrible formatting, etc. If you start your project in a fresh .Rmd file, you are advised to paste the set-up code from this document (lines 14-17) at the top of it: this will automatically truncate if you accidentally print out a huge dataset, etc. Imagine this is a polished report you are giving to your PI or boss to summarize your work researching a topic.</li>
+</ul>
+</div>
+</div>
+<div id="where-do-i-find-data" class="section level3">
+<h3>Where do I find data?</h3>
+<p>OK, brace yourself!</p>
+<p>You can choose ANY datasets you want that meet the above criteria for variables and observations. I’m just sitting here but off the top of my head, if you are into amusement parks, you could look at amusement-park variables, including ticket sales per day etc.; then you could join this by date in weather data. If you are interested in Game of Thrones, you could look at how the frequency of mentions of character names (plus other character variables) and the frequency of baby names in the USA…You could even take your old Biostats data and merge in new data (e.g., based on a Google forms timestamp).</p>
+<p>You could engage in some “me-search”: You can <a href="https://support.spotify.com/ca-en/article/data-rights-and-privacy-settings/">request your Spotify data</a> or <a href="https://help.netflix.com/en/node/101917">download Netflix viewing activity</a>, Amazon purchase history, etc. You can use your Google Fit/Fitbit/Apple watch data, etc. These can be combined (e.g., with each other, with other data sources).</p>
+<p>You can make it as serious as you want, or not, but keep in mind that you will be incorporating this project into a portfolio webpage for your final in this course, so choose something that really reflects who you are, or something that you feel will advance you in the direction you hope to move career-wise, or something that you think is really neat. On the flip side, regardless of what you pick, you will be performing all the same tasks, so it doesn’t end up being that big of a deal.</p>
+<p>If you are totally clueless and have no direction at all, log into the server and type</p>
+<pre class="r"><code>data(package = .packages(all.available = TRUE))</code></pre>
+<p>This will print out a list of <strong>ALL datasets in ALL packages</strong> installed on the server (a ton)! Scroll until your eyes bleed! Actually, do not scroll that much… To start with something more manageable, just run the command on your own computer, or just run <code>data()</code> to bring up the datasets in your current environment. To read more about a dataset, do <code>?packagename::datasetname</code>.</p>
+<p>If it is easier for you, and in case you don’t have many packages installed, a list of R datasets from a few common packages (also downloadable in CSV format) is given at the following website: <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/datasets.html</a> (including types/numbers of variables in each)</p>
+<ul>
+<li><p>A good package to download for fun/relevant data is <code>fivethiryeight</code>. Just run <code>install.packages("fivethirtyeight"), load the packages with</code>library(fivethirtyeight)<code>, run</code>data()`, and then scroll down to view the datasets. Here is an online list of all 127 datasets (with links to the 538 articles). Lots of sports, politics, current events, etc: <a href="https://cran.r-project.org/web/packages/fivethirtyeight/vignettes/fivethirtyeight.html" class="uri">https://cran.r-project.org/web/packages/fivethirtyeight/vignettes/fivethirtyeight.html</a></p></li>
+<li><p>If you have already started to specialize (e.g., ecology, epidemiology) you might look at discipline-specific R packages (vegan, epi, respectively). We will be using some tools from these packages later in the course, but they come with lots of data too, which you can explore according to the directions above</p></li>
+<li><p>However, you <em>emphatically DO NOT</em> have to use datasets available via R packages! In fact, I would much prefer it if you found the data from completely separate sources and brought them together (a much more realistic experience in the real world)! You can even reuse data from your SDS328M project, provided it shares a variable in common with other data which allows you to merge the two together (e.g., if you still had the timestamp, you could look up the weather that day: <a href="https://www.wunderground.com/history/" class="uri">https://www.wunderground.com/history/</a>). If you work in a research lab or have access to old data, you could potentially merge it with new data from your lab!</p></li>
+<li><p>Here is a curated list of interesting datasets (read-only spreadsheet format): <a href="https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit" class="uri">https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit</a></p></li>
+<li><p>Here is another great compilation of datasets: <a href="https://github.com/rfordatascience/tidytuesday" class="uri">https://github.com/rfordatascience/tidytuesday</a></p></li>
+<li><p>Here is the UCI Machine Learning Repository: <a href="https://archive.ics.uci.edu/ml/index.php" class="uri">https://archive.ics.uci.edu/ml/index.php</a></p>
+<ul>
+<li>See also <a href="https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research#Biological_data" class="uri">https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research#Biological_data</a></li>
+</ul></li>
+<li><p>Here is another good general place to look: <a href="https://www.kaggle.com/datasets" class="uri">https://www.kaggle.com/datasets</a></p></li>
+<li><p>To help narrow your search down or to see interesting variable ideas, check out <a href="https://www.tylervigen.com/spurious-correlations" class="uri">https://www.tylervigen.com/spurious-correlations</a>. This is the spurious correlations website, and it is fun, but if you look at the bottom of each plot you will see sources for the data. This is a good place to find very general data (or at least get a sense of where you can scrape data together from)!</p></li>
+<li><p>If you are interested in medical data, check out www.countyhealthrankings.org</p></li>
+<li><p>If you are interested in scraping UT data, the university makes <em>loads</em> of data public (e.g., beyond just professor CVs and syllabi). Check out all the data that is available in the statistical handbooks: <a href="https://reports.utexas.edu/statistical-handbook" class="uri">https://reports.utexas.edu/statistical-handbook</a></p></li>
+</ul>
+<div id="broader-data-sources" class="section level5">
+<h5>Broader data sources:</h5>
+<p><a href="www.data.gov">Data.gov</a> 186,000+ datasets!</p>
+<p><a href="Social%20Explorer">Social Explorer</a> is a nice interface to Census and American Community Survey data (more user-friendly than the government sites). May need to sign up for a free trial.</p>
+<p><a href="www.bls.gov">U.S. Bureau of Labor Statistics</a></p>
+<p><a href="www.census.gov">U.S. Census Bureau</a></p>
+<p><a href="www.gapminder.org/data">Gapminder</a>, data about the world.</p>
+<p>…</p>
+</div>
+</div>
+</div>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+   <hr>  <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> 
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="/js/docs.min.js"></script>
+<script src="/js/main.js"></script>
+
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Evan Samsky" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <title>Project 2: Modeling, Testing, and Predicting</title>
+    <meta name="generator" content="Hugo 0.79.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', '255287319', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/post/">BLOG</a></li>
+        
+        <li><a href="/projects/">PROJECTS</a></li>
+        
+        <li><a href="/resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="/project/project2/">Project 2: Modeling, Testing, and Predicting</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         January 1, 0001 
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<div id="modeling" class="section level1">
+<h1>Modeling</h1>
+<div id="instructions" class="section level2">
+<h2>Instructions</h2>
+<p>A knitted R Markdown document (preferably HTML) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on the due date. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document). Knit an html copy too, for later! In the .Rmd file for Project 2, you can copy the first code-chunk into your project .Rmd file to get better formatting. Notice that you can adjust the opts_chunk$set(…) above to set certain parameters if necessary to make the knitting cleaner (you can globally set the size of all plots, etc). You can copy the set-up chunk in Project2.Rmd: I have gone ahead and set a few for you (such as disabling warnings and package-loading messges when knitting)!</p>
+<p>Like before, I envision your written text forming something of a narrative structure around your code/output. All results presented must have corresponding code. Any answers/results/plots etc. given without the corresponding R code that generated the result will not be graded. Furthermore, all code contained in our project document should work properly. Please do not include any extraneous code or code which produces error messages. (Code which produces warnings is fine as long as you understand what the warnings mean.)</p>
+</div>
+<div id="find-data" class="section level2">
+<h2>Find data:</h2>
+<p>Find one dataset with at least 5 variables (ideally more!) that you want to use to build models/test hypotheses. At least one should be categorical (with 2-5 groups, ideally; definitely fewer than 10) and at least two should be numeric (taking on more than 10 distinct values). Ideally, at least of your variables will be binary (if not, you will have to create one by discretizing a numeric or collapsing levels of a categorical). You will need a minimum of 40 observations (<em>at least</em> 10 observations for every explanatory variable you have, ideally 20+ observations/variable).</p>
+<p>It is perfectly fine to use either dataset (or the merged dataset, or a subset of your variables) from Project 1. However, I might encourage you to diversify things a bit and choose a different dataset to work with (particularly if the variables did not reveal interesting associations in Project 1 that you want to follow up with). The only requirement/restriction is that you may not use data from any examples we have done in class or lab. It would be a good idea to pick more cohesive data this time around (i.e., variables that you actually thing might have a relationship you would want to test). Think more along the lines of your Biostats project.</p>
+<p>Again, you can use data from anywhere you want (see bottom for resources)! If you want a quick way to see whether a built-in (R) dataset has binary and/or character (i.e., categorical) variables, check out this list: <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/datasets.html</a>.</p>
+<pre class="r"><code>library(Stat2Data)
+library(readxl)
+library(lmtest)
+library(sandwich)
+library(ggplot2)
+library(dplyr)
+library(plotROC)
+library(tidyverse)
+library(tidyr)
+library(cluster)
+
+data(&quot;InsuranceVote&quot;)
+
+
+#Period 1 is Jan 2020 - April 16, 2020
+#Period 2 is Jan, 2020 - June 30, 2020
+#Period 3 is Jan, 2020 - August 8, 2020
+#https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/KPI7WW
+
+Covid&lt;- read_excel(path = &quot;C:\\Users\\esams\\Documents\\CompBioFall2020\\website\\content\\project\\Covid.xlsx&quot;)
+
+Covid$State_abb &lt;- state.abb[match(Covid$State, state.name)]
+
+Covid&lt;- Covid %&gt;% unite(`Dist.`, c(&quot;State_abb&quot;, &quot;Cdistrict_number&quot;), sep=&quot;-&quot;)
+
+
+Covid&lt;- Covid %&gt;% arrange(State)
+Covid[8,2]&lt;- &quot;AK-1&quot;
+Covid[234,2]&lt;- &quot;MT-1&quot;
+Covid[87,2]&lt;- &quot;DE-1&quot;
+Covid[299,2]&lt;- &quot;ND-1&quot;
+Covid[353,2]&lt;- &quot;SD-1&quot;
+Covid[403,2]&lt;- &quot;VT-1&quot;
+Covid[436,2]&lt;- &quot;WY-1&quot;
+
+anti_join(Covid, InsuranceVote)</code></pre>
+<pre><code>## # A tibble: 13 x 12
+## State Dist. Full_name_CDist~ CFR_percent_P1
+Cases_perthousa~ Deaths_perthous~ CFR_percent_P2
+## &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Ariz~ AZ-9 Congressional D~ 2.59 0.49 0.01 1.45
+## 2 Dist~ NA-98 Delegate Distri~ 3.03 3.02 0.1 4.69
+## 3 Flor~ FL-26 Congressional D~ 2.2 2.55 0.06 2.31
+## 4 Flor~ FL-27 Congressional D~ 2.04 2.84 0.06 2.49
+## 5 Geor~ GA-14 Congressional D~ 4.69 0.61 0.03 2.51
+## 6 Neva~ NV-4 Congressional D~ 3.74 1.03 0.05 2.43
+## 7 Sout~ SC-7 Congressional D~ 4.47 0.52 0.02 2.2
+## 8 Texas TX-34 Congressional D~ 2.71 0.43 0.01 1.68
+## 9 Texas TX-35 Congressional D~ 2.72 0.5 0.01 0.87
+## 10 Texas TX-33 Congressional D~ 2.28 0.64 0.01 1.71
+## 11 Texas TX-36 Congressional D~ 0.87 0.66 0.01 1.1
+## 12 Utah UT-4 Congressional D~ 0.76 0.98 0.01 0.76
+## 13 Wash~ WA-10 Congressional D~ 2.05 0.78 0.02 3.18
+## # ... with 5 more variables: Cases_perthousand_P2 &lt;dbl&gt;,
+Deaths_perthousand_P2 &lt;dbl&gt;,
+## # CFR_percent_P3 &lt;dbl&gt;, Cases_perthousand_P3 &lt;dbl&gt;,
+Deaths_perthousand_P3 &lt;dbl&gt;</code></pre>
+<pre class="r"><code>fulldata&lt;- left_join(InsuranceVote, Covid)
+fulldata&lt;- na.omit(fulldata)</code></pre>
+</div>
+<div id="guidelines-and-rubric" class="section level2">
+<h2>Guidelines and Rubric</h2>
+</div>
+<div id="pts" class="section level2">
+<h2><strong>0. (5 pts)</strong></h2>
+<p>Introduce your dataset and each of your variables (or just your main variables if you have lots) in a paragraph. What are they measuring? How many observations?</p>
+</div>
+<div id="pts-1" class="section level2">
+<h2><strong>1. (15 pts)</strong></h2>
+<p>Perform a MANOVA testing whether any of your numeric variables (or a subset of them, if including them all is unreasonable or doesn’t make sense) show a mean difference across levels of one of your categorical variables (3). If they do, perform univariate ANOVAs to find response(s) showing a mean difference across groups (3), and perform post-hoc t tests to find which groups differ (3). Discuss the number of tests you have performed, calculate the probability of at least one type I error (if unadjusted), and adjust the significance level accordingly (bonferroni correction) before discussing significant differences (3). Briefly discuss MANOVA assumptions and whether or not they are likely to have been met (no need for anything too in-depth) (2).</p>
+<pre class="r"><code>mandata&lt;- fulldata %&gt;% select(-Party, -State, -Full_name_CDistrict)
+
+manvote&lt;-manova(cbind(Private, Public, Uninsured, CFR_percent_P1, CFR_percent_P2,CFR_percent_P3, Cases_perthousand_P1, Cases_perthousand_P2, Cases_perthousand_P3, Deaths_perthousand_P1, Deaths_perthousand_P2, Deaths_perthousand_P3 )~InsVote, data=mandata)
+summary(manvote)</code></pre>
+<pre><code>## Df Pillai approx F num Df den Df Pr(&gt;F)
+## InsVote 1 0.20663 8.8985 12 410 3.321e-15 ***
+## Residuals 421
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1</code></pre>
+<pre class="r"><code>summary.aov(manvote) </code></pre>
+<pre><code>## Response Private :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 0.1443 0.144322 12.832 0.0003805 ***
+## Residuals 421 4.7348 0.011247
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response Public :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 0.10832 0.10833 30.172 6.854e-08 ***
+## Residuals 421 1.51149 0.00359
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response Uninsured :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 0.00181 0.0018112 0.3905 0.5324
+## Residuals 421 1.95290 0.0046387
+##
+## Response CFR_percent_P1 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 38.95 38.953 12.046 0.0005726 ***
+## Residuals 421 1361.36 3.234
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response CFR_percent_P2 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 185.62 185.623 27.846 2.107e-07 ***
+## Residuals 421 2806.38 6.666
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response CFR_percent_P3 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 194.17 194.172 35.83 4.613e-09 ***
+## Residuals 421 2281.50 5.419
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response Cases_perthousand_P1 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 297.6 297.626 25.732 5.892e-07 ***
+## Residuals 421 4869.4 11.566
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response Cases_perthousand_P2 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 941 940.96 28.045 1.914e-07 ***
+## Residuals 421 14126 33.55
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response Cases_perthousand_P3 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 173 172.979 3.3629 0.06738 .
+## Residuals 421 21655 51.437
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response Deaths_perthousand_P1 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 0.9502 0.95020 21.166 5.58e-06 ***
+## Residuals 421 18.8995 0.04489
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response Deaths_perthousand_P2 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 8.962 8.9620 31.959 2.909e-08 ***
+## Residuals 421 118.059 0.2804
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Response Deaths_perthousand_P3 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## InsVote 1 8.588 8.5884 31.022 4.556e-08 ***
+## Residuals 421 116.553 0.2768
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1</code></pre>
+<pre class="r"><code>mandata %&gt;% group_by(InsVote) %&gt;% summarize(mean(Private), mean(Public), mean(Uninsured), mean(CFR_percent_P1), mean(CFR_percent_P2), mean(CFR_percent_P3), mean(Cases_perthousand_P1), mean(Cases_perthousand_P2), mean(Cases_perthousand_P3), mean(Deaths_perthousand_P1), mean(Deaths_perthousand_P2), mean(Deaths_perthousand_P3 ))</code></pre>
+<pre><code>## # A tibble: 2 x 13
+## InsVote `mean(Private)` `mean(Public)` `mean(Uninsured~
+`mean(CFR_perce~ `mean(CFR_perce~
+## &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0 0.714 0.145 0.168 3.13 3.17
+## 2 1 0.677 0.177 0.172 3.74 4.49
+## # ... with 7 more variables: `mean(CFR_percent_P3)`
+&lt;dbl&gt;, `mean(Cases_perthousand_P1)` &lt;dbl&gt;,
+## # `mean(Cases_perthousand_P2)` &lt;dbl&gt;,
+`mean(Cases_perthousand_P3)` &lt;dbl&gt;,
+## # `mean(Deaths_perthousand_P1)` &lt;dbl&gt;,
+`mean(Deaths_perthousand_P2)` &lt;dbl&gt;,
+## # `mean(Deaths_perthousand_P3)` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>#the ANOVAs are significant so we follow up with t-tests
+
+pairwise.t.test(mandata$Private, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Private and mandata$InsVote 
+## 
+##   0      
+## 1 0.00038
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$Public, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Public and mandata$InsVote 
+## 
+##   0      
+## 1 6.9e-08
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$Uninsured, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Uninsured and mandata$InsVote 
+## 
+##   0   
+## 1 0.53
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$CFR_percent_P1, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$CFR_percent_P1 and mandata$InsVote 
+## 
+##   0      
+## 1 0.00057
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$CFR_percent_P2, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$CFR_percent_P2 and mandata$InsVote 
+## 
+##   0      
+## 1 2.1e-07
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$CFR_percent_P3, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$CFR_percent_P3 and mandata$InsVote 
+## 
+##   0      
+## 1 4.6e-09
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$Cases_perthousand_P1, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Cases_perthousand_P1 and mandata$InsVote 
+## 
+##   0      
+## 1 5.9e-07
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$Cases_perthousand_P2, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Cases_perthousand_P2 and mandata$InsVote 
+## 
+##   0      
+## 1 1.9e-07
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$Cases_perthousand_P3, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Cases_perthousand_P3 and mandata$InsVote 
+## 
+##   0    
+## 1 0.067
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$Deaths_perthousand_P1, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Deaths_perthousand_P1 and mandata$InsVote 
+## 
+##   0      
+## 1 5.6e-06
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$Deaths_perthousand_P2, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Deaths_perthousand_P2 and mandata$InsVote 
+## 
+##   0      
+## 1 2.9e-08
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(mandata$Deaths_perthousand_P3, mandata$InsVote, p.adjust.method=&quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  mandata$Deaths_perthousand_P3 and mandata$InsVote 
+## 
+##   0      
+## 1 4.6e-08
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>#type I error rate
+
+1-.95^25</code></pre>
+<pre><code>## [1] 0.7226104</code></pre>
+<pre class="r"><code>#boneferroni adjusted significance
+
+(1-.95^25)/25</code></pre>
+<pre><code>## [1] 0.02890442</code></pre>
+<p><em>In all, I perfomed 25 tests which discovered some interesting interactions. Of the interactions that maintained significance through the t-test and bonferroni correction, some notable examples are the interaction between Voting records and Deaths per thousand in period 1, 2, and 3, cases per thousand in periods 1, 2, and 3, CFR (case fatality rate) in periods 1, 2, and 3, and percentages of individuals in the congressional district in 2009 with Public and Private health insurance.</em></p>
+</div>
+<div id="hey-yall" class="section level2">
+<h2>Hey y’all,</h2>
+<p>I’m realizing that the MANOVA assumptions part is annoying, so here’s a quick way to see if the main assumptions are violated. Run the following code (just replace group with your grouping/explanatory variable and DVs with your response variables). This should (hopefully) work for everyone!</p>
+<pre class="r"><code>library(rstatix)
+
+group &lt;- mandata$InsVote 
+DVs &lt;- mandata %&gt;% select(Rep, Private, Public, Uninsured, Obama, CFR_percent_P1, CFR_percent_P2,CFR_percent_P3, Cases_perthousand_P1, Cases_perthousand_P2, Cases_perthousand_P3, Deaths_perthousand_P1, Deaths_perthousand_P2, Deaths_perthousand_P3)
+
+#Test multivariate normality for each group (null: assumption met)
+sapply(split(DVs,group), mshapiro_test)</code></pre>
+<pre><code>##           0            1           
+## statistic 0.3418413    0.04175931  
+## p.value   7.368046e-27 2.229543e-31</code></pre>
+<pre class="r"><code>#If any p&lt;.05, stop (assumption violated). If not, test homogeneity of covariance matrices
+
+#Box&#39;s M test (null: homogeneity of vcov mats assumption met)
+box_m(DVs, group)</code></pre>
+<pre><code>## # A tibble: 1 x 4
+## statistic p.value parameter method
+## &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
+## 1 1249. 5.20e-195 105 Box&#39;s M-test for Homogeneity of
+Covariance Matrices</code></pre>
+<pre class="r"><code>#Optionally View covariance matrices for each group
+lapply(split(DVs,group), cov)</code></pre>
+<pre><code>## $`0`
+## Rep Private Public Uninsured Obama
+## Rep 0.149475524 0.004922203 -0.0053889860 -0.000326049
+-0.005244755
+## Private 0.004922203 0.007082036 -0.0031598255
+-0.004125772 0.007697990
+## Public -0.005388986 -0.003159826 0.0024068727
+0.001024315 -0.002519668
+## Uninsured -0.000326049 -0.004125772 0.0010243151
+0.003100862 -0.005548951
+## Obama -0.005244755 0.007697990 -0.0025196678
+-0.005548951 0.149475524
+## CFR_percent_P1 0.025074301 0.014702878 0.0010660763
+-0.016916547 0.055646853
+## CFR_percent_P2 -0.018199301 0.079330951 -0.0188750237
+-0.061357244 0.139833916
+## CFR_percent_P3 -0.013164336 0.066006632 -0.0200626861
+-0.047451541 0.135327797
+## Cases_perthousand_P1 -0.011853147 0.047244395
+-0.0205073845 -0.029342236 0.028247378
+## Cases_perthousand_P2 -0.004287587 0.054814005
+-0.0327733336 -0.027945367 0.178758741
+## Cases_perthousand_P3 -0.168037587 -0.145017100
+0.0132458971 0.123972133 -0.192250874
+## Deaths_perthousand_P1 -0.001206294 0.002459728
+-0.0009471931 -0.001658240 0.001542832
+## Deaths_perthousand_P2 -0.002596154 0.009664881
+-0.0034908376 -0.006617037 0.016298077
+## Deaths_perthousand_P3 -0.003837413 0.006816589
+-0.0028387767 -0.004458776 0.013068182
+## CFR_percent_P1 CFR_percent_P2 CFR_percent_P3
+Cases_perthousand_P1
+## Rep 0.025074301 -0.01819930 -0.01316434 -0.01185315
+## Private 0.014702878 0.07933095 0.06600663 0.04724439
+## Public 0.001066076 -0.01887502 -0.02006269 -0.02050738
+## Uninsured -0.016916547 -0.06135724 -0.04745154
+-0.02934224
+## Obama 0.055646853 0.13983392 0.13532780 0.02824738
+## CFR_percent_P1 3.018173537 2.30810425 1.60311682
+1.00042818
+## CFR_percent_P2 2.308104246 5.40834034 4.15830013
+2.68441906
+## CFR_percent_P3 1.603116820 4.15830013 3.68207932
+2.60716420
+## Cases_perthousand_P1 1.000428184 2.68441906 2.60716420
+3.81670380
+## Cases_perthousand_P2 0.724096439 3.53558904 4.09179256
+5.81608701
+## Cases_perthousand_P3 -0.999103080 -0.86612587 0.34401997
+4.40749422
+## Deaths_perthousand_P1 0.078424712 0.15890780 0.15009141
+0.20405282
+## Deaths_perthousand_P2 0.223427480 0.61728411 0.57822214
+0.59622310
+## Deaths_perthousand_P3 0.207216643 0.58000196 0.56027462
+0.58793642
+## Cases_perthousand_P2 Cases_perthousand_P3
+Deaths_perthousand_P1
+## Rep -0.004287587 -0.1680376 -0.0012062937
+## Private 0.054814005 -0.1450171 0.0024597279
+## Public -0.032773334 0.0132459 -0.0009471931
+## Uninsured -0.027945367 0.1239721 -0.0016582400
+## Obama 0.178758741 -0.1922509 0.0015428322
+## CFR_percent_P1 0.724096439 -0.9991031 0.0784247125
+## CFR_percent_P2 3.535589037 -0.8661259 0.1589078027
+## CFR_percent_P3 4.091792563 0.3440200 0.1500914106
+## Cases_perthousand_P1 5.816087012 4.4074942 0.2040528179
+## Cases_perthousand_P2 14.962348100 17.1709933
+0.2930515044
+## Cases_perthousand_P3 17.170993292 42.5941366
+0.1901457352
+## Deaths_perthousand_P1 0.293051504 0.1901457 0.0119808888
+## Deaths_perthousand_P2 1.030192384 0.6639318 0.0331718877
+## Deaths_perthousand_P3 1.110976040 1.0278866 0.0324260766
+## Deaths_perthousand_P2 Deaths_perthousand_P3
+## Rep -0.002596154 -0.003837413
+## Private 0.009664881 0.006816589
+## Public -0.003490838 -0.002838777
+## Uninsured -0.006617037 -0.004458776
+## Obama 0.016298077 0.013068182
+## CFR_percent_P1 0.223427480 0.207216643
+## CFR_percent_P2 0.617284109 0.580001955
+## CFR_percent_P3 0.578222141 0.560274618
+## Cases_perthousand_P1 0.596223102 0.587936419
+## Cases_perthousand_P2 1.030192384 1.110976040
+## Cases_perthousand_P3 0.663931807 1.027886617
+## Deaths_perthousand_P1 0.033171888 0.032426077
+## Deaths_perthousand_P2 0.114442510 0.113487854
+## Deaths_perthousand_P3 0.113487854 0.118185651
+##
+## $`1`
+## Rep Private Public Uninsured Obama
+## Rep 0.0046728972 -0.0006812338 0.0003667676 0.0003183274
+0.0003729542
+## Private -0.0006812338 0.0153135105 -0.0067327011
+-0.0085762362 -0.0004941424
+## Public 0.0003667676 -0.0067327011 0.0047458349
+0.0022499113 -0.0006434996
+## Uninsured 0.0003183274 -0.0085762362 0.0022499113
+0.0061404871 0.0004616735
+## Obama 0.0003729542 -0.0004941424 -0.0006434996
+0.0004616735 0.0734719846
+## CFR_percent_P1 0.0064455267 0.0098088908 0.0165817121
+-0.0256595226 0.0675621956
+## CFR_percent_P2 0.0068441490 0.0675775196 0.0239582024
+-0.0864607148 0.0799405467
+## CFR_percent_P3 0.0019005309 0.0529928915 0.0251205862
+-0.0742779242 0.0828552938
+## Cases_perthousand_P1 0.0380641481 0.0040531390
+0.0445421162 -0.0479700382 0.1515949278
+## Cases_perthousand_P2 0.0409960072 -0.0212669611
+0.0696445733 -0.0536032851 0.2774810232
+## Cases_perthousand_P3 0.0640200079 -0.3057014190
+0.1126268882 0.1770986056 0.2413781756
+## Deaths_perthousand_P1 0.0020494932 -0.0017829393
+0.0041809855 -0.0022908227 0.0092431223
+## Deaths_perthousand_P2 0.0027671010 0.0027684349
+0.0080831258 -0.0106252841 0.0247902681
+## Deaths_perthousand_P3 0.0028030802 -0.0021704919
+0.0092433171 -0.0069698763 0.0240377781
+## CFR_percent_P1 CFR_percent_P2 CFR_percent_P3
+Cases_perthousand_P1
+## Rep 0.006445527 0.006844149 0.001900531 0.038064148
+## Private 0.009808891 0.067577520 0.052992891 0.004053139
+## Public 0.016581712 0.023958202 0.025120586 0.044542116
+## Uninsured -0.025659523 -0.086460715 -0.074277924
+-0.047970038
+## Obama 0.067562196 0.079940547 0.082855294 0.151594928
+## CFR_percent_P1 3.444042271 3.612145360 3.016434816
+3.385321824
+## CFR_percent_P2 3.612145360 7.894099849 7.120659916
+6.932928178
+## CFR_percent_P3 3.016434816 7.120659916 7.115642923
+7.530445571
+## Cases_perthousand_P1 3.385321824 6.932928178 7.530445571
+19.133779492
+## Cases_perthousand_P2 4.610211114 10.531554978
+12.148334676 28.387522417
+## Cases_perthousand_P3 1.964936234 3.160975789 5.363676763
+21.254728314
+## Deaths_perthousand_P1 0.316694103 0.508552464
+0.531412027 1.094192352
+## Deaths_perthousand_P2 0.719427120 1.460505702
+1.528023125 2.566680264
+## Deaths_perthousand_P3 0.673001527 1.379003833
+1.481645222 2.493551305
+## Cases_perthousand_P2 Cases_perthousand_P3
+Deaths_perthousand_P1
+## Rep 0.04099601 0.06402001 0.002049493
+## Private -0.02126696 -0.30570142 -0.001782939
+## Public 0.06964457 0.11262689 0.004180985
+## Uninsured -0.05360329 0.17709861 -0.002290823
+## Obama 0.27748102 0.24137818 0.009243122
+## CFR_percent_P1 4.61021111 1.96493623 0.316694103
+## CFR_percent_P2 10.53155498 3.16097579 0.508552464
+## CFR_percent_P3 12.14833468 5.36367676 0.531412027
+## Cases_perthousand_P1 28.38752242 21.25472831 1.094192352
+## Cases_perthousand_P2 51.70578409 44.52704845 1.577395731
+## Cases_perthousand_P3 44.52704845 60.07199817 1.157787951
+## Deaths_perthousand_P1 1.57739573 1.15778795 0.077030240
+## Deaths_perthousand_P2 4.18535906 2.94046392 0.171889439
+## Deaths_perthousand_P3 4.17917725 3.25169927 0.167647519
+## Deaths_perthousand_P2 Deaths_perthousand_P3
+## Rep 0.002767101 0.002803080
+## Private 0.002768435 -0.002170492
+## Public 0.008083126 0.009243317
+## Uninsured -0.010625284 -0.006969876
+## Obama 0.024790268 0.024037778
+## CFR_percent_P1 0.719427120 0.673001527
+## CFR_percent_P2 1.460505702 1.379003833
+## CFR_percent_P3 1.528023125 1.481645222
+## Cases_perthousand_P1 2.566680264 2.493551305
+## Cases_perthousand_P2 4.185359058 4.179177250
+## Cases_perthousand_P3 2.940463916 3.251699272
+## Deaths_perthousand_P1 0.171889439 0.167647519
+## Deaths_perthousand_P2 0.442513714 0.433271912
+## Deaths_perthousand_P3 0.433271912 0.431788006</code></pre>
+<p><em>It seems like as a result of this analysis no major assumptions of MANOVA analysis were violated</em></p>
+</div>
+<div id="pts-2" class="section level2">
+<h2><strong>2. (10 pts)</strong></h2>
+<p>Perform some kind of randomization test on your data (that makes sense). The statistic can be anything you want (mean difference, correlation, F-statistic/ANOVA, chi-squared), etc. State null and alternative hypotheses, perform the test, and interpret the results (7). Create a plot visualizing the null distribution and the test statistic (3).</p>
+<pre class="r"><code>#computing the actival difference in mean percentage of non-senior citizens in district with Private health insurance between congressional districts that voted for and against Obamacare
+
+fulldata%&gt;%group_by(InsVote)%&gt;%
+  summarize(means=mean(Private))%&gt;%summarize(`mean_diff`=diff(means))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_diff
+##       &lt;dbl&gt;
+## 1   -0.0369</code></pre>
+<pre class="r"><code>#creating a dataset where the relationship between percentage of non-senior citizens in district with Private health insurance and voting for/against Obamacare artificially have no relation. 
+
+no_relation&lt;-vector() #create vector to hold diffs under null hypothesis
+
+for(i in 1:5000){
+new&lt;-data.frame(Private=sample(fulldata$Private),InsVote=fulldata$InsVote) #scramble columns
+no_relation[i]&lt;-mean(new[new$InsVote==&quot;1&quot;,]$Private)-   
+              mean(new[new$InsVote==&quot;0&quot;,]$Private)} #compute mean difference
+
+{hist(no_relation,main=&quot;Null hypothesis distribution compared to the test mean difference&quot;,ylab=&quot;number of permutations&quot;, xlab=&quot;projected null difference in means&quot;); abline(v = c(-0.03694504, 0.03694504),col=&quot;red&quot;)}</code></pre>
+<p><img src="/project/project2_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#compare the no_relation model with actual data
+
+mean(no_relation&gt;0.03694504 | no_relation&lt; -0.03694504)</code></pre>
+<pre><code>## [1] 2e-04</code></pre>
+</div>
+<div id="pts-3" class="section level2">
+<h2><strong>3. (35 pts)</strong></h2>
+<p>Build a linear regression model predicting one of your response variables from at least 2 other variables, including their interaction. Mean-center any numeric variables involved in the interaction.</p>
+<pre><code>- Interpret the coefficient estimates (do not discuss significance) (10)
+- Plot the regression using `ggplot()` using geom_smooth(method=&quot;lm&quot;). If your interaction is numeric by numeric, refer to code in the slides to make the plot or check out the `interactions` package, which makes this easier. If you have 3 or more predictors, just chose two of them to plot for convenience. (8)
+- Check assumptions of linearity, normality, and homoskedasticity either graphically or using a hypothesis test (4)
+- Regardless, recompute regression results with robust standard errors via `coeftest(..., vcov=vcovHC(...))`. Discuss significance of results, including any changes from before/after robust SEs if applicable. (8)
+- What proportion of the variation in the outcome does your model explain? (4)</code></pre>
+<pre class="r"><code>#setting up the data. I wasn&#39;t sure at this point what predictors I would use
+mean_center &lt;- fulldata %&gt;% select(-Private, -Public, -Uninsured, -CFR_percent_P1, -CFR_percent_P2,-CFR_percent_P3, -Cases_perthousand_P1, -Cases_perthousand_P2, -Cases_perthousand_P3, -Deaths_perthousand_P1, -Deaths_perthousand_P2, -Deaths_perthousand_P3, -Full_name_CDistrict)
+
+#mean-centering all numeric variables
+mean_center$Private_c&lt;- (fulldata$Private-mean(fulldata$Private))
+mean_center$Public_c&lt;- (fulldata$Public-mean(fulldata$Public))
+mean_center$Uninsured_c&lt;- (fulldata$Uninsured-mean(fulldata$Uninsured))
+mean_center$CFR_percent_P1_c&lt;- (fulldata$CFR_percent_P1-mean(fulldata$CFR_percent_P1))
+mean_center$CFR_percent_P2_c&lt;- (fulldata$CFR_percent_P2-mean(fulldata$CFR_percent_P2))
+mean_center$CFR_percent_P3_c&lt;- (fulldata$CFR_percent_P3-mean(fulldata$CFR_percent_P3))
+mean_center$Cases_perthousand_P1_c&lt;- (fulldata$Cases_perthousand_P1-mean(fulldata$Cases_perthousand_P1))
+mean_center$Cases_perthousand_P2_c&lt;- (fulldata$Cases_perthousand_P2-mean(fulldata$Cases_perthousand_P2))
+mean_center$Cases_perthousand_P3_c&lt;- (fulldata$Cases_perthousand_P3-mean(fulldata$Cases_perthousand_P3))
+mean_center$Deaths_perthousand_P1_c&lt;- (fulldata$Deaths_perthousand_P1-mean(fulldata$Deaths_perthousand_P1))
+mean_center$Deaths_perthousand_P2_c&lt;- (fulldata$Deaths_perthousand_P2-mean(fulldata$Deaths_perthousand_P2))
+mean_center$Deaths_perthousand_P3_c&lt;- (fulldata$Deaths_perthousand_P3-mean(fulldata$Deaths_perthousand_P3))
+
+
+mean_center&lt;- mean_center %&gt;% mutate(fulldata, VoteID = ifelse(InsVote == 1, &quot;For&quot;, &quot;Against&quot;))
+
+
+#my model
+fit_linear&lt;- lm(Private_c~InsVote*Cases_perthousand_P3_c, data=mean_center)
+summary(fit_linear)</code></pre>
+<pre><code>##
+## Call:
+## lm(formula = Private_c ~ InsVote *
+Cases_perthousand_P3_c, data = mean_center)
+##
+## Residuals:
+## Min 1Q Median 3Q Max
+## -0.32938 -0.06228 0.00396 0.07232 0.23337
+##
+## Coefficients:
+## Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 0.016488 0.007043 2.341 0.01969 *
+## InsVote -0.031526 0.009894 -3.187 0.00155 **
+## Cases_perthousand_P3_c -0.003405 0.001076 -3.163 0.00167
+**
+## InsVote:Cases_perthousand_P3_c -0.001684 0.001400 -1.203
+0.22972
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## Residual standard error: 0.1013 on 419 degrees of
+freedom
+## Multiple R-squared: 0.1185, Adjusted R-squared: 0.1122
+## F-statistic: 18.78 on 3 and 419 DF, p-value: 1.897e-11</code></pre>
+<p><em>The coefficients offered by this model show that for every increase of 1 in total COVID-19 cases per one thousand people in a congressional district, there’s a 0.34 decrease in predicted percentage of non-senior citizens in that congressional district with private health insurance. The intercept offered by this model show that with average cases per one thousand people and (artificial) average performance in the Obamacare voting in 2009 (that is, slightly above 0.5, a figure that cannot be represented by the population), a congressional district would be predicted to have 1.6% of inhabitants with private health insurance.</em></p>
+<p><em>It’s interesting to note that the effect of both how the congressperson who represented the district in 2009 voted on Obamacare and the number of COVID-19 cases in 2020 had significant effects on predicted percentages of those with private health insurance.</em></p>
+<p><em>Note: this isn’t the most intuitive model to provide predictions for, but because I wanted to try to stay within assumptions of linear regression, I chose variables that performed best by that measure. I know it’s a bit clunky.</em></p>
+<pre class="r"><code>#Plot the regression using `ggplot()` using geom_smooth(method=&quot;lm&quot;)
+
+mean_center&lt;- mean_center %&gt;% mutate(mean_center, Private_c_cat = ifelse(Private_c&gt;= mean(Private_c), &quot;High&quot;, &quot;Low&quot;))
+
+ggplot(mean_center, aes(InsVote, Cases_perthousand_P3_c, color=Private_c_cat))+
+  geom_smooth(method=&quot;lm&quot;)</code></pre>
+<p><img src="/project/project2_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
+<em>This plot isn’t all that exciting, but it does show a nominal trend for congressional districts that have low levels of 2009 private health insurance enrollment to have a higher number of cases per one thousand people, and for districts that voted in favor of Obamacare to have a somewhat higher number of cases per one thousand people. Note: I dummy-coded Private_c into a categorical variable to help with visualization.</em></p>
+<pre class="r"><code>#Check assumptions of linearity, normality, and homoskedasticity either graphically or using a hypothesis test
+
+ggplot(mean_center, aes(Cases_perthousand_P3_c, Private_c))+
+  geom_point()</code></pre>
+<p><img src="/project/project2_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(fit_linear)</code></pre>
+<p><img src="/project/project2_files/figure-html/unnamed-chunk-7-2.png" width="768" style="display: block; margin: auto;" /><img src="/project/project2_files/figure-html/unnamed-chunk-7-3.png" width="768" style="display: block; margin: auto;" /><img src="/project/project2_files/figure-html/unnamed-chunk-7-4.png" width="768" style="display: block; margin: auto;" /><img src="/project/project2_files/figure-html/unnamed-chunk-7-5.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>shapiro.test(fit_linear[[&#39;residuals&#39;]])</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  fit_linear[[&quot;residuals&quot;]]
+## W = 0.9869, p-value = 0.0007371</code></pre>
+<pre class="r"><code>bptest(fit_linear)</code></pre>
+<pre><code>## 
+##  studentized Breusch-Pagan test
+## 
+## data:  fit_linear
+## BP = 43.415, df = 3, p-value = 2.009e-09</code></pre>
+<p><em>My assumptions performed very badly. In the first plot of <code>Cases_perthousand_P3_c</code> (centered cases per thousand in the 3rd period of data) vs. <code>Private_c</code> (centered Private healthcare percentage), it’s clear the relationship isn’t linear. As per the Shapiro-Wilks test, residuals of this model are not normal, although they are closer than any other models I tried with this data. Residuals of this model are also not homoskedastic. Perhaps using robust SEs will benefit this model.</em></p>
+<pre class="r"><code>#Regardless, recompute regression results with robust standard errors via `coeftest(..., vcov=vcovHC(...))`. Discuss significance of results, including any changes from before/after robust SEs if applicable.
+
+summary(fit_linear)$coef</code></pre>
+<pre><code>## Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 0.016487794 0.007042519 2.341178 0.019690947
+## InsVote -0.031525945 0.009893531 -3.186521 0.001547742
+## Cases_perthousand_P3_c -0.003404626 0.001076367
+-3.163073 0.001674780
+## InsVote:Cases_perthousand_P3_c -0.001684291 0.001400273
+-1.202831 0.229721029</code></pre>
+<pre class="r"><code>coeftest(fit_linear, vcov = vcovHC(fit_linear))</code></pre>
+<pre><code>##
+## t test of coefficients:
+##
+## Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 0.01648779 0.00574084 2.8720 0.004286 **
+## InsVote -0.03152595 0.00973045 -3.2399 0.001291 **
+## Cases_perthousand_P3_c -0.00340463 0.00094586 -3.5995
+0.000357 ***
+## InsVote:Cases_perthousand_P3_c -0.00168429 0.00141720
+-1.1885 0.235324
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1</code></pre>
+<p><em>Robust SEs were kind to this data, not changing coefficients but changing significance of those coefficients. This might be a bit more trustworthy due to this model’s lack of homoskedastic residuals, but I’m not convinced much should be applied from this model onto the real world.</em></p>
+<p><em>Through looking at the summary of this model, it can be seen that about 11% of variation in Private healthcare enrollment in 2009 can be explained by voting records for congressional districts on Obamacare in 2009 and the COVID-19 cases per one thousand people in from Jan, 2020 to August 8, 2020.</em></p>
+</div>
+<div id="pts-4" class="section level2">
+<h2><strong>4. (5 pts)</strong></h2>
+<p>Rerun same regression model (with the interaction), but this time compute bootstrapped standard errors (either by resampling observations or residuals). Discuss any changes you observe in SEs and p-values using these SEs compared to the original SEs and the robust SEs)</p>
+<pre class="r"><code>boot_dat&lt;-mean_center%&gt;% sample_frac(replace=TRUE)
+
+
+samp_distn&lt;-replicate(5000, {
+  boot_dat&lt;-mean_center %&gt;% sample_frac(replace=TRUE)
+  fit_boot&lt;-lm(Private_c~InsVote*Cases_perthousand_P3_c, data=boot_dat)
+  coef(fit_boot)
+})
+
+## Estimated SEs
+samp_distn%&gt;%t%&gt;%as.data.frame%&gt;%summarize_all(sd)</code></pre>
+<pre><code>## (Intercept) InsVote Cases_perthousand_P3_c
+InsVote:Cases_perthousand_P3_c
+## 1 0.005690803 0.009692459 0.0009220841 0.001367319</code></pre>
+<p><em>The bootstrapped SEs shown here are not all that different from the original SEs or robust SEs. I don’t think the difference should change the outcome of prior analysis</em></p>
+</div>
+<div id="pts-fit-a-logistic-regression-model-predicting-a-binary-variable-if-you-dont-have-one-makeget-one-from-at-least-two-explanatory-variables-interaction-not-necessary." class="section level2">
+<h2><strong>5. (25 pts)</strong> Fit a logistic regression model predicting a binary variable (if you don’t have one, make/get one) from at least two explanatory variables (interaction not necessary).</h2>
+<pre><code>- Interpret coefficient estimates in context (10)
+- Report a confusion matrix for your logistic regression (2)
+- Compute and discuss the Accuracy, Sensitivity (TPR), Specificity (TNR), Precision (PPV), and AUC of your model (5)
+- Using ggplot, make a density plot of the log-odds (logit) colored/grouped by your binary outcome variable (3)
+- Generate an ROC curve (plot) and calculate AUC (either manually or with a package); interpret (5)</code></pre>
+<pre class="r"><code>fit_logistic &lt;- glm(Rep~Private_c+Deaths_perthousand_P3_c, family=&quot;binomial&quot;, data=mean_center)
+
+summary(fit_logistic)</code></pre>
+<pre><code>##
+## Call:
+## glm(formula = Rep ~ Private_c + Deaths_perthousand_P3_c,
+family = &quot;binomial&quot;,
+## data = mean_center)
+##
+## Deviance Residuals:
+## Min 1Q Median 3Q Max
+## -1.5251 -1.0511 -0.7015 1.1706 2.0743
+##
+## Coefficients:
+## Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) -0.4615 0.1080 -4.273 1.93e-05 ***
+## Private_c 4.1122 1.0672 3.853 0.000117 ***
+## Deaths_perthousand_P3_c -1.2123 0.2800 -4.330 1.49e-05
+***
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## (Dispersion parameter for binomial family taken to be 1)
+##
+## Null deviance: 571.56 on 422 degrees of freedom
+## Residual deviance: 531.16 on 420 degrees of freedom
+## AIC: 537.16
+##
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p><em>To interpret the coefficients, congressional districts with higher percentages of individuals with private healthcare in 2009 are generally predicted to have had a republican congressperson in 2009, and congressional districts with lower death rates from COVID-19 from Jan 2020 to August 8, 2020 are generally predicted to have had a republican congressperson in 2009. Because congressional districts “flipping” or voting in a congressperson with a different political party affiliation is not common, it can be said that in general republican districts are more likely to have people with private insurance and lower death rates from COVID-19 during about the first 6 months of the pandemic. This is consistent with other reports that congressional districts with large republican support faired well early in the COVID-19 pandemic due to a trend towards less population density.</em></p>
+<pre class="r"><code>#comparing predicted Rep variable vs. actual Rep variable to make a confusion matrix
+
+mean_center$probs&lt;-predict(fit_logistic,type=&quot;response&quot;)
+
+table(predict=as.numeric(mean_center$probs&gt;.5),truth=mean_center$Rep)%&gt;%addmargins</code></pre>
+<pre><code>##        truth
+## predict   0   1 Sum
+##     0   190 100 290
+##     1    61  72 133
+##     Sum 251 172 423</code></pre>
+<pre class="r"><code># accuracy: proportion of all cases that were correctly classified
+accuracyRep&lt;- (190+72)/423
+accuracyRep</code></pre>
+<pre><code>## [1] 0.6193853</code></pre>
+<pre class="r"><code># tpr (sensitivity aka recall): proportion of Republicans that were correctly classified?
+sensitivityRep&lt;- 72/172
+sensitivityRep</code></pre>
+<pre><code>## [1] 0.4186047</code></pre>
+<pre class="r"><code># tnr (specificity): proportion of Democrats that were correctly classified?
+specificityRep&lt;- 190/251
+specificityRep</code></pre>
+<pre><code>## [1] 0.7569721</code></pre>
+<pre class="r"><code>ROCplot&lt;-ggplot(mean_center)+geom_roc(aes(d=Rep,m=probs), n.cuts=0) 
+
+ROCplot</code></pre>
+<p><img src="/project/project2_files/figure-html/unnamed-chunk-11-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>calc_auc(ROCplot)</code></pre>
+<pre><code>##   PANEL group       AUC
+## 1     1    -1 0.6560618</code></pre>
+<pre class="r"><code>mean_center$logit&lt;-predict(fit_logistic) #get predicted log-odds (logits)
+
+#plot logit scores for each truth category
+
+mean_center&lt;- mean_center %&gt;% mutate(mean_center, prediction = ifelse(probs &gt;= 0.5, &quot;Republican&quot;, &quot;Democrat&quot;))
+  
+ggplot(mean_center, aes(logit, fill=prediction))+geom_density(alpha=.3)+
+  geom_vline(xintercept=0,lty=2)+
+  scale_fill_manual(values = c(&quot;#4646FB&quot;, &quot;#F01313&quot;))</code></pre>
+<p><img src="/project/project2_files/figure-html/unnamed-chunk-11-2.png" width="768" style="display: block; margin: auto;" />
+<em>The AUC curve for this logistic regression is good, but not much better than that. It’s certainly limited, and that’s shown in the confusion matrix, with accuracy only slightly better than chance, and better success in identifying congressional districts with a democrat congressperson in 2009 rather than republicans. The density plot is very interesting, with republican observations clustered closely together.In terms of private health insurance holding and COVID-19 deaths from January to August 8, 2020, there seemed to be a large variety of possibilities for congressional regions with a history of democrat representatives, and only a small range for ones with a history of republican representatives. In further analysis, it would be good to work with party affiliations among representatives in congress for the current congress (2020).</em></p>
+</div>
+<div id="pts-5" class="section level2">
+<h2><strong>6. (25 pts)</strong></h2>
+<p>Perform a logistic regression predicting the same binary response variable from <em>ALL</em> of the rest of your variables (the more, the better!)</p>
+<pre><code>- Fit model, compute in-sample classification diagnostics (Accuracy, Sensitivity, Specificity, Precision, AUC), and interpret (5)
+- Perform 10-fold (or repeated random sub-sampling) CV with the same model and report average out-of-sample classification diagnostics (Accuracy, Sensitivity, Specificity, Precision, and AUC); interpret AUC and compare with the in-sample metrics (10)
+- Perform LASSO on the same model/variables. Choose lambda to give the simplest model whose accuracy is near that of the best (i.e., `lambda.1se`). Discuss which variables are retained. (5)
+- Perform 10-fold CV using only the variables lasso selected: compare model&#39;s out-of-sample AUC to that of your logistic regressions above (5)</code></pre>
+<pre class="r"><code>#a function provided in my course to return diagnostic info for CV analysis
+
+class_diag&lt;-function(probs,truth){
+  
+  if(is.numeric(truth)==FALSE &amp; is.logical(truth)==FALSE) truth&lt;-as.numeric(truth)-1
+  
+  tab&lt;-table(factor(probs&gt;.5,levels=c(&quot;FALSE&quot;,&quot;TRUE&quot;)),truth)
+  prediction&lt;-ifelse(probs&gt;.5,1,0)
+  acc=mean(truth==prediction)
+  sens=mean(prediction[truth==1]==1)
+  spec=mean(prediction[truth==0]==0)
+  ppv=mean(truth[prediction==1]==1)
+  f1=2*(sens*ppv)/(sens+ppv)
+  
+  #CALCULATE EXACT AUC
+  ord&lt;-order(probs, decreasing=TRUE)
+  probs &lt;- probs[ord]; truth &lt;- truth[ord]
+  
+  TPR=cumsum(truth)/max(1,sum(truth)) 
+  FPR=cumsum(!truth)/max(1,sum(!truth))
+  
+  dup&lt;-c(probs[-1]&gt;=probs[-length(probs)], FALSE)
+  TPR&lt;-c(0,TPR[!dup],1); FPR&lt;-c(0,FPR[!dup],1)
+  
+  n &lt;- length(TPR)
+  auc&lt;- sum( ((TPR[-1]+TPR[-n])/2) * (FPR[-1]-FPR[-n]) )
+
+  data.frame(acc,sens,spec,ppv,auc)
+}</code></pre>
+<pre class="r"><code>fit_all &lt;- glm(Rep~Private_c + Public_c + Uninsured_c + CFR_percent_P1_c + CFR_percent_P2_c + CFR_percent_P3_c + Deaths_perthousand_P1_c + Deaths_perthousand_P2_c + Deaths_perthousand_P3_c + Cases_perthousand_P1_c + Cases_perthousand_P2_c + Cases_perthousand_P3_c, family=&quot;binomial&quot;, data=mean_center)
+
+summary(fit_all)</code></pre>
+<pre><code>##
+## Call:
+## glm(formula = Rep ~ Private_c + Public_c + Uninsured_c +
+CFR_percent_P1_c +
+## CFR_percent_P2_c + CFR_percent_P3_c +
+Deaths_perthousand_P1_c +
+## Deaths_perthousand_P2_c + Deaths_perthousand_P3_c +
+Cases_perthousand_P1_c +
+## Cases_perthousand_P2_c + Cases_perthousand_P3_c, family
+= &quot;binomial&quot;,
+## data = mean_center)
+##
+## Deviance Residuals:
+## Min 1Q Median 3Q Max
+## -1.9720 -0.9781 -0.4730 1.0336 2.4275
+##
+## Coefficients:
+## Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) -0.55582 0.11785 -4.716 2.4e-06 ***
+## Private_c 63.10286 19.17948 3.290 0.00100 **
+## Public_c 41.57134 16.80793 2.473 0.01339 *
+## Uninsured_c 66.49486 20.44441 3.252 0.00114 **
+## CFR_percent_P1_c 0.03233 0.09037 0.358 0.72050
+## CFR_percent_P2_c 0.09788 0.17106 0.572 0.56716
+## CFR_percent_P3_c -0.39872 0.25836 -1.543 0.12277
+## Deaths_perthousand_P1_c 1.68612 2.79130 0.604 0.54580
+## Deaths_perthousand_P2_c -0.91633 3.03087 -0.302 0.76240
+## Deaths_perthousand_P3_c 2.05935 2.87561 0.716 0.47390
+## Cases_perthousand_P1_c -0.16279 0.14696 -1.108 0.26800
+## Cases_perthousand_P2_c -0.06190 0.08470 -0.731 0.46486
+## Cases_perthousand_P3_c 0.01508 0.04943 0.305 0.76035
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## (Dispersion parameter for binomial family taken to be 1)
+##
+## Null deviance: 571.56 on 422 degrees of freedom
+## Residual deviance: 485.42 on 410 degrees of freedom
+## AIC: 511.42
+##
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code>mean_center$probs_all&lt;-predict(fit_all,type=&quot;response&quot;)
+
+table(predict=as.numeric(mean_center$probs_all&gt;.5),truth=mean_center$Rep)%&gt;%addmargins</code></pre>
+<pre><code>##        truth
+## predict   0   1 Sum
+##     0   197  71 268
+##     1    54 101 155
+##     Sum 251 172 423</code></pre>
+<pre class="r"><code># accuracy: proportion of all cases that were correctly classified
+accuracyRep_all&lt;- (197+101)/423
+accuracyRep_all</code></pre>
+<pre><code>## [1] 0.7044917</code></pre>
+<pre class="r"><code># tpr (sensitivity aka recall): proportion of Republicans that were correctly classified?
+sensitivityRep_all&lt;- 101/172
+sensitivityRep_all</code></pre>
+<pre><code>## [1] 0.5872093</code></pre>
+<pre class="r"><code># tnr (specificity): proportion of Democrats that were correctly classified?
+specificityRep_all&lt;- 197/251
+specificityRep_all</code></pre>
+<pre><code>## [1] 0.7848606</code></pre>
+<pre class="r"><code>ROCplot_all&lt;-ggplot(mean_center)+geom_roc(aes(d=Rep,m=probs_all), n.cuts=0) 
+
+ROCplot_all</code></pre>
+<p><img src="/project/project2_files/figure-html/unnamed-chunk-13-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>calc_auc(ROCplot_all)</code></pre>
+<pre><code>##   PANEL group       AUC
+## 1     1    -1 0.7530575</code></pre>
+<pre class="r"><code>#10-fold CV
+
+k=10
+
+data &lt;- mean_center %&gt;% sample_frac #put rows of dataset in random order
+folds &lt;- ntile(1:nrow(data),n=10) #create fold labels
+
+diags&lt;-NULL
+for(i in 1:k){
+  train &lt;- data[folds!=i,] #create training set (all but fold i)
+  test_cv &lt;- data[folds==i,] #create test set (just fold i)
+  truth &lt;- test_cv$Rep #save truth labels from fold i
+  
+  fit_logistic &lt;- glm(Rep~Private_c+Public_c+Uninsured_c+CFR_percent_P1_c+CFR_percent_P2_c+CFR_percent_P3_c+Deaths_perthousand_P1_c+Deaths_perthousand_P2_c+Deaths_perthousand_P3_c+Cases_perthousand_P1_c+Cases_perthousand_P2_c+Cases_perthousand_P3_c, family=&quot;binomial&quot;, data=mean_center)
+  probs_cv &lt;- predict(fit_logistic, newdata=test_cv, type=&quot;response&quot;)
+  
+  diags&lt;-rbind(diags,class_diag(probs_cv,truth))
+}
+
+summarize_all(diags,mean)</code></pre>
+<pre><code>##        acc      sens      spec       ppv      auc
+## 1 0.704485 0.5886712 0.7803891 0.6515015 0.754331</code></pre>
+<p><em>This model preformed quite a bit better than the last one in terms of AUC metric, as can be expected. When working with “outside” data, AUC only dipped somewhat, so that reinforces credibility for the model, and also for the trend that the data represents. Note: I did not include ALL of the variables in my dataset because a lot of them were redundant, and others are related to other analyses that I conducted. I will have to consider in future projects the merits and drawbacks of continuing to add so many variables to a single object versus creating new datasets for each analysis.</em></p>
+<pre class="r"><code>#Lasso
+
+library(glmnet)
+y&lt;-as.matrix(mean_center$Rep) #grab response
+x&lt;-model.matrix(Rep~Private_c+Public_c+Uninsured_c+CFR_percent_P1_c+CFR_percent_P2_c+CFR_percent_P3_c+Deaths_perthousand_P1_c+Deaths_perthousand_P2_c+Deaths_perthousand_P3_c+Cases_perthousand_P1_c+Cases_perthousand_P2_c+Cases_perthousand_P3_c, data=mean_center)[,-1] #predictors (drop intercept)
+x&lt;-scale(x)
+head(x)</code></pre>
+<pre><code>## Private_c Public_c Uninsured_c CFR_percent_P1_c
+CFR_percent_P2_c CFR_percent_P3_c
+## 1 -0.30092028 0.2733622 0.3504123 -1.1348232 -0.3370775
+-0.5844642
+## 2 -0.02191989 0.6930212 -0.3695515 -1.6508490 -0.7990121
+-0.5060197
+## 3 -0.05911994 0.7091619 -0.2813927 -1.1403128 -0.2544551
+-0.4647330
+## 4 -0.53342061 0.7091619 0.4385711 -0.7834865 -0.8778789
+-0.5762069
+## 5 0.35008063 -0.3077042 -0.2226202 -0.7834865 -1.2046131
+-0.9188858
+## 6 1.14058174 -0.9533334 -0.9425840 -0.9097481 -0.5173447
+-0.6835521
+## Deaths_perthousand_P1_c Deaths_perthousand_P2_c
+Deaths_perthousand_P3_c Cases_perthousand_P1_c
+## 1 -0.3532794 -0.2857303 -0.18754188 -0.2838918
+## 2 -0.4454961 -0.2857303 -0.05899755 -0.3924896
+## 3 -0.2610627 -0.2310490 -0.18754188 -0.1781519
+## 4 -0.3532794 -0.4497743 -0.18754188 -0.3581955
+## 5 -0.3993877 -0.6684995 -0.64662876 -0.4496463
+## 6 -0.3532794 -0.4315472 -0.40790358 -0.3067545
+## Cases_perthousand_P2_c Cases_perthousand_P3_c
+## 1 -0.1311933 1.0509214
+## 2 0.5298770 1.1260048
+## 3 -0.2182203 0.5003096
+## 4 0.2754905 1.2191638
+## 5 -0.6064945 0.1429681
+## 6 -0.3604759 0.5142139</code></pre>
+<pre class="r"><code>glm(y~x,family=binomial)</code></pre>
+<pre><code>##
+## Call: glm(formula = y ~ x, family = binomial)
+##
+## Coefficients:
+## (Intercept) xPrivate_c xPublic_c
+## -0.5558 6.7852 2.5756
+## xUninsured_c xCFR_percent_P1_c xCFR_percent_P2_c
+## 4.5256 0.0589 0.2606
+## xCFR_percent_P3_c xDeaths_perthousand_P1_c
+xDeaths_perthousand_P2_c
+## -0.9657 0.3657 -0.5027
+## xDeaths_perthousand_P3_c xCases_perthousand_P1_c
+xCases_perthousand_P2_c
+## 1.1214 -0.5696 -0.3699
+## xCases_perthousand_P3_c
+## 0.1084
+##
+## Degrees of Freedom: 422 Total (i.e. Null); 410 Residual
+## Null Deviance: 571.6
+## Residual Deviance: 485.4 AIC: 511.4</code></pre>
+<pre class="r"><code>cv &lt;- cv.glmnet(x,y, family=&quot;binomial&quot;) #picks an optimal value for lambda through 10-fold CV
+cv&lt;-cv.glmnet(x,y,family=&quot;binomial&quot;)
+lasso&lt;-glmnet(x,y,family=&quot;binomial&quot;,lambda=cv$lambda.1se)
+coef(lasso)</code></pre>
+<pre><code>## 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                                 s0
+## (Intercept)             -0.3962335
+## Private_c                .        
+## Public_c                -0.3311380
+## Uninsured_c              .        
+## CFR_percent_P1_c         .        
+## CFR_percent_P2_c         .        
+## CFR_percent_P3_c        -0.1891223
+## Deaths_perthousand_P1_c  .        
+## Deaths_perthousand_P2_c  .        
+## Deaths_perthousand_P3_c  .        
+## Cases_perthousand_P1_c   .        
+## Cases_perthousand_P2_c   .        
+## Cases_perthousand_P3_c   .</code></pre>
+<pre class="r"><code>#re-run CV with lasso-identified variables
+
+
+k=10
+
+data &lt;- mean_center %&gt;% sample_frac #put rows of dataset in random order
+folds &lt;- ntile(1:nrow(data),n=10) #create fold labels
+
+diags&lt;-NULL
+for(i in 1:k){
+  train &lt;- data[folds!=i,] #create training set (all but fold i)
+  test_cv &lt;- data[folds==i,] #create test set (just fold i)
+  truth &lt;- test_cv$Rep #save truth labels from fold i
+  
+  fit_logistic &lt;- glm(Rep~Public_c+CFR_percent_P3_c+Cases_perthousand_P2_c, family=&quot;binomial&quot;, data=mean_center)
+  probs_cv &lt;- predict(fit_logistic, newdata=test_cv, type=&quot;response&quot;)
+  
+  diags&lt;-rbind(diags,class_diag(probs_cv,truth))
+}
+
+summary(fit_logistic)</code></pre>
+<pre><code>##
+## Call:
+## glm(formula = Rep ~ Public_c + CFR_percent_P3_c +
+Cases_perthousand_P2_c,
+## family = &quot;binomial&quot;, data = mean_center)
+##
+## Deviance Residuals:
+## Min 1Q Median 3Q Max
+## -1.6745 -0.9725 -0.5501 1.0916 2.1986
+##
+## Coefficients:
+## Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) -0.51568 0.11323 -4.554 5.25e-06 ***
+## Public_c -12.61370 2.14510 -5.880 4.10e-09 ***
+## CFR_percent_P3_c -0.20187 0.06550 -3.082 0.00206 **
+## Cases_perthousand_P2_c -0.03977 0.02622 -1.517 0.12926
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1
+&#39; &#39; 1
+##
+## (Dispersion parameter for binomial family taken to be 1)
+##
+## Null deviance: 571.56 on 422 degrees of freedom
+## Residual deviance: 501.96 on 419 degrees of freedom
+## AIC: 509.96
+##
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>summarize_all(diags,mean)</code></pre>
+<pre><code>##         acc      sens      spec       ppv       auc
+## 1 0.6832226 0.5559563 0.7745214 0.6246967 0.7267398</code></pre>
+<p><em>AUC is somewhat lower, but still in a respectable range. The variables selected by lasso, percent with public health insurance, Case fatality rate for the third period (overall), and cases per thousand for period 2 (partial period), were interesting choices. Selecting by having public insurance could select for poverty, young individuals, or other criteria that are typically considered to cause individuals to lean towards democrats. The coefficient associated with that variable is quite strong. CFR percent seems to associate better outcomes with democrat representatives in 2009, which is interesting in relation to other analyses above that showed generally better results in other variables for regions with republican representatives.</em></p>
+<p><em>Overall this has been a really interesting project, and I’m glad I was able to look into these number more on my own. It would be great to use this project as a launch board to conduct more analyses in the future. This project was definitely more successful than my last one. I want to reiterate though, for multiple reasons, any conclusions stated in this project should not be applied to read life. Because of the way I joined the datasets, it’s not prudent to apply this data to real-life situations, especially given the limitations presented in the data.</em></p>
+</div>
+<div id="where-do-i-find-data-again" class="section level2">
+<h2>Where do I find data again?</h2>
+<p>You can choose ANY datasets you want that meet the above criteria for variables and observations. You can make it as serious as you want, or not, but keep in mind that you will be incorporating this project into a portfolio webpage for your final in this course, so choose something that really reflects who you are, or something that you feel will advance you in the direction you hope to move career-wise, or something that you think is really neat, or whatever. On the flip side, regardless of what you pick, you will be performing all the same tasks, so it doesn’t end up being that big of a deal.</p>
+<p>If you are totally clueless and have no direction at all, log into the server and type</p>
+<pre class="r"><code>data(package = .packages(all.available = TRUE))</code></pre>
+<p>This will print out a list of <strong>ALL datasets in ALL packages</strong> installed on the server (a ton)! Scroll until your eyes bleed! Actually, do not scroll that much… To start with something more manageable, just run the command on your own computer, or just run <code>data()</code> to bring up the datasets in your current environment. To read more about a dataset, do <code>?packagename::datasetname</code>.</p>
+<p>If it is easier for you, and in case you don’t have many packages installed, a list of R datasets from a few common packages (also downloadable in CSV format) is given at the following website: <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/datasets.html</a>.</p>
+<ul>
+<li><p>A good package to download for fun/relevant data is <code>fivethiryeight</code>.
+Run <code>install.packages("fivethirtyeight"),</code> load the packages with <code>library(fivethirtyeight)</code>, run <code>data()</code>, and then scroll down to view the datasets. Here is an online list of all 127 datasets (with links to the 538 articles). Lots of sports, politics, current events, etc.</p></li>
+<li><p>If you have already started to specialize (e.g., ecology, epidemiology) you might look at discipline-specific R packages (vegan, epi, respectively). We will be using some tools from these packages later in the course, but they come with lots of data too, which you can explore according to the directions above</p></li>
+<li><p>However, you <em>emphatically DO NOT</em> have to use datasets available via R packages! In fact, I would much prefer it if you found the data from completely separate sources and brought them together (a much more realistic experience in the real world)! You can even reuse data from your SDS328M project, provided it shares a variable in common with other data which allows you to merge the two together (e.g., if you still had the timestamp, you could look up the weather that day: <a href="https://www.wunderground.com/history/" class="uri">https://www.wunderground.com/history/</a>). If you work in a research lab or have access to old data, you could potentially merge it with new data from your lab!</p></li>
+<li><p>Here is a curated list of interesting datasets (read-only spreadsheet format): <a href="https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit" class="uri">https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit</a></p></li>
+<li><p>Here is another great compilation of datasets: <a href="https://github.com/rfordatascience/tidytuesday" class="uri">https://github.com/rfordatascience/tidytuesday</a></p></li>
+<li><p>Here is the UCI Machine Learning Repository: <a href="https://archive.ics.uci.edu/ml/index.php" class="uri">https://archive.ics.uci.edu/ml/index.php</a></p>
+<ul>
+<li>See also <a href="https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research#Biological_data" class="uri">https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research#Biological_data</a></li>
+</ul></li>
+<li><p>Here is another good general place to look: <a href="https://www.kaggle.com/datasets" class="uri">https://www.kaggle.com/datasets</a></p></li>
+<li><p>To help narrow your search down or to see interesting variable ideas, check out <a href="https://www.tylervigen.com/spurious-correlations" class="uri">https://www.tylervigen.com/spurious-correlations</a>. This is the spurious correlations website, and it is fun, but if you look at the bottom of each plot you will see sources for the data. This is a good place to find very general data (or at least get a sense of where you can scrape data together from)!</p></li>
+<li><p>If you are interested in medical data, check out www.countyhealthrankings.org</p></li>
+<li><p>If you are interested in scraping UT data, they make <em>loads</em> of data public (e.g., beyond just professor CVs and syllabi). Check out all the data that is available in the statistical handbooks: <a href="https://reports.utexas.edu/statistical-handbook" class="uri">https://reports.utexas.edu/statistical-handbook</a></p></li>
+</ul>
+<div id="broader-data-sources" class="section level5">
+<h5>Broader data sources:</h5>
+<p><a href="www.data.gov">Data.gov</a> 186,000+ datasets!</p>
+<p><a href="Social%20Explorer">Social Explorer</a> is a nice interface to Census and American Community Survey data (more user-friendly than the government sites). May need to sign up for a free trial.</p>
+<p><a href="www.bls.gov">U.S. Bureau of Labor Statistics</a></p>
+<p><a href="www.census.gov">U.S. Census Bureau</a></p>
+<p><a href="www.gapminder.org/data">Gapminder</a>, data about the world.</p>
+<p>…</p>
+</div>
+</div>
+</div>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+   <hr>  <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> 
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="/js/docs.min.js"></script>
+<script src="/js/main.js"></script>
+
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

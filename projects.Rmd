@@ -1,0 +1,27 @@
+---
+title: "Projects"
+output: html_document
+hidedate: true
+hiderelated: true
+hidediscus: true
+---
+
+Check out some of my coding projects below:
+
+<i class="fa fa-file"></i> &nbsp; [The Food System of Bahrian: Analyzing Risks and Possibilities](/project/bahrain/)
+
+<i class="fa fa-signal"></i> &nbsp; [Wrangling & Exploratory Data Analysis](/project/project1/)
+
+<i class="fa fa-line-chart"></i> &nbsp; [Modeling, Inference, Prediction](/project/project2/)
+
+<center>
+<object data="/bahrain.pdf" type="application/pdf" >
+<embed src="/bahrain.pdf" type="application/pdf" style="min-height:100vh;width:100%" />
+</object>
+</center>
+
+
+<!--
+<i class="fa fa-pie-chart"></i> 
+<i class="fa fa-tasks"></i> 
+-->
