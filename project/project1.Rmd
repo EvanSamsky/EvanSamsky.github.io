@@ -1,7 +1,9 @@
 ---
 title: 'Project 1: Exploratory Data Analysis'
 author: "SDS348"
-date: ''
+hidedate: true
+hiderelated: true
+hidediscus: true
 output:
   html_document:
     toc: yes

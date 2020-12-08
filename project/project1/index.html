@@ -70,14 +70,6 @@ if (!doNotTrack) {
             <strong><a href="/project/project1/">Project 1: Exploratory Data Analysis</a></strong>
           </h3>
         </div>
- 
-<div class="blog-title">
-          <h4>
-         January 1, 0001 
-            &nbsp;&nbsp;
-            
-          </h4>
-        </div>
 
         <div class="panel panel-default">
           <div class="panel-body">
@@ -1026,7 +1018,7 @@ scale_fill_gradient2(low=&quot;red&quot;,mid=&quot;white&quot;,high=&quot;blue&q
 geom_text(aes(label=round(correlation,2)),color = &quot;black&quot;, size = 4)+ #overlay values
 theme(axis.text.x = element_text(angle = 90, hjust=1))+ #flips x-axis labels
 coord_fixed() </code></pre>
-<p><img src="/project/Project1_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project/project1_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>#plot 1
 
 ggplot(data= joineddata, aes(x= `CORN.SALES.USD:T:NS`,y= `prop_sorghum_land`, color=`Ag District`))+
@@ -1039,7 +1031,7 @@ ggplot(data= joineddata, aes(x= `CORN.SALES.USD:T:NS`,y= `prop_sorghum_land`, co
   scale_color_discrete(&quot;Agricultural District&quot;)+
   scale_x_continuous(breaks= scales::pretty_breaks(n=10))+
   theme(axis.text.x = element_text(angle=45))</code></pre>
-<p><img src="/project/Project1_files/figure-html/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project/project1_files/figure-html/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>#plot 2
 
 ggplot(joineddata, aes(x = `Year`, y = `SORGHUM.OPERATIONS.WAREA:T:NS`, fill=`land_area_cat`))+
@@ -1050,7 +1042,7 @@ ggplot(joineddata, aes(x = `Year`, y = `SORGHUM.OPERATIONS.WAREA:T:NS`, fill=`la
   xlab(&quot;Year&quot;)+
   ylab(&quot;Number of Sorghum Farming Operations&quot;)+
   labs(fill=&quot;County Land Area Quartile&quot;)</code></pre>
-<p><img src="/project/Project1_files/figure-html/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/project/project1_files/figure-html/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" />
 <em>for the correlation heatmap, it’s evident that I have a lot of redundant variables, which is fair because I created a lot of them by modifying others. I hope you’re able to see the plot in the knitted document well. Otherwise, I can say that it’s interesting that the correlation between sorghum sales and the number of sorghum farming operations of “x” size increased as the “x” size increased, but this is understandable. It’s also interesting that corn sales correlated most strongly with counties that had more sorghum growing operaitons of 250-499 acres of sorghum. Perhaps this shows loosely that counties with mid-sized sorghum operations tend to also have a lot of corn operations, and it’s possible that this points to an incentive among farmers to diversify crops but only under certain acerage-related conditions.</em></p>
 <p><em>For plot 1: The plot here gives us a better idea about the lack of overlap between corn and sorghum farming. essentially, it’s uncommon for a county to have a large proportion of land allocated to growing sorghum while also making a lot of money in corn sales. It would have been nice to have more corn variables in my dataset, but I obviously still need some practice in retrieving data from the USDA website. Anyways, I think this plot is particularly cool</em></p>
 <p><em>For plot 2: This plot shows us simply the change in the number of sorghum farming operations from 2012 to 2017. It’s intersting that a decrease took place. If I have time in the future, it would be interesting to include data from other years as well. Since this was my first project I wasn’t sure if I would be able to work with multiple years and still include information from each county. Based on subsequent results in the next section, though, it’s somewhat clear that focusing on the agricultural heart of Texas, the valley, would yeild the most telling and interesting results.</em></p>
@@ -1082,7 +1074,7 @@ for(i in 2:10){
   sil_width[i] &lt;- pam_fit$silinfo$avg.width
 }
 ggplot()+geom_line(aes(x=1:10,y=sil_width))+scale_x_continuous(name=&quot;k&quot;,breaks=1:10)</code></pre>
-<p><img src="/project/Project1_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project/project1_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>#based on this graph, I would choose 3 clusters
 
 #running PAM
@@ -1093,7 +1085,7 @@ only_numeric$cluster&lt;- as.character(pam10$clustering)
 
 #a cool chart to get a better look into how the clusters look
 only_numeric %&gt;% ggplot(aes(pop_density,`CORN.SALES.USD:T:NS`,color=cluster)) + geom_point()</code></pre>
-<p><img src="/project/Project1_files/figure-html/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project/project1_files/figure-html/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>#averages from all the clusters. It looks like the Counties are categorized based on number of sorghum operations. Cluster 3 are counties with a large bias towards sorghum. The &quot;Sorghum Basket&quot; of Texas, if you will. 
 only_numeric %&gt;% group_by(cluster) %&gt;% summarize_if(is.numeric,mean,na.rm=T)</code></pre>
 <pre><code>## # A tibble: 3 x 18
@@ -1114,7 +1106,7 @@ only_numeric %&gt;% group_by(cluster) %&gt;% summarize_if(is.numeric,mean,na.rm=
 <pre class="r"><code>#Another view of how the clusters are. Unfortunately somewhat confusing given my column names :/
 library(GGally)
 ggpairs(only_numeric, columns=1:4, aes(color=cluster))</code></pre>
-<p><img src="/project/Project1_files/figure-html/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project/project1_files/figure-html/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>#because I messed up my County names, this is me rejoining them to show which counties are in which cluster:
 cat_and_names &lt;- joineddata %&gt;% left_join(only_numeric, by=c(&quot;Rank&quot;))
 
@@ -1251,32 +1243,11 @@ cat_and_names %&gt;% select(County.x, `Ag District`, cluster) %&gt;% arrange(des
 </div>
 
             
-        <hr>         <div class="related-posts">
-                <h5>Related Posts</h5>
-                
-              </div> 
+
             </div>
           </div>
 
-   <hr>  <div class="disqus">
-  <div id="disqus_thread"></div>
-  <script type="text/javascript">
 
-    (function() {
-      
-      
-      if (window.location.hostname == "localhost")
-        return;
-
-      var disqus_shortname = '';
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div> 
         </div>
       </div>
     </div>

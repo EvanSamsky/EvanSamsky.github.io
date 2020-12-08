@@ -1,0 +1,9 @@
+---
+title: "Bahrain"
+output: html_document
+hidedate: true
+hiderelated: true
+hidediscus: true
+---
+
+<iframe src="/bahrain.pdf" width="100%" height="800" border="0"></iframe>
