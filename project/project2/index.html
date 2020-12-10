@@ -646,7 +646,7 @@ no_relation[i]&lt;-mean(new[new$InsVote==&quot;1&quot;,]$Private)-
 <pre class="r"><code>#compare the no_relation model with actual data
 
 mean(no_relation&gt;0.03694504 | no_relation&lt; -0.03694504)</code></pre>
-<pre><code>## [1] 2e-04</code></pre>
+<pre><code>## [1] 0.001</code></pre>
 </div>
 <div id="pts-3" class="section level2">
 <h2><strong>3. (35 pts)</strong></h2>
@@ -779,7 +779,7 @@ samp_distn&lt;-replicate(5000, {
 samp_distn%&gt;%t%&gt;%as.data.frame%&gt;%summarize_all(sd)</code></pre>
 <pre><code>## (Intercept) InsVote Cases_perthousand_P3_c
 InsVote:Cases_perthousand_P3_c
-## 1 0.005690803 0.009692459 0.0009220841 0.001367319</code></pre>
+## 1 0.005657837 0.009532296 0.0009247341 0.001397156</code></pre>
 <p><em>The bootstrapped SEs shown here are not all that different from the original SEs or robust SEs. I don’t think the difference should change the outcome of prior analysis</em></p>
 </div>
 <div id="pts-fit-a-logistic-regression-model-predicting-a-binary-variable-if-you-dont-have-one-makeget-one-from-at-least-two-explanatory-variables-interaction-not-necessary." class="section level2">
@@ -989,8 +989,8 @@ for(i in 1:k){
 }
 
 summarize_all(diags,mean)</code></pre>
-<pre><code>##        acc      sens      spec       ppv      auc
-## 1 0.704485 0.5886712 0.7803891 0.6515015 0.754331</code></pre>
+<pre><code>##         acc      sens      spec       ppv       auc
+## 1 0.7045404 0.5966828 0.7812978 0.6545245 0.7468573</code></pre>
 <p><em>This model preformed quite a bit better than the last one in terms of AUC metric, as can be expected. When working with “outside” data, AUC only dipped somewhat, so that reinforces credibility for the model, and also for the trend that the data represents. Note: I did not include ALL of the variables in my dataset because a lot of them were redundant, and others are related to other analyses that I conducted. I will have to consider in future projects the merits and drawbacks of continuing to add so many variables to a single object versus creating new datasets for each analysis.</em></p>
 <pre class="r"><code>#Lasso
 
@@ -1055,18 +1055,18 @@ lasso&lt;-glmnet(x,y,family=&quot;binomial&quot;,lambda=cv$lambda.1se)
 coef(lasso)</code></pre>
 <pre><code>## 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
 ##                                 s0
-## (Intercept)             -0.3962335
+## (Intercept)             -0.4211907
 ## Private_c                .        
-## Public_c                -0.3311380
+## Public_c                -0.4694756
 ## Uninsured_c              .        
 ## CFR_percent_P1_c         .        
 ## CFR_percent_P2_c         .        
-## CFR_percent_P3_c        -0.1891223
+## CFR_percent_P3_c        -0.2891744
 ## Deaths_perthousand_P1_c  .        
 ## Deaths_perthousand_P2_c  .        
 ## Deaths_perthousand_P3_c  .        
 ## Cases_perthousand_P1_c   .        
-## Cases_perthousand_P2_c   .        
+## Cases_perthousand_P2_c  -0.0543065
 ## Cases_perthousand_P3_c   .</code></pre>
 <pre class="r"><code>#re-run CV with lasso-identified variables
 
@@ -1117,8 +1117,8 @@ Cases_perthousand_P2_c,
 ##
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <pre class="r"><code>summarize_all(diags,mean)</code></pre>
-<pre><code>##         acc      sens      spec       ppv       auc
-## 1 0.6832226 0.5559563 0.7745214 0.6246967 0.7267398</code></pre>
+<pre><code>##         acc      sens     spec       ppv       auc
+## 1 0.6832226 0.5579087 0.772026 0.6285642 0.7258363</code></pre>
 <p><em>AUC is somewhat lower, but still in a respectable range. The variables selected by lasso, percent with public health insurance, Case fatality rate for the third period (overall), and cases per thousand for period 2 (partial period), were interesting choices. Selecting by having public insurance could select for poverty, young individuals, or other criteria that are typically considered to cause individuals to lean towards democrats. The coefficient associated with that variable is quite strong. CFR percent seems to associate better outcomes with democrat representatives in 2009, which is interesting in relation to other analyses above that showed generally better results in other variables for regions with republican representatives.</em></p>
 <p><em>Overall this has been a really interesting project, and I’m glad I was able to look into these number more on my own. It would be great to use this project as a launch board to conduct more analyses in the future. This project was definitely more successful than my last one. I want to reiterate though, for multiple reasons, any conclusions stated in this project should not be applied to read life. Because of the way I joined the datasets, it’s not prudent to apply this data to real-life situations, especially given the limitations presented in the data.</em></p>
 </div>
