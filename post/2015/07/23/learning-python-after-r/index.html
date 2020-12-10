@@ -7,7 +7,7 @@
     <meta name="author" content="Evan Samsky" />
     
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
-    <title>Learning Python from R</title>
+    <title>Learning Python after R</title>
     <meta name="generator" content="Hugo 0.79.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
@@ -67,7 +67,7 @@ if (!doNotTrack) {
       <div class="container">
         <div class="blog-post">
           <h3>
-            <strong><a href="/post/2015/07/23/learning-python-from-r/">Learning Python from R</a></strong>
+            <strong><a href="/post/2015/07/23/learning-python-after-r/">Learning Python after R</a></strong>
           </h3>
         </div>
  
@@ -91,45 +91,38 @@ if (!doNotTrack) {
 <script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 
-<div id="r-markdown" class="section level1">
-<h1>R Markdown</h1>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>You can embed an R code chunk like this:</p>
-<pre class="r"><code>summary(cars)
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
-fit &lt;- lm(dist ~ speed, data = cars)
-fit
-## 
-## Call:
-## lm(formula = dist ~ speed, data = cars)
-## 
-## Coefficients:
-## (Intercept)        speed  
-##     -17.579        3.932</code></pre>
-<p><img src="website/static/img/Untitled-design-1.jpg" /></p>
+<div id="r" class="section level1">
+<h1>R</h1>
+<div id="r-vs-python-some-say-both" class="section level2">
+<h2>R vs Python? Some say both,</h2>
+<p>This website and a lot of the content on it comes from my experience taking Computational Biology and Bioinformatics (SDS348) at UT Austin with Professor Woodward in Fall 2020. During the semester we focused a lot on using R to do data wrangling, visualization, and analysis, but we also covered a lot about Python.</p>
+<p>R is a programming language that’s used for data analysis for economists, academics, and people who love its unique set of packages that add onto its capabilities. It’s not as widely known as Python, but famous for some of its most useful packages, like ggplot2, dplyr, and tidyverse, all of which we covered in the course.</p>
+<p>Python is very similar, but tends to get a lot more fanfare. It’s known to be a good introductory language because of simple syntax, and is used widely by private companies, researchers, and hobbyists. A lot of the more forward-thinking data techniques today use Python, such machine learning and AI. Here, I’m going to show off a bit of what I learned during my course and then I’ll explain where I plan on continuing in the coming months.</p>
+</div>
+<div id="reticulate-to-use-both" class="section level2">
+<h2>Reticulate to use BOTH!</h2>
+<p>While both R and Python are capable on their own, it’s sometimes crucial to be able to use both, either to improve your work flow, or to just use the best parts of each language. Maybe you love ggplot2, but hate dplyr. It’s possible to pass variable between different languages in R Studio using a package called <code>reticulate</code></p>
+<p>First we load up the package:</p>
+<pre class="r"><code>library(reticulate)
+## Warning: package &#39;reticulate&#39; was built under R version 4.0.3</code></pre>
+<p>Then I’ll import a familiar data set. How about msleep? It’s a data set that contains information about the sleeping habits of different mammal species, and exists within the <code>ggplot2</code> package</p>
+<pre class="r"><code>library(ggplot2)
+data(msleep)
+head(msleep)
+## # A tibble: 6 x 11
+##   name  genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 Chee~ Acin~ carni Carn~ lc                  12.1      NA        NA      11.9
+## 2 Owl ~ Aotus omni  Prim~ &lt;NA&gt;                17         1.8      NA       7  
+## 3 Moun~ Aplo~ herbi Rode~ nt                  14.4       2.4      NA       9.6
+## 4 Grea~ Blar~ omni  Sori~ lc                  14.9       2.3       0.133   9.1
+## 5 Cow   Bos   herbi Arti~ domesticated         4         0.7       0.667  20  
+## 6 Thre~ Brad~ herbi Pilo~ &lt;NA&gt;                14.4       2.2       0.767   9.6
+## # ... with 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
+</div>
 </div>
 <div id="including-plots" class="section level1">
 <h1>Including Plots</h1>
-<p>You can also embed plots. See Figure <a href="#fig:pie">1</a> for example:</p>
-<pre class="r"><code>par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c(&#39;Sky&#39;, &#39;Sunny side of pyramid&#39;, &#39;Shady side of pyramid&#39;),
-  col = c(&#39;#0292D8&#39;, &#39;#F7EA39&#39;, &#39;#C4B632&#39;),
-  init.angle = -50, border = NA
-)</code></pre>
-<div class="figure"><span id="fig:pie"></span>
-<img src="/post/2015-07-23-r-rmarkdown/index_files/figure-html/pie-1.png" alt="A fancy pie chart." width="672" />
-<p class="caption">
-Figure 1: A fancy pie chart.
-</p>
-</div>
 </div>
 
             

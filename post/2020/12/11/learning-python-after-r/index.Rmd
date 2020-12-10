@@ -1,0 +1,79 @@
+---
+title: "Learning Python after R"
+author: "Evan Samsky"
+date: 2020-12-11
+categories: ["R"]
+tags: ["R", "Python"]
+hidediscus: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+# R vs Python? Some say both,
+
+This website and a lot of the content on it comes from my experience taking Computational Biology and Bioinformatics (SDS348) at UT Austin with Professor Woodward in Fall 2020. During the semester we focused a lot on using R to do data wrangling, visualization, and analysis, but we also covered a lot about Python.
+
+
+R is a programming language that's used for data analysis for economists, academics, and people who love its unique set of packages that add onto its capabilities. It's not as widely known as Python, but famous for some of its most useful packages, like ggplot2, dplyr, and tidyverse, all of which we covered in the course. 
+
+
+Python is very similar, but tends to get a lot more fanfare. It's known to be a good introductory language because of simple syntax, and is used widely by private companies, researchers, and hobbyists. A lot of the more forward-thinking data techniques today use Python, such machine learning and AI. Here, I'm going to show off a bit of what I learned during my course and then I'll explain where I plan on continuing in the coming months. 
+
+## Reticulate to use BOTH!
+
+While both R and Python are capable on their own, it's sometimes crucial to be able to use both, either to improve your work flow, or to just use the best parts of each language. Maybe you love ggplot2, but hate dplyr. It's possible to pass variable between different languages in R Studio using a package called `reticulate`
+
+First we load up the package:
+
+```{R}
+library(reticulate)
+```
+Then I'll import a familiar data set. How about msleep? It's a data set that contains information about the sleeping habits of different mammal species, and exists within the `ggplot2` package.
+I'll go ahead and print out some examples of the data.
+```{R}
+library(ggplot2)
+data(msleep)
+head(msleep)
+```
+## Moving over to Python
+
+Now, using the right syntax, I can move the msleep set into python and use pandas to manipulate it:
+
+```{python}
+msleep=r.msleep
+print(msleep)
+```
+
+Now I'll load up pandas and use it to manipulate the dataset. I'm going to isolate only the domesticated mammals and then send it back to R in this example.
+
+```{python}
+
+import pandas as pd
+```
+
+```{python}
+newmsleep=msleep.filter(['name','conservation','sleep_total']).query('conservation == "domesticated"').sort_values(by=('sleep_total'))
+print(newmsleep)
+```
+## Back to R for plotting
+
+Now my data is organized how I want, and I can send it back to R if I want and make a plot using ggplot2:
+
+```{r}
+newmsleep<-py$newmsleep
+
+ggplot(newmsleep, aes(x=name, y=sleep_total, label=name))+
+  geom_bar(stat='identity', fill="#193B19")+
+  labs(title="Average Time Asleep for Domesticated Mammals")+
+  xlab("Species")+
+  ylab("Average Total Time Asleep (hours)")
+
+```
+
+## There's a lot of possibilities
+
+Working like this doesn't have to mean using `reticulate` to flip back and forth for easy things. In fact, I could probably make this graph a lot faster using just R, but the possibilities for using R and Python together are endless. Truly, this is an invaluable tool for anyone doing data science, and if nothing else, a cool way to code in Python aside from Jupyter notebooks.
+
+

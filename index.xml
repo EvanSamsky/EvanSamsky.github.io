@@ -6,16 +6,15 @@
     <description>Recent content on Evan Samsky</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Learning Python from R</title>
-      <link>/post/2015/07/23/learning-python-from-r/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      <title>Learning Python after R</title>
+      <link>/post/2020/12/11/learning-python-after-r/</link>
+      <pubDate>Fri, 11 Dec 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/2015/07/23/learning-python-from-r/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.</description>
+      <guid>/post/2020/12/11/learning-python-after-r/</guid>
+      <description>R vs Python? Some say both,This website and a lot of the content on it comes from my experience taking Computational Biology and Bioinformatics (SDS348) at UT Austin with Professor Woodward in Fall 2020. During the semester we focused a lot on using R to do data wrangling, visualization, and analysis, but we also covered a lot about Python.
+R is a programming language that’s used for data analysis for economists, academics, and people who love its unique set of packages that add onto its capabilities.</description>
     </item>
     
     <item>

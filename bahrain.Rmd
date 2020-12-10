@@ -2,7 +2,7 @@
 title: "Bahrain"
 output: html_document
 hidedate: true
-hiderelated: true
+tags: ["The Middle East", "Arabic"]
 hidediscus: true
 ---
 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Evan Samsky" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <title>Learning Python after R</title>
+    <meta name="generator" content="Hugo 0.79.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-3G1TEQH4C0', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/post/">BLOG</a></li>
+        
+        <li><a href="/projects/">PROJECTS</a></li>
+        
+        <li><a href="/resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="/post/2020/12/11/learning-python-after-r/">Learning Python after R</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         December 11, 2020 
+            &nbsp;&nbsp;
+            
+            <span class="label label-success">R</span>
+            
+            <span class="label label-success">Python</span>
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<div id="r-vs-python-some-say-both" class="section level1">
+<h1>R vs Python? Some say both,</h1>
+<p>This website and a lot of the content on it comes from my experience taking Computational Biology and Bioinformatics (SDS348) at UT Austin with Professor Woodward in Fall 2020. During the semester we focused a lot on using R to do data wrangling, visualization, and analysis, but we also covered a lot about Python.</p>
+<p>R is a programming language that’s used for data analysis for economists, academics, and people who love its unique set of packages that add onto its capabilities. It’s not as widely known as Python, but famous for some of its most useful packages, like ggplot2, dplyr, and tidyverse, all of which we covered in the course.</p>
+<p>Python is very similar, but tends to get a lot more fanfare. It’s known to be a good introductory language because of simple syntax, and is used widely by private companies, researchers, and hobbyists. A lot of the more forward-thinking data techniques today use Python, such machine learning and AI. Here, I’m going to show off a bit of what I learned during my course and then I’ll explain where I plan on continuing in the coming months.</p>
+<div id="reticulate-to-use-both" class="section level2">
+<h2>Reticulate to use BOTH!</h2>
+<p>While both R and Python are capable on their own, it’s sometimes crucial to be able to use both, either to improve your work flow, or to just use the best parts of each language. Maybe you love ggplot2, but hate dplyr. It’s possible to pass variable between different languages in R Studio using a package called <code>reticulate</code></p>
+<p>First we load up the package:</p>
+<pre class="r"><code>library(reticulate)
+## Warning: package &#39;reticulate&#39; was built under R version 4.0.3</code></pre>
+<p>Then I’ll import a familiar data set. How about msleep? It’s a data set that contains information about the sleeping habits of different mammal species, and exists within the <code>ggplot2</code> package.
+I’ll go ahead and print out some examples of the data.</p>
+<pre class="r"><code>library(ggplot2)
+data(msleep)
+head(msleep)
+## # A tibble: 6 x 11
+##   name  genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 Chee~ Acin~ carni Carn~ lc                  12.1      NA        NA      11.9
+## 2 Owl ~ Aotus omni  Prim~ &lt;NA&gt;                17         1.8      NA       7  
+## 3 Moun~ Aplo~ herbi Rode~ nt                  14.4       2.4      NA       9.6
+## 4 Grea~ Blar~ omni  Sori~ lc                  14.9       2.3       0.133   9.1
+## 5 Cow   Bos   herbi Arti~ domesticated         4         0.7       0.667  20  
+## 6 Thre~ Brad~ herbi Pilo~ &lt;NA&gt;                14.4       2.2       0.767   9.6
+## # ... with 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
+</div>
+<div id="moving-over-to-python" class="section level2">
+<h2>Moving over to Python</h2>
+<p>Now, using the right syntax, I can move the msleep set into python and use pandas to manipulate it:</p>
+<pre class="python"><code>msleep=r.msleep
+print(msleep)
+##                           name       genus   vore  ... awake  brainwt   bodywt
+## 0                      Cheetah    Acinonyx  carni  ...  11.9      NaN   50.000
+## 1                   Owl monkey       Aotus   omni  ...   7.0  0.01550    0.480
+## 2              Mountain beaver  Aplodontia  herbi  ...   9.6      NaN    1.350
+## 3   Greater short-tailed shrew     Blarina   omni  ...   9.1  0.00029    0.019
+## 4                          Cow         Bos  herbi  ...  20.0  0.42300  600.000
+## ..                         ...         ...    ...  ...   ...      ...      ...
+## 78                  Tree shrew      Tupaia   omni  ...  15.1  0.00250    0.104
+## 79        Bottle-nosed dolphin    Tursiops  carni  ...  18.8      NaN  173.330
+## 80                       Genet     Genetta  carni  ...  17.7  0.01750    2.000
+## 81                  Arctic fox      Vulpes  carni  ...  11.5  0.04450    3.380
+## 82                     Red fox      Vulpes  carni  ...  14.2  0.05040    4.230
+## 
+## [83 rows x 11 columns]</code></pre>
+<p>Now I’ll load up pandas and use it to manipulate the dataset. I’m going to isolate only the domesticated mammals and then send it back to R in this example.</p>
+<pre class="python"><code>
+import pandas as pd</code></pre>
+<pre class="python"><code>newmsleep=msleep.filter([&#39;name&#39;,&#39;conservation&#39;,&#39;sleep_total&#39;]).query(&#39;conservation == &quot;domesticated&quot;&#39;).sort_values(by=(&#39;sleep_total&#39;))
+print(newmsleep)
+##             name  conservation  sleep_total
+## 22         Horse  domesticated          2.9
+## 23        Donkey  domesticated          3.1
+## 48         Sheep  domesticated          3.8
+## 4            Cow  domesticated          4.0
+## 47        Rabbit  domesticated          8.4
+## 73           Pig  domesticated          9.1
+## 11    Guinea pig  domesticated          9.4
+## 8            Dog  domesticated         10.1
+## 13    Chinchilla  domesticated         12.5
+## 27  Domestic cat  domesticated         12.5</code></pre>
+</div>
+<div id="back-to-r-for-plotting" class="section level2">
+<h2>Back to R for plotting</h2>
+<p>Now my data is organized how I want, and I can send it back to R if I want and make a plot using ggplot2:</p>
+<pre class="r"><code>newmsleep&lt;-py$newmsleep
+
+ggplot(newmsleep, aes(x=name, y=sleep_total, label=name))+
+  geom_bar(stat=&#39;identity&#39;, fill=&quot;#193B19&quot;)+
+  labs(title=&quot;Average Time Asleep for Domesticated Mammals&quot;)+
+  xlab(&quot;Species&quot;)+
+  ylab(&quot;Average Total Time Asleep (hours)&quot;)</code></pre>
+<p><img src="/post/2015-07-23-r-rmarkdown/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="theres-a-lot-of-possibilities" class="section level2">
+<h2>There’s a lot of possibilities</h2>
+<p>Working like this doesn’t have to mean using <code>reticulate</code> to flip back and forth for easy things. In fact, I could probably make this graph a lot faster using just R, but the possibilities for using R and Python together are endless. Truly, this is an invaluable tool for anyone doing data science, and if nothing else, a cool way to code in Python aside from Jupyter notebooks.</p>
+</div>
+</div>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="/js/docs.min.js"></script>
+<script src="/js/main.js"></script>
+
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

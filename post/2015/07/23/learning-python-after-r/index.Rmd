@@ -1,0 +1,44 @@
+---
+title: "Learning Python after R"
+author: "Evan Samsky"
+date: 2015-07-23T21:13:14-05:00
+categories: ["R"]
+tags: ["R", "Python"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+# R
+
+## R vs Python? Some say both,
+
+This website and a lot of the content on it comes from my experience taking Computational Biology and Bioinformatics (SDS348) at UT Austin with Professor Woodward in Fall 2020. During the semester we focused a lot on using R to do data wrangling, visualization, and analysis, but we also covered a lot about Python.
+
+
+R is a programming language that's used for data analysis for economists, academics, and people who love its unique set of packages that add onto its capabilities. It's not as widely known as Python, but famous for some of its most useful packages, like ggplot2, dplyr, and tidyverse, all of which we covered in the course. 
+
+
+Python is very similar, but tends to get a lot more fanfare. It's known to be a good introductory language because of simple syntax, and is used widely by private companies, researchers, and hobbyists. A lot of the more forward-thinking data techniques today use Python, such machine learning and AI. Here, I'm going to show off a bit of what I learned during my course and then I'll explain where I plan on continuing in the coming months. 
+
+## Reticulate to use BOTH!
+
+While both R and Python are capable on their own, it's sometimes crucial to be able to use both, either to improve your work flow, or to just use the best parts of each language. Maybe you love ggplot2, but hate dplyr. It's possible to pass variable between different languages in R Studio using a package called `reticulate`
+
+First we load up the package:
+
+```{R}
+library(reticulate)
+```
+Then I'll import a familiar data set. How about msleep? It's a data set that contains information about the sleeping habits of different mammal species, and exists within the `ggplot2` package
+```{R}
+library(ggplot2)
+data(msleep)
+head(msleep)
+```
+
+
+# Including Plots
+
+
