@@ -1,0 +1,48 @@
+baseurl: / # Update with your actual domain when deployed
+languageCode: en-US
+title: "Evan Samsky"
+theme: hugo-lithium
+ignoreFiles:
+  - \.Rmd$
+  - \.Rmarkdown$
+  - _cache$
+permalinks:
+  post: /:year/:month/:day/:slug/
+menu:
+  main:
+    - name: About
+      url: /about/
+    - name: Research
+      url: /research/
+    - name: Blog
+      url: /post/
+    - name: CV
+      url: /cv/
+    - name: LinkedIn
+      url: https://linkedin.com/in/evan-samsky
+    - name: Contact
+      url: /contact/
+params:
+  MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
+  MathJaxVersion: 2.7.5
+  description: "Dual MA Candidate in Global Policy Studies & Russian, East European, and Eurasian Studies at UT Austin. Researcher specializing in food systems, agricultural policy, and Eastern European studies."
+  favicon: favicon.ico
+  highlightjsCDN: //cdnjs.cloudflare.com/ajax/libs
+  highlightjsLang:
+    - r
+    - yaml
+    - python
+  highlightjsTheme: github
+  highlightjsVersion: 9.12.0
+  logo:
+    alt: Logo
+    height: 50
+    url: logo.png
+    width: 50
+markup:
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    renderer:
+      unsafe: yes
+  highlight:
+    codeFences: no
