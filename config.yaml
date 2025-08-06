@@ -22,6 +22,8 @@ menu:
       url: https://linkedin.com/in/evan-samsky
     - name: Contact
       url: /contact/
+    - name: Dashboard
+      url: /dashboard/
 params:
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
   MathJaxVersion: 2.7.5
