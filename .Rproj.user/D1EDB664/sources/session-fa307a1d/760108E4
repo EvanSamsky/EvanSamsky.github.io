@@ -3,7 +3,7 @@
     "path": "~/website/.github/workflows/hugo.yml",
     "project_path": ".github/workflows/hugo.yml",
     "type": "yaml",
-    "hash": "4065497244",
+    "hash": "1417770433",
     "contents": "",
     "dirty": false,
     "created": 1754483228886.0,
@@ -13,14 +13,14 @@
         "source_window_id": "",
         "Source": "Source",
         "cursorPosition": "49,37",
-        "scrollLine": "14"
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1754483260,
+    "lastKnownWriteTime": 1754483528,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1754483260248,
+    "last_content_update": 1754483528285,
     "read_only": false,
     "read_only_alternatives": []
 }
