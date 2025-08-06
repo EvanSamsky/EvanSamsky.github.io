@@ -51,6 +51,13 @@
       <description>&lt;p&gt;&lt;strong&gt;Lorem ipsum&lt;/strong&gt; dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore &lt;em&gt;magna aliqua&lt;/em&gt;. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>COMECON Data Dashboard</title>
+      <link>/dashboard/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/dashboard/</guid>
+      <description>&lt;style&gt;&#xA;.dashboard-container {&#xA;    max-width: 100%;&#xA;    margin: 20px 0;&#xA;}&#xA;&#xA;.dashboard-description {&#xA;    background: #f8f9fa;&#xA;    padding: 20px;&#xA;    border-radius: 8px;&#xA;    margin-bottom: 20px;&#xA;    border-left: 4px solid #3498db;&#xA;}&#xA;&#xA;.dashboard-frame {&#xA;    width: 100%;&#xA;    height: 800px;&#xA;    border: 1px solid #dee2e6;&#xA;    border-radius: 8px;&#xA;    box-shadow: 0 2px 4px rgba(0,0,0,0.1);&#xA;}&#xA;&#xA;.citation-box {&#xA;    background: #e9ecef;&#xA;    padding: 15px;&#xA;    border-radius: 6px;&#xA;    margin: 20px 0;&#xA;    font-size: 0.9em;&#xA;    border-left: 3px solid #6c757d;&#xA;}&#xA;&#xA;@media (max-width: 768px) {&#xA;    .dashboard-frame {&#xA;        height: 600px;&#xA;    }&#xA;}&#xA;&lt;/style&gt;&#xA;&lt;div class=&#34;dashboard-container&#34;&gt;&#xA;&lt;div class=&#34;dashboard-description&#34;&gt;&#xA;&lt;h3&gt;Interactive COMECON Data Visualization&lt;/h3&gt;&#xA;&lt;p&gt;This dashboard provides interactive visualizations of historical economic data from the Council for Mutual Economic Assistance (COMECON), the Soviet-led economic organization that coordinated economic planning across socialist countries from 1949-1991.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>CV</title>
       <link>/cv/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
