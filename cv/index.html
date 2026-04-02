@@ -1,77 +1,80 @@
 <style>
     :root {
         --deep-green: #2D4739;
-        --sage: #CBD7C1;
+        --sage-bg: #CBD7C1;
         --misty-rose: #E3BCB5;
         --deep-plum: #4B3034;
         --midnight: #160F29;
+        --white: #ffffff;
     }
 
-    /* Blogdown-safe container */
-    .cv-broadsheet {
-        background-color: var(--sage);
+    .ft-wrapper {
+        background-color: var(--sage-bg);
         color: var(--midnight);
         font-family: 'Georgia', serif;
         padding: 2rem;
         line-height: 1.5;
     }
 
-    .paper-area {
+    .ft-paper {
         max-width: 1100px;
         margin: 0 auto;
-        background: #ffffff;
-        padding: 3rem;
+        background: var(--white);
+        padding: 3.5rem;
         border: 1px solid var(--deep-green);
-        box-shadow: 10px 10px 0px var(--deep-green);
+        box-shadow: 12px 12px 0px var(--deep-green);
     }
 
-    /* Masthead - Financial Times Style */
+    /* Masthead Section */
     .masthead {
         text-align: center;
         border-bottom: 5px solid var(--midnight);
         padding-bottom: 1.5rem;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
     }
 
     .masthead h1 {
-        font-size: 3.5rem;
+        font-size: 4rem;
         text-transform: uppercase;
         margin: 0;
-        letter-spacing: -2px;
+        letter-spacing: -3px;
         font-weight: 900;
     }
 
-    .masthead-meta {
+    .masthead-links {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 20px;
         font-family: Arial, sans-serif;
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         font-weight: bold;
-        color: var(--deep-plum);
         text-transform: uppercase;
-        margin-bottom: 10px;
+        color: var(--deep-plum);
+        margin-top: 10px;
     }
 
-    /* Grid Layout */
-    .cv-grid {
+    .masthead-links a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
+    .masthead-links a:hover { border-bottom: 1px solid var(--deep-plum); }
+
+    /* Layout Grid */
+    .ft-grid {
         display: grid;
         grid-template-columns: 2fr 1fr;
         gap: 40px;
     }
 
-    .section-title {
-        border-top: 3px solid var(--midnight);
+    .section-label {
+        border-top: 4px solid var(--midnight);
         font-family: Arial, sans-serif;
         font-weight: 900;
         text-transform: uppercase;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         padding-top: 5px;
-        margin: 1.5rem 0;
-        color: var(--midnight);
+        margin: 2rem 0 1rem 0;
     }
 
-    /* Feature Boxes: Rose Fill, Plum Outline */
-    .feature-box {
+    /* REQUESTED: Feature Boxes (Rose fill, Plum outline) */
+    .feature-card {
         background-color: var(--misty-rose);
         border: 2px solid var(--deep-plum);
         padding: 1.5rem;
@@ -79,202 +82,285 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .feature-box:hover {
+    .feature-card:hover {
         transform: translateY(-5px);
-        box-shadow: 6px 6px 0px var(--deep-plum);
+        box-shadow: 8px 8px 0px var(--deep-plum);
     }
 
-    .feature-box h4 {
+    .feature-card h3 {
         margin-top: 0;
         font-family: Arial, sans-serif;
-        font-size: 0.85rem;
         text-transform: uppercase;
+        font-size: 0.85rem;
         border-bottom: 1px solid var(--deep-plum);
         padding-bottom: 5px;
         color: var(--deep-plum);
+        margin-bottom: 15px;
     }
 
-    /* Content Styling */
-    .entry { margin-bottom: 1.5rem; }
-    .entry-head { display: flex; justify-content: space-between; align-items: baseline; }
-    .entry-title { font-weight: bold; font-size: 1.1rem; color: var(--midnight); }
-    .entry-date { font-family: Arial; font-size: 0.75rem; color: var(--deep-plum); font-weight: bold; }
-    .entry-sub { font-style: italic; color: var(--deep-green); display: block; margin-bottom: 5px; }
-    .entry-details { font-size: 0.9rem; text-align: justify; }
+    /* Interactive Elements */
+    details {
+        margin-top: 10px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        background: rgba(203, 215, 193, 0.2);
+        padding: 10px;
+        border-radius: 4px;
+    }
 
-    /* Interactive Language Bars */
-    .lang-bar { margin-bottom: 10px; }
-    .lang-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: bold; font-family: Arial; }
-    .bar-bg { background: rgba(0,0,0,0.1); height: 6px; border-radius: 3px; margin-top: 3px; overflow: hidden; }
-    .bar-fill { height: 100%; background: var(--deep-plum); }
+    summary {
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        color: var(--deep-plum);
+    }
 
-    @media (max-width: 850px) {
-        .cv-grid { grid-template-columns: 1fr; }
-        .masthead h1 { font-size: 2.5rem; }
+    .bar-container { margin-bottom: 12px; }
+    .bar-info { display: flex; justify-content: space-between; font-size: 0.75rem; font-family: Arial; font-weight: bold; }
+    .bar-outer { background: rgba(0,0,0,0.1); height: 7px; border-radius: 4px; margin-top: 4px; overflow: hidden; }
+    .bar-inner { height: 100%; background: var(--deep-plum); transition: width 1.2s ease-in-out; }
+
+    /* Experience Items */
+    .entry { margin-bottom: 2rem; position: relative; }
+    .entry-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .entry-title { font-weight: bold; font-size: 1.2rem; color: var(--midnight); }
+    .entry-date { font-family: Arial; font-size: 0.75rem; color: var(--deep-plum); font-weight: bold; text-transform: uppercase; }
+    .entry-sub { font-style: italic; color: var(--deep-green); display: block; margin: 4px 0; font-weight: bold; }
+    .entry-text { font-size: 0.95rem; text-align: justify; margin-top: 5px; }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { background: var(--deep-green); color: white; padding: 3px 8px; font-size: 0.65rem; font-family: Arial; font-weight: bold; text-transform: uppercase; }
+
+    @media (max-width: 900px) {
+        .ft-grid { grid-template-columns: 1fr; }
+        .masthead h1 { font-size: 3rem; }
     }
 </style>
 
-<div class="cv-broadsheet">
-    <div class="paper-area">
+<div class="ft-wrapper">
+    <div class="ft-paper">
         <header class="masthead">
-            <div class="masthead-meta">
-                <span>Interdisciplinary Archive • 2026</span>
-                <span>Austin, Texas</span>
-                <span><a href="mailto:samsky@utexas.edu" style="color:inherit; text-decoration:none;">samsky@utexas.edu</a></span>
+            <div style="font-family: Arial; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; margin-bottom: 10px;">
+                Special Research Edition • Volume 2026
             </div>
             <h1>Evan Samsky</h1>
-            <p style="font-style: italic; color: var(--deep-green); margin-top: 10px;">
-                Dual MA Candidate: Global Policy & Eurasian Studies • University of Texas at Austin [cite: 4-8]
+            <p style="font-style: italic; color: var(--deep-green); font-size: 1.3rem; margin-top: 10px;">
+                Dual MA Candidate: Global Policy Studies & Eurasian Studies
             </p>
+            <div class="masthead-links">
+                <a href="mailto:samsky@utexas.edu">samsky@utexas.edu</a>
+                <a href="https://linkedin.com/in/evan-samsky">LinkedIn</a>
+                <span>Austin, Texas</span>
+            </div>
         </header>
 
-        <div class="cv-grid">
-            <main role="main">
+        <div class="ft-grid">
+            <main>
                 <section>
-                    <h2 class="section-title">Earned Degrees</h2>
+                    <h2 class="section-label">Earned Degrees</h2>
+                    
                     <div class="entry">
-                        <div class="entry-head">
+                        <div class="entry-header">
                             <span class="entry-title">MA in Global Policy Studies</span>
-                            <span class="entry-date">AUG 2026 (ANTICIPATED) [cite: 12]</span>
+                            <span class="entry-date">Aug 2026 (Anticipated)</span>
                         </div>
-                        <span class="entry-sub">LBJ School of Public Affairs • GPA 3.93/4.0 [cite: 12]</span>
-                        <div class="entry-details">
-                            Thesis: "Bridging Policy and Practice: Farmer Networks and Environmental Solutions in EU Agricultural Governance"[cite: 12].<br>
-                            <strong>Relevant Coursework:</strong> World Food System 1450-2050 (Patel), International Economics (Galbraith), Financing Global Development, Nationalism and Transnationalism, Analytical Methods for Policy Studies, Systems Approach to Climate Adaptation, EU in the World[cite: 12].
+                        <span class="entry-sub">The University of Texas at Austin, LBJ School • GPA 3.93/4.0</span>
+                        <div class="entry-text">
+                            <strong>Thesis:</strong> "Bridging Policy and Practice: Farmer Networks and Environmental Solutions in EU Agricultural Governance"<br>
+                            <strong>Advisors:</strong> Dr. Mary Neuburger (History) & Dr. Raj Patel (Sociology, LBJ School)
+                            
+                            <details>
+                                <summary>View Complete Coursework</summary>
+                                World Food System 1450-2050, International Economics, Financing Global Development, Nationalism and Transnationalism, Analytical Methods for Policy Studies, Research Methods in Social Science and Humanities, Systems Approach to Climate Adaptation, European Union in the World.
+                            </details>
                         </div>
                     </div>
 
                     <div class="entry">
-                        <div class="entry-head">
+                        <div class="entry-header">
+                            <span class="entry-title">MA in Russian, East European, and Eurasian Studies</span>
+                            <span class="entry-date">Aug 2026 (Anticipated)</span>
+                        </div>
+                        <span class="entry-sub">The University of Texas at Austin</span>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
                             <span class="entry-title">BSA in Biology with Honors</span>
-                            <span class="entry-date">MAY 2022 [cite: 12]</span>
+                            <span class="entry-date">May 2022</span>
                         </div>
-                        <span class="entry-sub">Polymathic Scholars • GPA 3.68/4.0 [cite: 12]</span>
-                        <div class="entry-details">
-                            Honors Thesis: "The Soviet Stolovaya and 1991: A culture of food aid before and after the USSR" [cite: 12, 26-28].
+                        <span class="entry-sub">College of Natural Sciences • Polymathic Scholars • GPA 3.68/4.0</span>
+                        <div class="entry-text">
+                            <strong>Honors Thesis:</strong> "The Soviet Stolovaya and 1991: A culture of food aid before and after the USSR" (2021). Analyzed evolution of cafeteria systems as public food aid through interviews and content analysis.
                         </div>
                     </div>
 
                     <div class="entry">
-                        <div class="entry-head">
+                        <div class="entry-header">
                             <span class="entry-title">BA in Middle Eastern Languages (Arabic)</span>
-                            <span class="entry-date">MAY 2022 [cite: 12]</span>
+                            <span class="entry-date">May 2022</span>
                         </div>
-                        <div class="entry-details">
-                            Capstone: "The Food System of Bahrain: Analyzing Risks and Possibilities" [cite: 12, 29-31].
+                        <div class="entry-text">
+                            <strong>Capstone:</strong> "The Food System of Bahrain: Analyzing Risks and Possibilities". Assessment of food security via fisheries data, land use, and trade relationships.
                         </div>
                     </div>
                 </section>
 
                 <section>
-                    <h2 class="section-title">Research & Employment</h2>
+                    <h2 class="section-label">Research & Professional Record</h2>
+                    
                     <div class="entry">
-                        <div class="entry-head">
+                        <div class="entry-header">
                             <span class="entry-title">Visiting Researcher</span>
-                            <span class="entry-date">JAN 2025 – AUG 2026 [cite: 14-15]</span>
+                            <span class="entry-date">Jan 2025 – Aug 2026</span>
                         </div>
-                        <span class="entry-sub">Czech University of Life Sciences (Česká zemědělská univerzita v Praze) [cite: 17]</span>
-                        <div class="entry-details">Conducting field research for master's thesis on EU agricultural governance and farmer networks [cite: 19-20].</div>
+                        <span class="entry-sub">Czech University of Life Sciences (Česká zemědělská univerzita v Praze)</span>
+                        <div class="entry-text">On-site research for master's thesis under advisors Dr. Mary Neuburger and Dr. Raj Patel. Local Advisor: Dr. Lukas Zagata.</div>
                     </div>
 
                     <div class="entry">
-                        <div class="entry-head">
-                            <span class="entry-title">Research Fellow/Co-Author</span>
-                            <span class="entry-date">MAY – AUG 2025 [cite: 21]</span>
+                        <div class="entry-header">
+                            <span class="entry-title">Research Fellow / Co-Author</span>
+                            <span class="entry-date">May – Aug 2025</span>
                         </div>
-                        <span class="entry-sub">University of Texas at Austin • Supervisor: Dr. Mary Neuburger [cite: 21]</span>
-                        <div class="entry-details">Archival research of Bulgarian quantitative agricultural data (1944-1989). Co-authoring articles on Soviet agricultural modernization[cite: 21].</div>
+                        <span class="entry-sub">The University of Texas at Austin • Supervisor: Dr. Mary Neuburger</span>
+                        <div class="entry-text">Conducted archival research on Bulgarian quantitative data (1944-1989). Analyzed wheat yields and fertilizer consumption to co-author articles on Soviet-led agricultural modernization.</div>
                     </div>
 
                     <div class="entry">
-                        <div class="entry-head">
+                        <div class="entry-header">
+                            <span class="entry-title">Policy Research Project (PRP) Researcher</span>
+                            <span class="entry-date">Jan – July 2025</span>
+                        </div>
+                        <span class="entry-sub">Systems Approach to Climate Adaptation Policy in Ukraine</span>
+                        <div class="entry-text">Applied fuzzy cognitive mapping (FCM) to analyze climate adaptation for Ukrainian agriculture under Alignment with EU Common Agricultural Policy. Collaborated with Polissia National University.</div>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <span class="entry-title">PRP Researcher: Global Development Finance</span>
+                            <span class="entry-date">Aug 2024 – May 2025</span>
+                        </div>
+                        <span class="entry-sub">Publish What You Fund / UT Austin</span>
+                        <div class="entry-text">Conducted transparency assessments and systematic coding for the 2025 DFI Transparency Index under supervision of Dr. Catherine Weaver.</div>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
                             <span class="entry-title">Policy Researcher</span>
-                            <span class="entry-date">MAY – AUG 2024 [cite: 23]</span>
+                            <span class="entry-date">May – Aug 2024</span>
                         </div>
-                        <span class="entry-sub">U.S. Department of Interior [cite: 23]</span>
-                        <div class="entry-details">Mixed-methods research on Ukrainian agricultural recovery and environmental resilience. Produced policy briefing materials for government officials[cite: 23].</div>
+                        <span class="entry-sub">U.S. Department of Interior</span>
+                        <div class="entry-text">Conducted mixed-methods research on Ukrainian environmental resilience and food security. Produced briefing materials for U.S. and Ukrainian government officials.</div>
                     </div>
 
                     <div class="entry">
-                        <div class="entry-head">
+                        <div class="entry-header">
                             <span class="entry-title">Project Manager</span>
-                            <span class="entry-date">SEPT 2022 – MAY 2023 [cite: 23]</span>
+                            <span class="entry-date">Sept 2022 – May 2023</span>
                         </div>
-                        <span class="entry-sub">Epic Systems Corp. [cite: 23]</span>
-                        <div class="entry-details">Managed healthcare IT implementation timelines and compliance for U.S. hospitals[cite: 23].</div>
+                        <span class="entry-sub">Epic Systems Corp.</span>
+                        <div class="entry-text">Managed healthcare IT implementation timelines and compliance for U.S. hospitals.</div>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <span class="entry-title">Undergraduate Research Assistant</span>
+                            <span class="entry-date">Sept 2018 – May 2021</span>
+                        </div>
+                        <span class="entry-sub">Chen Laboratory, Dept of Molecular Biosciences</span>
+                        <div class="entry-text">3 years of research on plant genomics and epigenetics. Techniques: PCR, GFP microscopy, DNA/RNA extraction, and bacterial transformation. Utilized R for statistical analysis.</div>
                     </div>
                 </section>
             </main>
 
             <aside>
-                <div class="feature-box">
-                    <h4>Language Proficiency</h4>
-                    <div class="lang-bar">
-                        <div class="lang-label"><span>Arabic (Adv Mid)</span><span>85%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width: 85%;"></div></div>
+                <div class="feature-card">
+                    <h3>Language Graphics</h3>
+                    <div class="bar-container">
+                        <div class="bar-info"><span>ARABIC (ADV MID)</span><span>85%</span></div>
+                        <div class="bar-outer"><div class="bar-inner" style="width: 85%;"></div></div>
                     </div>
-                    <div class="lang-bar">
-                        <div class="lang-label"><span>Russian (Adv Low)</span><span>80%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width: 80%;"></div></div>
+                    <div class="bar-container">
+                        <div class="bar-info"><span>RUSSIAN (ADV LOW)</span><span>80%</span></div>
+                        <div class="bar-outer"><div class="bar-inner" style="width: 80%;"></div></div>
                     </div>
-                    <div class="lang-bar">
-                        <div class="lang-label"><span>Czech (Int High)</span><span>70%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width: 70%;"></div></div>
+                    <div class="bar-container">
+                        <div class="bar-info"><span>CZECH (INT HIGH)</span><span>70%</span></div>
+                        <div class="bar-outer"><div class="bar-inner" style="width: 70%;"></div></div>
                     </div>
-                    <div class="lang-bar">
-                        <div class="lang-label"><span>Ukrainian (Int)</span><span>50%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width: 50%;"></div></div>
+                    <div class="bar-container">
+                        <div class="bar-info"><span>UKRAINIAN (INT)</span><span>55%</span></div>
+                        <div class="bar-outer"><div class="bar-inner" style="width: 55%;"></div></div>
                     </div>
-                    <p style="font-size: 0.75rem; margin-top: 10px; color: var(--deep-plum);">[cite: 126-143]</p>
+                    <div class="bar-container">
+                        <div class="bar-info"><span>FRENCH/SPANISH (INT)</span><span>50%</span></div>
+                        <div class="bar-outer"><div class="bar-inner" style="width: 50%;"></div></div>
+                    </div>
+                    <p style="font-size: 0.65rem; margin-top: 10px; color: var(--deep-plum);">[ACTFL CERTIFIED 2024-25]</p>
                 </div>
 
-                <div class="feature-box">
-                    <h4>Fellowships & Grants</h4>
-                    <div style="font-size: 0.85rem;">
-                        • <strong>Czech Studies Scholar:</strong> $11,500 [cite: 33]<br>
-                        • <strong>FLAS (Ukrainian):</strong> $38,000 [cite: 33]<br>
-                        • <strong>FLAS (Russian):</strong> $38,000 [cite: 33]<br>
-                        • <strong>Boren Scholar:</strong> $25,000 [cite: 34]<br>
-                        • <strong>NSLI-Y (Moldova):</strong> $40,000 [cite: 34]<br>
-                        • <strong>NSLI-Y (Morocco):</strong> $10,000 [cite: 34]
+                <div class="feature-card">
+                    <h3>Fellowships & Grants</h3>
+                    <div style="font-size: 0.85rem; line-height: 1.8;">
+                        • <strong>Czech Studies Scholar:</strong> $11,500<br>
+                        • <strong>Summer Excellence Fellow:</strong> $9,000<br>
+                        • <strong>FLAS Graduate (Ukr):</strong> $38,000<br>
+                        • <strong>FLAS Graduate (Rus):</strong> $38,000<br>
+                        • <strong>Boren Scholar:</strong> $25,000<br>
+                        • <strong>NSLI-Y Moldova:</strong> $40,000<br>
+                        • <strong>NSLI-Y Morocco:</strong> $10,000
                     </div>
                 </div>
 
-                <div class="feature-box">
-                    <h4>Technical Skills</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-                        <span style="background: var(--deep-green); color: white; padding: 2px 6px; font-size: 0.7rem;">PYTHON (NLP) [cite: 37]</span>
-                        <span style="background: var(--deep-green); color: white; padding: 2px 6px; font-size: 0.7rem;">R (ECONOMETRICS) [cite: 37]</span>
-                        <span style="background: var(--deep-green); color: white; padding: 2px 6px; font-size: 0.7rem;">ARCGIS PRO [cite: 47]</span>
-                        <span style="background: var(--deep-green); color: white; padding: 2px 6px; font-size: 0.7rem;">MAXQDA [cite: 49]</span>
-                        <span style="background: var(--deep-green); color: white; padding: 2px 6px; font-size: 0.7rem;">LDA TOPIC MODELING [cite: 42]</span>
+                <div class="feature-card">
+                    <h3>Technical Toolkit</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">Python (NLP/Scikit)</span>
+                        <span class="tag">R (Econometrics)</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">ArcGIS Pro</span>
+                        <span class="tag">MAXQDA</span>
+                        <span class="tag">LDA Topic Modeling</span>
+                        <span class="tag">PCR/Molecular</span>
                     </div>
                 </div>
 
                 <section>
-                    <h2 class="section-title">Teaching</h2>
+                    <h2 class="section-label">Teaching Experience</h2>
                     <div style="font-size: 0.85rem;">
-                        • <strong>Political Ideologies:</strong> Fall 2025 (86 students) [cite: 96-101]<br>
-                        • <strong>Hidden Lives of Maps:</strong> Spring 2025 (98 students) [cite: 105-107]<br>
-                        • <strong>Espionage Eastern Bloc:</strong> Fall 2024 (87 students) [cite: 110-115]
+                        • <strong>Political Ideologies:</strong> Fall 2025 (86 students)<br>
+                        • <strong>Hidden Lives of Maps:</strong> Spring 2025 (98 students)<br>
+                        • <strong>Espionage Eastern Bloc:</strong> Fall 2024 (87 students)<br>
+                        • <strong>Lab Originality Mentor:</strong> 2018
                     </div>
                 </section>
+
+                <div class="feature-card" style="background: transparent;">
+                    <h3>Service</h3>
+                    <div style="font-size: 0.85rem;">
+                        • <strong>Associate Editor:</strong> Constitutional Studies Journal (2024-Pres)<br>
+                        • <strong>Arabic Tutor:</strong> Arabic Flagship Program<br>
+                        • <strong>Judge:</strong> Olympiada of Spoken Russian
+                    </div>
+                </div>
             </aside>
         </div>
 
         <section>
-            <h2 class="section-title">Publications & Presentations</h2>
-            <div class="entry-details">
-                • <strong>"Bulgaria's Green Revolutions?"</strong> Neuburger, M. & Samsky, E. (Under Review)[cite: 63].<br>
-                • <strong>"Climate Risk Reduction Policy Blueprint."</strong> Shah et al., LBJ School, 2025 [cite: 72-74].<br>
-                • <strong>"Narrative Warfare."</strong> RIDL, May 2024 [cite: 69-70].<br>
-                • <strong>CAP Funding for Ukrainian EU Accession.</strong> Polish Academy of Sciences, July 2025 [cite: 84-85].
+            <h2 class="section-label">Publications & Presentations</h2>
+            <div class="entry-text" style="font-size: 0.9rem;">
+                • <strong>Neuburger, M. & Samsky, E.</strong> "Bulgaria's Green Revolutions?: Agricultural Transformation, Environmental Politics, and the Cold War 1960-1989." (Under Review).<br>
+                • <strong>Shah et al.</strong> "Climate Risk Reduction for Ukraine's Food Security: A Policy Blueprint." LBJ School, 2025.<br>
+                • <strong>"Narrative Warfare: Food Insecurity in the Russia-Ukraine War."</strong> RIDL, 2024.<br>
+                • <strong>Samsky & Sala.</strong> "CAP Funding Mechanisms for Ukrainian EU Accession." Warsaw, Poland, 2025.
             </div>
         </section>
 
-        <footer style="margin-top: 40px; border-top: 1px solid var(--sage); padding-top: 20px; text-align: center;">
-            <div style="font-family: Arial; font-size: 0.7rem; color: var(--deep-plum); text-transform: uppercase;">
-                Final Verification • April 2, 2026 • UT Austin Interdisciplinary Records [cite: 160]
+        <footer style="margin-top: 40px; border-top: 1px solid var(--sage-bg); padding-top: 20px; text-align: center;">
+            <div style="font-family: Arial; font-size: 0.7rem; color: var(--deep-plum); text-transform: uppercase; font-weight: bold;">
+                Conferences: Riga (Rural Sociology) • Boston (ASEEES) • Warsaw (Polish Academy of Sciences)
             </div>
         </footer>
     </div>
