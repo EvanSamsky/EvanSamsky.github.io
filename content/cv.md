@@ -819,16 +819,137 @@ markup: "html"
           <span class="cv-skill-tag">SQL</span>
           <span class="cv-skill-tag">LDA topic modeling</span>
         </div>
-      </div>
+    </section>
 
-      <div class="cv-skill-cat">
-        <h4>Statistical &amp; Econometric</h4>
-        <div class="cv-skill-tags">
-          <span class="cv-skill-tag">Experimental design</span>
-          <span class="cv-skill-tag">Power calculations</span>
-          <span class="cv-skill-tag">Intent-to-treat analysis</span>
-          <span class="cv-skill-tag">Multilingual text processing</span>
-          <span class="cv-skill-tag">Survey design (Google Forms)</span>
+    <section class="section">
+        <h2 class="section-title">Research & Publications</h2>
+
+        <div class="item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Food Systems and Agricultural Resilience in Eastern Europe</div>
+                    <div class="item-subtitle">Graduate Thesis Research (In Development)</div>
+                </div>
+                <div class="item-date">2023 – Present</div>
+            </div>
+            <div class="item-details">
+                Examining how food systems in Eastern Europe adapt to political, economic, and environmental challenges. Preparing for fieldwork in Czechia on agricultural cooperation models and regional food security strategies, supported by a FLAS Fellowship for Czech language study.
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Ukrainian Agriculture and Environmental Resilience</div>
+                    <div class="item-subtitle">Policy Research, U.S. Department of the Interior</div>
+                </div>
+                <div class="item-date">Summer 2024</div>
+            </div>
+            <div class="item-details">
+                Conducted mixed-methods assessment of Ukraine's institutional capacity for climate action across four indicator areas: demographics, agricultural and land trends, climate mandate and legislation, and civil service capacity. Produced briefing materials for U.S. and Ukrainian government officials.
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">The Soviet Stolovaya and 1991: A Culture of Food Aid Before and After the USSR</div>
+                    <div class="item-subtitle">Undergraduate Honors Thesis · UT Austin, College of Natural Sciences</div>
+                </div>
+                <div class="item-date">2022</div>
+            </div>
+            <div class="item-details">
+                Analyzed the evolution of the Soviet stolovaya (cafeteria) system as a form of public food aid. Methods: interviews, content analysis of Soviet film and media, and historical research on state welfare policy from early Soviet history through post-1991 privatization.
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">The Food System of Bahrain: Analyzing Risks and Possibilities</div>
+                    <div class="item-subtitle">Undergraduate Capstone White Paper · UT Austin, College of Liberal Arts</div>
+                </div>
+                <div class="item-date">2022</div>
+            </div>
+            <div class="item-details">
+                Assessed food security challenges in Bahrain: historical fisheries, land use, import dependence, climate vulnerabilities, and traditional crop systems. Proposed food sovereignty strategies combining traditional knowledge with modern agricultural technologies.
+            </div>
+        </div>
+
+        <h2 class="section-title" style="margin-top: 2rem;">Conferences & Presentations</h2>
+
+        <div class="item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">"CAP Common Agricultural Policy Funding Mechanisms"</div>
+                    <div class="item-subtitle">A Policy Blueprint for Ukraine's EU Integration Workshop · Warsaw, Poland</div>
+                </div>
+                <div class="item-date">July 2025</div>
+            </div>
+            <div class="item-details">
+                Presenter and member of the workshop organizing team.
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Conference Attendance</div>
+                </div>
+            </div>
+            <div class="item-details">
+                <strong>ESRS (European Society for Rural Sociology) Conference</strong> — Riga, Latvia (July 2025)<br>
+                <strong>ASEEES Annual Convention</strong> — Boston, MA (November 2024)<br>
+                <strong>Climate Adaptation Scenario Planning Workshop for Ukraine's Food Security</strong> — LBJ Washington Center (October 2024) <em>(organizing team)</em><br>
+                <strong>Russia in Contemporary World History</strong> — UT Austin (November 2024)<br>
+                <strong>TREEES Conference</strong> — UT Austin (2023)
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Technical & Research Skills</h2>
+        
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4>Quantitative Tools</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">R (ggplot2, dplyr)</span>
+                    <span class="skill-tag">Python (Pandas, NumPy)</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">ArcGIS</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h4>Qualitative Methods</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">MAXQDA</span>
+                    <span class="skill-tag">Interviews</span>
+                    <span class="skill-tag">Participant Observation</span>
+                    <span class="skill-tag">Discourse Analysis</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h4>Molecular Biology</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">PCR</span>
+                    <span class="skill-tag">DNA/RNA extraction</span>
+                    <span class="skill-tag">Transformation</span>
+                    <span class="skill-tag">Microscopy</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h4>Software</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">Microsoft 365</span>
+                    <span class="skill-tag">Google Workspace</span>
+                    <span class="skill-tag">Qualtrics</span>
+                    <span class="skill-tag">Slack</span>
+                </div>
+            </div>
         </div>
       </div>
 

@@ -13,8 +13,6 @@ menu:
     - name: About
       url: /about/
     - name: Research
-      url: /research/
-    - name: Blog
       url: /post/
     - name: CV
       url: /cv/
