@@ -106,6 +106,11 @@ markup: "html"
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #fff2d6;
+    background: linear-gradient(180deg, rgba(123, 70, 58, 0.34), rgba(123, 70, 58, 0.22));
+    border: 1px solid rgba(245, 239, 230, 0.14);
+    border-radius: 999px;
+    display: inline-block;
+    padding: 0.16rem 0.72rem;
     text-shadow: 0 1px 2px rgba(11, 18, 22, 0.28);
   }
 
@@ -290,6 +295,167 @@ markup: "html"
     margin-bottom: 0;
   }
 
+  .home-map-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+    gap: 1.35rem;
+    align-items: stretch;
+    margin-top: 1.5rem;
+  }
+
+  .home-map-frame,
+  .home-map-detail {
+    background: #f6f0e6;
+    border: 1px solid var(--home-border);
+  }
+
+  .home-map-frame {
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-map-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 18% 82%, rgba(123, 70, 58, 0.08), transparent 28%),
+      radial-gradient(circle at 84% 18%, rgba(95, 127, 105, 0.1), transparent 30%);
+  }
+
+  .home-map {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .home-map-water {
+    fill: #efe7dc;
+  }
+
+  .home-map-land {
+    fill: #fbf7f0;
+    stroke: #d5c8b4;
+    stroke-width: 1.5;
+  }
+
+  .home-map-route {
+    fill: none;
+    stroke: rgba(123, 70, 58, 0.28);
+    stroke-width: 2.2;
+    stroke-dasharray: 8 6;
+  }
+
+  .home-country {
+    cursor: pointer;
+    stroke: rgba(250, 247, 240, 0.95);
+    stroke-width: 2;
+    transition: transform 0.18s ease, opacity 0.18s ease, filter 0.18s ease, stroke-width 0.18s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .home-country:hover,
+  .home-country:focus,
+  .home-country.is-active {
+    filter: drop-shadow(0 7px 16px rgba(36, 64, 65, 0.22));
+    opacity: 1;
+    stroke-width: 3;
+    transform: translateY(-1px);
+    outline: none;
+  }
+
+  .home-country--morocco {
+    fill: #b76a66;
+  }
+
+  .home-country--estonia {
+    fill: #7e9b88;
+  }
+
+  .home-country--czechia {
+    fill: #c8866f;
+  }
+
+  .home-country--bulgaria {
+    fill: #d2a75f;
+  }
+
+  .home-country--ukraine {
+    fill: #8a6d9a;
+  }
+
+  .home-map-label-text {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    fill: var(--home-ink);
+  }
+
+  .home-map-detail {
+    border-top: 3px solid var(--home-rust);
+    padding: 1.15rem 1.2rem;
+  }
+
+  .home-map-detail h3 {
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .home-map-detail p:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .home-map-meta {
+    margin-top: 0.95rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid var(--home-border);
+    color: var(--home-muted);
+    font-size: 0.92rem;
+  }
+
+  .home-country-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1rem;
+  }
+
+  .home-country-chip {
+    border: 1px solid var(--home-border);
+    background: #fbf7f0;
+    color: var(--home-rust);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.7rem;
+    cursor: pointer;
+  }
+
+  .home-country-chip:hover,
+  .home-country-chip:focus,
+  .home-country-chip.is-active {
+    background: rgba(123, 70, 58, 0.12);
+    border-color: rgba(123, 70, 58, 0.35);
+    outline: none;
+  }
+
+  .home-map-note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--home-muted);
+  }
+
+  .home-country-card {
+    display: none;
+  }
+
   .home-timeline {
     list-style: none;
     padding: 0;
@@ -378,6 +544,10 @@ markup: "html"
       grid-template-columns: 1fr;
     }
 
+    .home-map-grid {
+      grid-template-columns: 1fr;
+    }
+
     .home-timeline li {
       grid-template-columns: 1fr;
       gap: 0.35rem;
@@ -399,6 +569,7 @@ markup: "html"
 
   <nav class="home-jump">
     <a href="#overview">Overview</a>
+    <a href="#geography">Geography</a>
     <a href="#research">Research</a>
     <a href="#themes">Themes</a>
     <a href="#trajectory">Trajectory</a>
@@ -433,6 +604,61 @@ markup: "html"
           <div class="home-stat-desc">Summer Excellence Fellowship and FLAS-supported language training tied directly to research development.</div>
         </div>
       </div>
+    </section>
+
+    <section id="geography">
+      <span class="home-label">Geographic experience</span>
+      <h2>Selected places in study, research, and field-based work</h2>
+      <p>This map highlights places that already structure the current research agenda. Move across the highlighted countries, or select one on mobile, to view the related experience.</p>
+      <div class="home-map-grid">
+        <div class="home-map-frame">
+          <svg class="home-map" viewBox="0 0 620 420" role="img" aria-labelledby="home-map-title home-map-desc">
+            <title id="home-map-title">Selected research and study locations</title>
+            <desc id="home-map-desc">Highlighted countries show selected places connected to academic research, language study, and professional experience.</desc>
+            <rect class="home-map-water" x="0" y="0" width="620" height="420"></rect>
+            <path class="home-map-land" d="M108 302 C134 248, 182 196, 233 159 C286 121, 347 97, 404 103 C461 108, 505 134, 536 174 C560 206, 572 233, 566 260 C557 287, 531 307, 497 315 C449 327, 397 319, 345 302 C287 283, 235 284, 196 296 C165 305, 137 314, 108 302 Z"></path>
+            <path class="home-map-land" d="M66 315 C81 295, 108 286, 137 289 C161 291, 178 301, 183 318 C188 336, 176 351, 149 358 C118 365, 91 359, 73 344 C61 333, 58 323, 66 315 Z"></path>
+            <path class="home-map-route" d="M97 321 C159 289, 221 235, 301 180 C365 136, 439 145, 485 186"></path>
+            <path class="home-map-route" d="M307 178 C319 144, 332 121, 321 96"></path>
+            <path class="home-map-route" d="M359 241 C373 226, 389 212, 413 200"></path>
+
+            <path tabindex="0" aria-label="Morocco" class="home-country home-country--morocco" data-country="morocco" d="M78 312 L100 303 L122 311 L118 329 L93 334 L75 324 Z"></path>
+            <text class="home-map-label-text" x="56" y="348">MOROCCO</text>
+
+            <path tabindex="0" aria-label="Estonia" class="home-country home-country--estonia" data-country="estonia" d="M312 87 L329 83 L341 91 L334 104 L316 105 L307 95 Z"></path>
+            <text class="home-map-label-text" x="286" y="75">ESTONIA</text>
+
+            <path tabindex="0" aria-label="Czechia" class="home-country home-country--czechia" data-country="czechia" d="M284 169 L304 162 L323 168 L320 181 L299 186 L282 178 Z"></path>
+            <text class="home-map-label-text" x="255" y="202">CZECHIA</text>
+
+            <path tabindex="0" aria-label="Bulgaria" class="home-country home-country--bulgaria" data-country="bulgaria" d="M339 235 L367 231 L385 238 L378 249 L350 252 L337 244 Z"></path>
+            <text class="home-map-label-text" x="318" y="272">BULGARIA</text>
+
+            <path tabindex="0" aria-label="Ukraine" class="home-country home-country--ukraine is-active" data-country="ukraine" d="M391 170 L432 158 L481 170 L509 186 L499 214 L463 227 L423 220 L392 203 L383 185 Z"></path>
+            <text class="home-map-label-text" x="443" y="247">UKRAINE</text>
+          </svg>
+          <div class="home-country-controls" aria-label="Country selector">
+            <button class="home-country-chip" type="button" data-country-target="morocco">Morocco</button>
+            <button class="home-country-chip" type="button" data-country-target="estonia">Estonia</button>
+            <button class="home-country-chip" type="button" data-country-target="czechia">Czechia</button>
+            <button class="home-country-chip" type="button" data-country-target="bulgaria">Bulgaria</button>
+            <button class="home-country-chip is-active" type="button" data-country-target="ukraine">Ukraine</button>
+          </div>
+        </div>
+
+        <div class="home-map-detail" aria-live="polite">
+          <span class="home-label">Selected country</span>
+          <h3 data-map-title>Ukraine</h3>
+          <p data-map-body>I conducted policy research on climate adaptation in Ukrainian agriculture and produced briefing materials on food security, agricultural recovery, and environmental sustainability.</p>
+          <p class="home-map-meta" data-map-meta>The CV also lists Ukrainian language study, systems mapping on adaptation policy, and multiple Ukraine-focused reports and publications.</p>
+        </div>
+      </div>
+
+      <div class="home-country-card" data-country="morocco" data-title="Morocco" data-body="I worked as an agricultural volunteer in Meknes and presented in Arabic at the Arabic Language Flagship Capstone Student Panel in Fes." data-meta="The experience connects field agriculture, language study, and public presentation."></div>
+      <div class="home-country-card" data-country="estonia" data-title="Estonia" data-body="I served as resident director for American Councils programs in Narva during the summers of 2022 and 2023." data-meta="The site profile also identifies Estonia as part of the comparative regional experience behind the current research agenda."></div>
+      <div class="home-country-card" data-country="czechia" data-title="Czechia" data-body="I am a visiting researcher at the Czech University of Life Sciences, where I am conducting thesis research on farmer networks and environmental solutions in EU agricultural governance." data-meta="Related entries include Czech language training at Indiana University and scholarship support for on-site thesis research."></div>
+      <div class="home-country-card" data-country="bulgaria" data-title="Bulgaria" data-body="I conducted archival research with Bulgarian National Statistical Institute materials and analyzed agricultural data from 1944 through 1989." data-meta="The CV also lists coauthored work on agricultural transformation and environmental politics in Bulgaria."></div>
+      <div class="home-country-card" data-country="ukraine" data-title="Ukraine" data-body="I conducted policy research on climate adaptation in Ukrainian agriculture and produced briefing materials on food security, agricultural recovery, and environmental sustainability." data-meta="The CV also lists Ukrainian language study, systems mapping on adaptation policy, and multiple Ukraine-focused reports and publications."></div>
     </section>
 
     <section id="research">
@@ -526,3 +752,56 @@ markup: "html"
     </section>
   </div>
 </div>
+
+<script>
+  (function () {
+    var detailTitle = document.querySelector('[data-map-title]');
+    var detailBody = document.querySelector('[data-map-body]');
+    var detailMeta = document.querySelector('[data-map-meta]');
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.home-country-card'));
+    var regions = Array.prototype.slice.call(document.querySelectorAll('.home-country'));
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.home-country-chip'));
+
+    if (!detailTitle || !detailBody || !detailMeta || !cards.length) {
+      return;
+    }
+
+    function activate(country) {
+      var match = cards.find(function (card) {
+        return card.getAttribute('data-country') === country;
+      });
+
+      if (!match) {
+        return;
+      }
+
+      detailTitle.textContent = match.getAttribute('data-title');
+      detailBody.textContent = match.getAttribute('data-body');
+      detailMeta.textContent = match.getAttribute('data-meta');
+
+      regions.forEach(function (region) {
+        var isActive = region.getAttribute('data-country') === country;
+        region.classList.toggle('is-active', isActive);
+      });
+
+      chips.forEach(function (chip) {
+        var isActive = chip.getAttribute('data-country-target') === country;
+        chip.classList.toggle('is-active', isActive);
+      });
+    }
+
+    regions.forEach(function (region) {
+      ['mouseenter', 'focus', 'click'].forEach(function (eventName) {
+        region.addEventListener(eventName, function () {
+          activate(region.getAttribute('data-country'));
+        });
+      });
+    });
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        activate(chip.getAttribute('data-country-target'));
+      });
+    });
+  })();
+</script>

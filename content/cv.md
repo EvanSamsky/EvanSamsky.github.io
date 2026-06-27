@@ -115,6 +115,11 @@ layout: "profile"
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #fff2d6;
+    background: linear-gradient(180deg, rgba(123, 70, 58, 0.34), rgba(123, 70, 58, 0.22));
+    border: 1px solid rgba(245, 239, 230, 0.14);
+    border-radius: 999px;
+    display: inline-block;
+    padding: 0.16rem 0.72rem;
     text-shadow: 0 1px 2px rgba(11, 18, 22, 0.28);
   }
 
