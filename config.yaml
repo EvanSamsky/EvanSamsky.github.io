@@ -1,4 +1,4 @@
-baseurl: / # Update with your actual domain when deployed
+baseurl: https://evansamsky.com/
 languageCode: en-US
 title: "Evan Samsky"
 theme: hugo-lithium
