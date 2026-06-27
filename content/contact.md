@@ -111,12 +111,17 @@ layout: "profile"
   .contact-masthead-top,
   .contact-masthead-sub {
     font-family: 'Source Serif 4', serif;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.82rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #f2d8a3;
-    text-shadow: 0 1px 0 rgba(22, 30, 33, 0.45);
+    color: #f3d7d0;
+    background: rgba(123, 70, 58, 0.36);
+    border: 1px solid rgba(243, 215, 208, 0.16);
+    border-radius: 999px;
+    display: inline-block;
+    padding: 0.16rem 0.62rem;
+    text-shadow: none;
   }
 
   .contact-masthead-rule {
