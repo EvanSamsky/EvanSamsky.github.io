@@ -105,8 +105,8 @@ markup: "html"
     font-size: 0.82rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(245, 239, 230, 0.9);
-    text-shadow: 0 1px 0 rgba(22, 30, 33, 0.35);
+    color: #f2d8a3;
+    text-shadow: 0 1px 0 rgba(22, 30, 33, 0.45);
   }
 
   .home-masthead-rule {
