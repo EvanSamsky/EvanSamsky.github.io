@@ -369,7 +369,6 @@ layout: "profile"
       <p class="subtitle">University of Texas at Austin</p>
       <div class="cv-contact-strip">
         <a href="mailto:samsky@utexas.edu">samsky@utexas.edu</a>
-        <span>+1 (940) 453-1633</span>
         <a href="https://evansamsky.com">evansamsky.com</a>
         <a href="https://linkedin.com/in/evan-samsky">LinkedIn</a>
       </div>
