@@ -52,3 +52,4 @@ markup:
 security:
   allowContent:
     - '^text/html$'
+    - '^text/markdown$'
