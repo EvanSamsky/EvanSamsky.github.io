@@ -105,7 +105,8 @@ markup: "html"
     font-size: 0.82rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(245, 239, 230, 0.72);
+    color: rgba(245, 239, 230, 0.9);
+    text-shadow: 0 1px 0 rgba(22, 30, 33, 0.35);
   }
 
   .home-masthead-rule {
@@ -140,7 +141,7 @@ markup: "html"
     max-width: 720px;
     margin: 0.9rem auto 0;
     font-size: 1rem;
-    color: rgba(245, 239, 230, 0.86);
+    color: rgba(245, 239, 230, 0.94);
   }
 
   .home-jump {

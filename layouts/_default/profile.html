@@ -1,0 +1,13 @@
+{{ partial "header.html" . }}
+
+<main class="content" role="main">
+  {{ if .Content }}
+  <article class="article profile-page-article">
+    <div class="article-content">
+      {{ .Content }}
+    </div>
+  </article>
+  {{ end }}
+</main>
+
+{{ partial "footer.html" . }}
