@@ -1,5 +1,5 @@
 baseurl: https://evansamsky.com/
-languageCode: en-US
+locale: en-US
 title: "Evan Samsky"
 theme: hugo-lithium
 ignoreFiles:
@@ -13,6 +13,8 @@ menu:
     - name: About
       url: /about/
     - name: Research
+      url: /research/
+    - name: Blog
       url: /post/
     - name: CV
       url: /cv/
@@ -46,3 +48,7 @@ markup:
       unsafe: true
   highlight:
     codeFences: false
+
+security:
+  allowContent:
+    - '^text/html$'
