@@ -115,13 +115,8 @@ layout: "profile"
     font-size: 0.82rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #f3d7d0;
-    background: rgba(123, 70, 58, 0.36);
-    border: 1px solid rgba(243, 215, 208, 0.16);
-    border-radius: 999px;
-    display: inline-block;
-    padding: 0.16rem 0.62rem;
-    text-shadow: none;
+    color: #fff2d6;
+    text-shadow: 0 1px 2px rgba(11, 18, 22, 0.28);
   }
 
   .contact-masthead-rule {
