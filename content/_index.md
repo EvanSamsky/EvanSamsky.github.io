@@ -98,8 +98,8 @@ markup: "html"
     text-align: center;
   }
 
-  .home-masthead-top,
-  .home-masthead-sub {
+  .home-masthead p.home-masthead-top,
+  .home-masthead p.home-masthead-sub {
     font-family: 'Source Serif 4', serif;
     font-weight: 700;
     font-size: 0.82rem;

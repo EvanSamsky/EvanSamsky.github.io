@@ -107,8 +107,8 @@ layout: "profile"
     text-align: center;
   }
 
-  .cv-masthead-top,
-  .cv-masthead-sub {
+  .cv-masthead p.cv-masthead-top,
+  .cv-masthead p.cv-masthead-sub {
     font-family: 'Source Serif 4', serif;
     font-weight: 700;
     font-size: 0.82rem;

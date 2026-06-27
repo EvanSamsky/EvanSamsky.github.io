@@ -108,8 +108,8 @@ layout: "profile"
     text-align: center;
   }
 
-  .contact-masthead-top,
-  .contact-masthead-sub {
+  .contact-masthead p.contact-masthead-top,
+  .contact-masthead p.contact-masthead-sub {
     font-family: 'Source Serif 4', serif;
     font-weight: 700;
     font-size: 0.82rem;
